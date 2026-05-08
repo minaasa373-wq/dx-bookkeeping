@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DXコース 簿記実習アーカイブ</title>
+<style>
+  :root {
+    --green-dark: #1a5c3a;
+    --green-mid: #2d8a57;
+    --green-light: #e8f5ee;
+    --green-accent: #3cb371;
+    --text-main: #1c2b22;
+    --text-sub: #4a6b55;
+    --border: #c2dece;
+    --white: #ffffff;
+    --gray-light: #f4f9f6;
+    --yt-red: #c4302b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: var(--gray-light);
+    color: var(--text-main);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--green-dark);
+    color: var(--white);
+    padding: 24px 32px 20px;
+    border-bottom: 4px solid var(--green-accent);
+  }
+
+  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; }
+  header p { font-size: 0.8rem; opacity: 0.65; margin-top: 4px; }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  /* YouTubeリンクカード */
+  .yt-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.15s;
+    box-shadow: 0 2px 8px rgba(45,138,87,0.05);
+  }
+
+  .yt-link:hover {
+    border-color: var(--green-accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45,138,87,0.12);
+  }
+
+  .yt-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--yt-red);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .yt-icon svg { width: 18px; height: 18px; fill: var(--white); }
+
+  .yt-info { flex: 1; min-width: 0; }
+
+  .yt-label {
+    font-size: 0.7rem;
+    color: var(--text-sub);
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+
+  .yt-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--green-dark);
+  }
+
+  .yt-arrow {
+    color: var(--green-accent);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tab-btn {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-bottom: none;
+    color: var(--text-sub);
+    padding: 8px 18px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  .tab-btn:hover { background: var(--green-light); color: var(--green-dark); }
+
+  .tab-btn.active {
+    background: var(--white);
+    color: var(--green-dark);
+    font-weight: 700;
+    position: relative;
+  }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--white);
+  }
+
+  .panel-wrap {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 0 8px 8px 8px;
+    padding: 32px 36px;
+    box-shadow: 0 2px 12px rgba(45,138,87,0.06);
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .date-badge {
+    display: inline-block;
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+
+  .lesson-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .section-title {
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+  }
+
+  .purpose-list { list-style: none; margin-bottom: 28px; }
+
+  .purpose-list li {
+    padding: 5px 0 5px 20px;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .purpose-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--green-accent);
+    font-weight: 700;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 20px; }
+
+  .step {
+    border-left: 3px solid var(--green-accent);
+    padding-left: 20px;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .step-num {
+    background: var(--green-mid);
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-label { font-size: 0.92rem; font-weight: 700; color: var(--green-dark); }
+  .step-body { font-size: 0.87rem; color: var(--text-main); line-height: 1.75; }
+
+  /* URLブロック */
+  .url-block {
+    background: var(--gray-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+
+  .url-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+  }
+
+  .url-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.78rem;
+    color: var(--text-sub);
+    word-break: break-all;
+    flex: 1;
+  }
+
+  .copy-btn {
+    background: var(--green-light);
+    border: 1px solid var(--border);
+    color: var(--green-dark);
+    font-size: 0.7rem;
+    font-family: inherit;
+    padding: 3px 9px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    background: var(--green-accent);
+    color: var(--white);
+    border-color: var(--green-accent);
+  }
+
+  .copy-btn.copied {
+    background: var(--green-mid);
+    color: var(--white);
+    border-color: var(--green-mid);
+  }
+
+  /* プロンプトブロック */
+  .prompt-wrap { position: relative; margin: 10px 0; }
+
+  .prompt-block {
+    background: var(--green-light);
+    border-left: 4px solid var(--green-accent);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--text-main);
+  }
+
+  .prompt-block-text { padding-right: 70px; }
+
+  .prompt-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--green-dark);
+    font-size: 0.7rem;
+    font-family: inherit;
+    padding: 3px 9px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    font-weight: 600;
+  }
+
+  .prompt-copy-btn:hover {
+    background: var(--green-accent);
+    color: var(--white);
+    border-color: var(--green-accent);
+  }
+
+  .prompt-copy-btn.copied {
+    background: var(--green-mid);
+    color: var(--white);
+    border-color: var(--green-mid);
+  }
+
+  .hint-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-top: 14px;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* 追加指示リスト */
+  .hint-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .hint-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    background: var(--gray-light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .hint-text {
+    font-size: 0.83rem;
+    color: var(--text-sub);
+    flex: 1;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DXコース 簿記実習アーカイブ</h1>
+  <p>各回の実習内容をタブで確認できます</p>
+</header>
+
+<div class="container">
+  <a class="yt-link" href="https://www.youtube.com/@DX-Biome/playlists" target="_blank" rel="noopener">
+    <div class="yt-icon">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </div>
+    <div class="yt-info">
+      <div class="yt-label">カリキュラム動画アーカイブ</div>
+      <div class="yt-name">DX-Biome（YouTubeチャンネル）</div>
+    </div>
+    <div class="yt-arrow">›</div>
+  </a>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="panel-wrap" id="panels"></div>
+</div>
+
+<script>
+const lessons = [
+  {
+    date: "2026/5/7",
+    label: "第1回",
+    title: "NotebookLMを活用したDX・経理基礎テストの自動生成",
+    purpose: [
+      "NotebookLMを使い、複数の動画からテストを自動生成する方法を身につける",
+      "AIによる情報整理と業務効率化を体感する"
+    ],
+    steps: [
+      {
+        num: 1,
+        label: "ソースを読み込む",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記2本のYouTube動画URLを入力します。",
+        urls: [
+          "https://youtu.be/pQrxmzrDR1c",
+          "https://youtu.be/ydenauRwjS0"
+        ]
+      },
+      {
+        num: 2,
+        label: "プロンプトを入力してテストを生成する",
+        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
+        prompt: "読み込んだ2つの動画の内容に基づいて、簿記の基礎知識に関する確認テストを5問作成してください。形式は選択式とし、最後に解答と解説も出力してください。"
+      },
+      {
+        num: 3,
+        label: "内容を確認し、追加指示で仕上げる",
+        body: "生成されたテストの難易度・表現が適切かどうか確認します。調整が必要な場合は、そのままチャットで追加指示を出してブラッシュアップしましょう。",
+        hints: [
+          "新人経理担当者向けに、もう少し難易度を下げてください",
+          "問題文をより実務に近い表現に変えてください"
+        ]
+      }
+    ]
+  },
+  {
+    date: "2026/5/8",
+    label: "第2回",
+    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
+    purpose: [
+      "簿記の基本を身につける",
+      "NotebookLMを使い、効果的に復習する方法を覚える"
+    ],
+    steps: [
+      {
+        num: 1,
+        label: "ソースを読み込む",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記3本のYouTube動画URLを入力します。",
+        urls: [
+          "https://youtu.be/_7yZZofZnqQ?si=BvcU-fgTNXlVly0r",
+          "https://youtu.be/p2H_GistKWE?si=TCAOnXXa4K-rtTyf",
+          "https://youtu.be/w40zRfN1P0w?si=GFMkjW4Jl2Jv2hfX"
+        ]
+      },
+      {
+        num: 2,
+        label: "プロンプトを入力してテストを生成する",
+        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
+        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
+        hints: [
+          "新人経理担当者向けに、もう少し難易度を下げてください",
+          "問題文をより実務に近い表現に変えてください"
+        ]
+      },
+      {
+        num: 3,
+        label: "内容を確認し、問題を解いて復習する",
+        body: "分からないところは動画に戻って確認しましょう。"
+      }
+    ]
+  }
+];
+
+// 互換性の高いコピー処理
+function copyText(text) {
+  return new Promise((resolve, reject) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(resolve).catch(() => fallback());
+    } else {
+      fallback();
+    }
+    function fallback() {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        ta.style.top = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        ok ? resolve() : reject();
+      } catch (e) { reject(e); }
+    }
+  });
+}
+
+function flashCopied(btn, originalText) {
+  copyText(btn.dataset.copyText).then(() => {
+    btn.textContent = "コピー済み";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.classList.remove("copied");
+    }, 1800);
+  }).catch(() => {
+    btn.textContent = "失敗";
+    setTimeout(() => { btn.textContent = originalText; }, 1800);
+  });
+}
+
+function escapeHTML(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function renderStepBody(step) {
+  let html = `<div class="step-body">${step.body}</div>`;
+
+  if (step.urls) {
+    html += `<div class="url-block">`;
+    step.urls.forEach(u => {
+      html += `
+        <div class="url-row">
+          <span class="url-text">${u}</span>
+          <button class="copy-btn" data-copy-text="${escapeHTML(u)}" data-original="コピー">コピー</button>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (step.prompt) {
+    html += `
+      <div class="prompt-wrap">
+        <div class="prompt-block">
+          <div class="prompt-block-text">${step.prompt}</div>
+        </div>
+        <button class="prompt-copy-btn" data-copy-text="${escapeHTML(step.prompt)}" data-original="コピー">コピー</button>
+      </div>`;
+  }
+
+  if (step.hints) {
+    html += `<div class="hint-label">追加指示の例：</div><ul class="hint-list">`;
+    step.hints.forEach(h => {
+      html += `
+        <li class="hint-row">
+          <span class="hint-text">「${h}」</span>
+          <button class="copy-btn" data-copy-text="${escapeHTML(h)}" data-original="コピー">コピー</button>
+        </li>`;
+    });
+    html += `</ul>`;
+  }
+
+  return html;
+}
+
+function renderAll() {
+  const tabsEl = document.getElementById("tabs");
+  const panelsEl = document.getElementById("panels");
+
+  lessons.forEach((lesson, i) => {
+    const isActive = i === lessons.length - 1;
+
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (isActive ? " active" : "");
+    btn.textContent = lesson.label;
+    btn.dataset.index = i;
+    btn.onclick = () => switchTab(i);
+    tabsEl.appendChild(btn);
+
+    const stepsHTML = lesson.steps.map(step => `
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">${step.num}</div>
+          <div class="step-label">${step.label}</div>
+        </div>
+        ${renderStepBody(step)}
+      </div>`).join("");
+
+    const purposeHTML = lesson.purpose.map(p => `<li>${p}</li>`).join("");
+
+    const panel = document.createElement("div");
+    panel.className = "panel" + (isActive ? " active" : "");
+    panel.dataset.index = i;
+    panel.innerHTML = `
+      <div class="date-badge">${lesson.date}</div>
+      <div class="lesson-title">${lesson.title}</div>
+      <div class="section-title">🎯 実習の目的</div>
+      <ul class="purpose-list">${purposeHTML}</ul>
+      <div class="section-title">💡 実習の流れ</div>
+      <div class="steps">${stepsHTML}</div>
+    `;
+    panelsEl.appendChild(panel);
+  });
+
+  // コピーボタンのイベント委譲
+  panelsEl.addEventListener("click", e => {
+    const btn = e.target.closest(".copy-btn, .prompt-copy-btn");
+    if (!btn) return;
+    flashCopied(btn, btn.dataset.original);
+  });
+}
+
+function switchTab(index) {
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelector(`.tab-btn[data-index="${index}"]`).classList.add("active");
+  document.querySelector(`.panel[data-index="${index}"]`).classList.add("active");
+}
+
+renderAll();
+</script>
+</body>
+</html>
