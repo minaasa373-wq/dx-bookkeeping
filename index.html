@@ -178,6 +178,14 @@
   .panel { display: none; }
   .panel.active { display: block; }
 
+  .lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
   .date-badge {
     display: inline-block;
     background: var(--green-light);
@@ -188,7 +196,17 @@
     padding: 3px 10px;
     border-radius: 20px;
     border: 1px solid var(--border);
-    margin-bottom: 10px;
+  }
+
+  .theme-badge {
+    display: inline-block;
+    background: var(--green-mid);
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 20px;
   }
 
   .lesson-title {
@@ -544,6 +562,7 @@ const lessons = [
   {
     date: "2026/5/7",
     label: "第1回前半",
+    theme: "簿記の基本概念",
     title: "Geminiの「ノートブック」機能とNotebookLMを使ってみよう",
     purpose: [
       "Geminiのさまざまな使い方を体験する"
@@ -574,6 +593,7 @@ const lessons = [
   {
     date: "2026/5/7",
     label: "第1回後半",
+    theme: "簿記の基本概念",
     title: "NotebookLMを活用したDX・経理基礎テストの自動生成",
     purpose: [
       "NotebookLMを使い、複数の動画からテストを自動生成する方法を身につける",
@@ -610,6 +630,7 @@ const lessons = [
   {
     date: "2026/5/8",
     label: "第2回前半",
+    theme: "仕訳の基礎と勘定科目の理解",
     title: "Canvaの使い方を覚えよう",
     sectionLabel: "実習の内容",
     purpose: [
@@ -632,6 +653,7 @@ const lessons = [
   {
     date: "2026/5/8",
     label: "第2回後半",
+    theme: "仕訳の基礎と勘定科目の理解",
     title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
     purpose: [
       "簿記の基本を身につける",
@@ -646,6 +668,44 @@ const lessons = [
           "https://youtu.be/_7yZZofZnqQ?si=BvcU-fgTNXlVly0r",
           "https://youtu.be/p2H_GistKWE?si=TCAOnXXa4K-rtTyf",
           "https://youtu.be/w40zRfN1P0w?si=GFMkjW4Jl2Jv2hfX"
+        ]
+      },
+      {
+        num: 2,
+        label: "プロンプトを入力してテストを生成する",
+        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
+        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
+        hints: [
+          "新人経理担当者向けに、もう少し難易度を下げてください",
+          "問題文をより実務に近い表現に変えてください"
+        ]
+      },
+      {
+        num: 3,
+        label: "内容を確認し、問題を解いて復習する",
+        body: "分からないところは動画に戻って確認しましょう。"
+      }
+    ]
+  },
+  // ── 第3回前半 ─────────────────────────────────────
+  {
+    date: "2026/5/12",
+    label: "第3回前半",
+    theme: "複式簿記と帳簿の種類",
+    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
+    purpose: [
+      "簿記の基本を身につける",
+      "NotebookLMを使い、効果的に復習する方法を覚える"
+    ],
+    steps: [
+      {
+        num: 1,
+        label: "ソースを読み込む",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
+        urls: [
+          "https://youtu.be/HI2DXDOyx8Q?si=e_gaXt8mHtWiDRCg",
+          "https://youtu.be/JGnQIxkZChI?si=R_uX9UHQ7Qo-Pzyw",
+          "https://youtu.be/EeDOxSb95ew?si=LHdWiCmlvKz4a4j7"
         ]
       },
       {
@@ -815,8 +875,13 @@ function renderAll() {
     const panel = document.createElement("div");
     panel.className = "panel" + (isActive ? " active" : "");
     panel.dataset.index = i;
+    const themeHTML = lesson.theme ? `<div class="theme-badge">研修内容：${lesson.theme}</div>` : "";
+
     panel.innerHTML = `
-      <div class="date-badge">${lesson.date}</div>
+      <div class="lesson-meta">
+        <div class="date-badge">${lesson.date}</div>
+        ${themeHTML}
+      </div>
       <div class="lesson-title">${lesson.title}</div>
       <div class="section-title">🎯 実習の目的</div>
       <ul class="purpose-list">${purposeHTML}</ul>
