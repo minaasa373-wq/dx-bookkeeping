@@ -408,8 +408,8 @@
     border: 1.5px solid var(--border);
     border-bottom: none;
     color: var(--text-sub);
-    padding: 6px 14px;
-    font-size: 0.78rem;
+    padding: 5px 6px;
+    font-size: 0.68rem;
     font-family: inherit;
     border-radius: 6px 6px 0 0;
     cursor: pointer;
@@ -419,12 +419,12 @@
     flex-direction: column;
     align-items: center;
     line-height: 1.4;
-    min-width: 72px;
+    min-width: 52px;
     text-align: center;
   }
 
-  .tab-row1 { font-weight: 700; font-size: 0.8rem; }
-  .tab-row2 { font-size: 0.72rem; opacity: 0.85; }
+  .tab-row1 { font-weight: 700; font-size: 0.68rem; }
+  .tab-row2 { font-size: 0.64rem; opacity: 0.85; }
 
   .tab-btn:hover { background: var(--green-light); color: var(--green-dark); }
 
@@ -852,7 +852,7 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記2本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: ["https://youtu.be/pQrxmzrDR1c", "https://youtu.be/ydenauRwjS0"]
       },
       { num: 2, label: "プロンプトを入力してテストを生成する",
@@ -894,7 +894,7 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記3本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: [
           "https://youtu.be/_7yZZofZnqQ?si=BvcU-fgTNXlVly0r",
           "https://youtu.be/p2H_GistKWE?si=TCAOnXXa4K-rtTyf",
@@ -977,7 +977,7 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記3本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: [
           "https://youtu.be/muHUrvssPXk?si=8pNcUFeL9_Ya3uij",
           "https://youtu.be/SMtcz63KdcQ?si=7NrRASg25PXIeSkR",
@@ -1005,7 +1005,7 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記4本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: [
           "https://youtu.be/PvlpEKhTuv4?si=Wf-gITMO9szsYtOy",
           "https://www.youtube.com/watch?v=ftgPhQplnlw",
@@ -1034,7 +1034,7 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記3本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: [
           "https://youtu.be/BboEGZR2XV8?si=wK7Hq-z6ntCesgpH",
           "https://www.youtube.com/watch?v=qHPXHWv8xws",
@@ -1062,7 +1062,7 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記3本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: [
           "https://youtu.be/8YeucmRVqbw?si=6ZuAmDYOmB-YfPAy",
           "https://youtu.be/fai9jxaXIho?si=-If1QxtpMmC2H6nd",
@@ -1090,11 +1090,39 @@ const lessons = [
     ],
     steps: [
       { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記3本のYouTube動画URLを入力します。",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
         urls: [
           "https://youtu.be/MOR8WF5UHqM?si=lMz9DU8XdZGcZzNv",
           "https://www.youtube.com/watch?v=C1tXaGiIyS4",
           "https://youtu.be/pPvP1uFf8Uw?si=_YQiA2CTPTo7s5oc"
+        ]
+      },
+      { num: 2, label: "プロンプトを入力してテストを生成する",
+        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
+        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
+        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
+      },
+      { num: 3, label: "内容を確認し、問題を解いて復習する",
+        body: "分からないところは動画に戻って確認しましょう。"
+      }
+    ]
+  },
+  {
+    date: "2026/5/15",
+    label: "第6回後半",
+    theme: "固定資産と減価償却の基礎",
+    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
+    purpose: [
+      "簿記の基本を身につける",
+      "NotebookLMを使い、効果的に復習する方法を覚える"
+    ],
+    steps: [
+      { num: 1, label: "ソースを読み込む",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
+        urls: [
+          "https://www.youtube.com/watch?v=pbAig18gqpo",
+          "https://youtu.be/95gTu-gtf7Y?si=rBm0Sp3NLoK1ey2S",
+          "https://youtu.be/GsCpbBK1BM0?si=lY8pfsGyJraSRI6b"
         ]
       },
       { num: 2, label: "プロンプトを入力してテストを生成する",
