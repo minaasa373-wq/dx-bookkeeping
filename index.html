@@ -1139,7 +1139,7 @@ const lessons = [
     date: "2026/5/19",
     label: "第7回前半",
     theme: "試算表の作成と活用",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
+    title: "NotebookLMを活用したDX・経理基礎テストを作って復習しよう",
     purpose: [
       "簿記の基本を身につける",
       "NotebookLMを使い、効果的に復習する方法を覚える"
@@ -1178,6 +1178,32 @@ const lessons = [
         urls: [
           "https://www.youtube.com/watch?v=Wqkafa3IxqY",
           "https://www.youtube.com/watch?v=WQ2fMu3K81s"
+        ]
+      },
+      { num: 2, label: "プロンプトを入力してテストを生成する",
+        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
+        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
+        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
+      },
+      { num: 3, label: "内容を確認し、問題を解いて復習する",
+        body: "分からないところは動画に戻って確認しましょう。"
+      }
+    ]
+  },
+  {
+    date: "2026/5/20",
+    label: "第8回前半",
+    theme: "決算整理仕訳と財務諸表の作成",
+    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
+    purpose: [
+      "簿記の基本を身につける",
+      "NotebookLMを使い、効果的に復習する方法を覚える"
+    ],
+    steps: [
+      { num: 1, label: "ソースを読み込む",
+        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
+        urls: [
+          "https://www.youtube.com/watch?v=NipSac5n6vE&list=PLznsJCRbaNwapDB7ujjcLwx6hght77KFZ&index=32"
         ]
       },
       { num: 2, label: "プロンプトを入力してテストを生成する",
