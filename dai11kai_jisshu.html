@@ -751,6 +751,159 @@ header p{
   .aiueo-grid{grid-template-columns:repeat(2,1fr);}
 }
 
+/* ========== 精算表 ========== */
+.seisan-intro{
+  background:var(--green-soft);
+  border:1px solid var(--green-accent);
+  border-radius:8px;
+  padding:14px 16px;
+  margin:14px 0;
+  font-size:0.85rem;
+  line-height:1.85;
+}
+
+.seisan-intro h4{
+  color:var(--green-dark);
+  font-size:0.9rem;
+  margin:0 0 8px;
+  font-weight:700;
+}
+
+.seisan-intro ol{
+  padding-left:20px;
+  margin:0;
+}
+
+.seisan-intro li{
+  margin-bottom:8px;
+  padding-left:4px;
+}
+
+.seisan-wrap{
+  overflow-x:auto;
+  margin:14px 0;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  background:var(--white);
+}
+
+.seisan-title{
+  background:var(--green);
+  color:var(--white);
+  text-align:center;
+  font-weight:700;
+  padding:6px;
+  font-size:1rem;
+  letter-spacing:0.2em;
+}
+
+.seisan-table{
+  width:100%;
+  min-width:780px;
+  border-collapse:collapse;
+  font-size:0.75rem;
+}
+
+.seisan-table th, .seisan-table td{
+  border:1px solid var(--border);
+  padding:2px 4px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.seisan-table thead th{
+  background:var(--green-dark);
+  color:var(--white);
+  font-weight:700;
+  font-size:0.74rem;
+}
+
+.seisan-table thead tr:nth-child(2) th{
+  background:var(--green);
+  font-size:0.7rem;
+}
+
+.seisan-table .acct-col{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  text-align:center;
+  font-size:0.74rem;
+  width:130px;
+  padding:4px 6px;
+}
+
+.seisan-table input{
+  width:100%;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.74rem;
+  text-align:right;
+  padding:3px 4px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text);
+  outline:none;
+  border-radius:3px;
+}
+
+.seisan-table input:focus{background:var(--green-soft);}
+
+.seisan-table .total-row td{
+  background:var(--green-soft);
+  font-weight:700;
+  color:var(--green-dark);
+  border-top:2px solid var(--green);
+}
+
+.seisan-table .group-divider td{
+  border-top:2px solid var(--green-accent);
+}
+
+.seisan-table .net-row td{
+  background:#fff8e1;
+  font-weight:700;
+}
+
+/* 解答用精算表 - 完成版 */
+.ans-seisan{
+  width:100%;
+  min-width:780px;
+  border-collapse:collapse;
+  font-size:0.74rem;
+  background:var(--white);
+}
+.ans-seisan th, .ans-seisan td{
+  border:1px solid var(--border);
+  padding:3px 5px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.ans-seisan thead th{
+  background:var(--green-dark);
+  color:var(--white);
+  text-align:center;
+  font-weight:700;
+}
+.ans-seisan thead tr:nth-child(2) th{background:var(--green);font-size:0.7rem;}
+.ans-seisan .acct-col{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  text-align:center;
+  width:130px;
+}
+.ans-seisan .total-row td{
+  background:var(--green-soft);
+  font-weight:700;
+  color:var(--green-dark);
+  border-top:2px solid var(--green);
+}
+.ans-seisan .net-row td{background:#fff8e1;font-weight:700;}
+.ans-seisan .ans-val{color:#d62828;font-weight:700;}
+.ans-seisan .ans-val-blank{color:#999;}
+.ans-seisan-wrap{overflow-x:auto;}
+
 .question{
   background:var(--white);
   border:1.5px solid var(--border);
@@ -1081,6 +1234,7 @@ header p{
   <button class="tab-nav-btn" data-tab="q2-1">第2問-1 商品有高帳</button>
   <button class="tab-nav-btn" data-tab="q2-2">第2問-2 勘定記入</button>
   <button class="tab-nav-btn" data-tab="q2-3">第2問-3 伝票会計</button>
+  <button class="tab-nav-btn" data-tab="q3">第3問 精算表</button>
 </nav>
 
 <!-- ===== 第1問 ===== -->
@@ -1475,6 +1629,53 @@ header p{
   <div id="answer-area-q2-3" class="answer-area">
     <h2>📝 第2問-3 解答</h2>
     <div id="answer-list-q2-3"></div>
+  </div>
+</section>
+
+<!-- ===== 第3問 ===== -->
+<section class="tab-section" id="tab-q3">
+  <div class="instruction">
+    <strong>第3問：</strong>次の決算整理事項（未処理事項含む）によって、精算表を完成させなさい。会計期間は、X7年4月1日からX8年3月31日までの1年である。
+  </div>
+
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">!</div>
+      <div class="q-title">決算整理事項等</div>
+    </div>
+
+    <div class="seisan-intro">
+      <ol>
+        <li>小口現金係から次のとおり小口現金を使用したことが報告されたが、未記帳であった。なお、この報告にもとづく補給は翌期に行うこととする。<br>
+          　電車代：￥2,500　／　事務用品：￥2,000（使用済）
+        </li>
+        <li>掛けで仕入れた商品￥50,000を返品したが、この取引が未記帳であった。</li>
+        <li>受取手形および売掛金の期末残高合計に対して<strong>2％</strong>の貸倒引当金を差額補充法により設定する。</li>
+        <li>残高試算表欄の土地の半額分は売却済であったが、代金￥1,200,000を仮受金としたのみであるため、修正する。</li>
+        <li>残高試算表の保険料のうち￥120,000は当期の9月1日に向こう1年分として支払ったものであるが、3月中に解約した。保険会社から4月1日以降の保険料が月割で返金される旨の連絡があったため、この分を未収入金へ振り替える。</li>
+        <li>期末商品棚卸高は￥350,000である。売上原価は「仕入」の行で計算する。</li>
+        <li>賞与の未払分が￥65,000分ある。</li>
+        <li>建物および備品について次のとおり定額法で減価償却を行う。<br>
+          　建物：残存価額は取得原価の10％　耐用年数18年<br>
+          　備品：残存価額ゼロ、耐用年数5年
+        </li>
+        <li>手形借入金は当期の1月1日に借入期間1年、利率年5.0％で借り入れたものであり、借入時に1年分の利息が差し引かれた金額を受け取っている。利息の前払い分を月割により計上する。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="seisan-wrap">
+    <div class="seisan-title">精　算　表</div>
+    <table class="seisan-table" id="seisan-table"></table>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q3" onclick="toggleAnswers('q3')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q3" class="answer-area">
+    <h2>📝 第3問 解答</h2>
+    <div id="answer-list-q3"></div>
   </div>
 </section>
 
@@ -2358,8 +2559,226 @@ renderAnswersQ2_1();
 renderQ22_1();
 renderQ22_2();
 renderAnswersQ2_2();
-renderQ23_nikkei();
-renderAnswersQ2_3();
+// ========== 第3問 精算表 ==========
+const SEISAN_DATA = [
+  // [科目, 試算表借, 試算表貸, 修正借, 修正貸, PL借, PL貸, BS借, BS貸]
+  {acct:"現金",          ts:[320000, null], adj:[null, null], pl:[null, null], bs:[320000, null]},
+  {acct:"小口現金",       ts:[30000, null],  adj:[null, 4500],  pl:[null, null], bs:[25500, null]},
+  {acct:"普通預金",       ts:[280000, null], adj:[null, null], pl:[null, null], bs:[280000, null]},
+  {acct:"受取手形",       ts:[310000, null], adj:[null, null], pl:[null, null], bs:[310000, null]},
+  {acct:"売掛金",         ts:[390000, null], adj:[null, null], pl:[null, null], bs:[390000, null]},
+  {acct:"繰越商品",       ts:[460000, null], adj:[350000, 460000], pl:[null, null], bs:[350000, null]},
+  {acct:"建物",           ts:[900000, null], adj:[null, null], pl:[null, null], bs:[900000, null]},
+  {acct:"備品",           ts:[650000, null], adj:[null, null], pl:[null, null], bs:[650000, null]},
+  {acct:"土地",           ts:[2200000, null], adj:[null, 1100000], pl:[null, null], bs:[1100000, null]},
+  {acct:"買掛金",         ts:[null, 500000], adj:[50000, null], pl:[null, null], bs:[null, 450000]},
+  {acct:"手形借入金",     ts:[null, 300000], adj:[null, null], pl:[null, null], bs:[null, 300000]},
+  {acct:"仮受金",         ts:[null, 1200000], adj:[1200000, null], pl:[null, null], bs:[null, null]},
+  {acct:"貸倒引当金",     ts:[null, 10000], adj:[null, 4000], pl:[null, null], bs:[null, 14000]},
+  {acct:"建物減価償却累計額", ts:[null, 180000], adj:[null, 45000], pl:[null, null], bs:[null, 225000]},
+  {acct:"備品減価償却累計額", ts:[null, 390000], adj:[null, 130000], pl:[null, null], bs:[null, 520000]},
+  {acct:"資本金",         ts:[null, 1000000], adj:[null, null], pl:[null, null], bs:[null, 1000000]},
+  {acct:"繰越利益剰余金", ts:[null, 390000], adj:[null, null], pl:[null, null], bs:[null, 390000]},
+  {acct:"売上",           ts:[null, 5705000], adj:[null, null], pl:[null, 5705000], bs:[null, null]},
+  {acct:"仕入",           ts:[2800000, null], adj:[460000, 400000], pl:[2860000, null], bs:[null, null]},
+  {acct:"賞与",           ts:[800000, null], adj:[65000, null], pl:[865000, null], bs:[null, null]},
+  {acct:"旅費交通費",     ts:[70000, null], adj:[2500, null], pl:[72500, null], bs:[null, null]},
+  {acct:"支払家賃",       ts:[140000, null], adj:[null, null], pl:[140000, null], bs:[null, null]},
+  {acct:"保険料",         ts:[240000, null], adj:[null, 50000], pl:[190000, null], bs:[null, null]},
+  {acct:"消耗品費",       ts:[70000, null], adj:[2000, null], pl:[72000, null], bs:[null, null]},
+  {acct:"支払利息",       ts:[15000, null], adj:[null, 11250], pl:[3750, null], bs:[null, null]},
+  // 試算表計の行
+  {acct:"", isTotalTs:true, ts:[9675000, 9675000]},
+  // 追加勘定科目
+  {acct:"固定資産売却（益）", ts:[null, null], adj:[null, 100000], pl:[null, 100000], bs:[null, null], hasBlank:"益"},
+  {acct:"貸倒引当金繰入",    ts:[null, null], adj:[4000, null], pl:[4000, null], bs:[null, null]},
+  {acct:"減価償却費",        ts:[null, null], adj:[175000, null], pl:[175000, null], bs:[null, null]},
+  {acct:"未収入金",          ts:[null, null], adj:[50000, null], pl:[null, null], bs:[50000, null]},
+  {acct:"（未払）賞与",      ts:[null, null], adj:[null, 65000], pl:[null, null], bs:[null, 65000], hasBlank:"未払"},
+  {acct:"（前払）利息",      ts:[null, null], adj:[11250, null], pl:[null, null], bs:[11250, null], hasBlank:"前払"},
+  {acct:"当期純（利益）",    ts:[null, null], adj:[null, null], pl:[1422750, null], bs:[null, 1422750], hasBlank:"利益", isNetProfit:true},
+  // 合計
+  {acct:"", isTotalFinal:true, adj:[2369750, 2369750], pl:[5805000, 5805000], bs:[4386750, 4386750]}
+];
+
+function fmt(n){
+  if(n === null || n === undefined || n === "") return "";
+  return n.toLocaleString();
+}
+
+function renderSeisan(){
+  const tbl = document.getElementById("seisan-table");
+  const header = `
+    <thead>
+      <tr>
+        <th rowspan="2" class="acct-col" style="background:var(--green-dark);color:var(--white);">勘定科目</th>
+        <th colspan="2">残高試算表</th>
+        <th colspan="2">修正記入</th>
+        <th colspan="2">損益計算書</th>
+        <th colspan="2">貸借対照表</th>
+      </tr>
+      <tr>
+        <th>借方</th><th>貸方</th>
+        <th>借方</th><th>貸方</th>
+        <th>借方</th><th>貸方</th>
+        <th>借方</th><th>貸方</th>
+      </tr>
+    </thead>`;
+
+  let bodyHTML = "<tbody>";
+  SEISAN_DATA.forEach(row => {
+    if(row.isTotalTs){
+      // 試算表合計行
+      bodyHTML += `<tr class="total-row">
+        <td class="acct-col"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td colspan="6"></td>
+      </tr>`;
+      return;
+    }
+    if(row.isTotalFinal){
+      // 最終合計行
+      bodyHTML += `<tr class="total-row">
+        <td class="acct-col"></td>
+        <td colspan="2"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+      </tr>`;
+      return;
+    }
+
+    // 通常行 - 試算表の値はpreset、それ以外は入力欄
+    const tsD = row.ts && row.ts[0]!==null ? `<div class="preset" style="text-align:right;padding:3px 4px;background:#f5f5f5;color:var(--text-sub);">${fmt(row.ts[0])}</div>` : `<input type="text" inputmode="numeric">`;
+    const tsC = row.ts && row.ts[1]!==null ? `<div class="preset" style="text-align:right;padding:3px 4px;background:#f5f5f5;color:var(--text-sub);">${fmt(row.ts[1])}</div>` : `<input type="text" inputmode="numeric">`;
+
+    // 追加勘定科目で（  ）入力の場合はacct欄を input にする
+    let acctCell;
+    if(row.hasBlank){
+      // （ ）部分のみ入力に
+      const before = row.acct.split("（")[0];
+      const after = row.acct.split("）")[1] || "";
+      acctCell = `<td class="acct-col" style="text-align:center;">${before}（<input type="text" style="width:55px;text-align:center;background:#fff;border:1px solid var(--border);border-radius:3px;">）${after}</td>`;
+    } else {
+      acctCell = `<td class="acct-col">${row.acct}</td>`;
+    }
+
+    bodyHTML += `<tr>
+      ${acctCell}
+      <td>${tsD}</td>
+      <td>${tsC}</td>
+      <td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td>
+    </tr>`;
+  });
+  bodyHTML += "</tbody>";
+
+  tbl.innerHTML = header + bodyHTML;
+}
+
+function renderAnswersQ3(){
+  const wrap = document.getElementById("answer-list-q3");
+
+  const ansVal = (v) => v===null||v===undefined||v==="" ? `<span class="ans-val-blank">－</span>` : `<span class="ans-val">${fmt(v)}</span>`;
+
+  let rows = "";
+  SEISAN_DATA.forEach(row => {
+    if(row.isTotalTs){
+      rows += `<tr class="total-row">
+        <td class="acct-col"></td>
+        <td>${ansVal(row.ts[0])}</td>
+        <td>${ansVal(row.ts[1])}</td>
+        <td colspan="6"></td>
+      </tr>`;
+      return;
+    }
+    if(row.isTotalFinal){
+      rows += `<tr class="total-row">
+        <td class="acct-col"></td>
+        <td colspan="2"></td>
+        <td>${ansVal(row.adj[0])}</td>
+        <td>${ansVal(row.adj[1])}</td>
+        <td>${ansVal(row.pl[0])}</td>
+        <td>${ansVal(row.pl[1])}</td>
+        <td>${ansVal(row.bs[0])}</td>
+        <td>${ansVal(row.bs[1])}</td>
+      </tr>`;
+      return;
+    }
+
+    const isNetProfit = row.isNetProfit;
+    const rowClass = isNetProfit ? "net-row" : "";
+
+    rows += `<tr class="${rowClass}">
+      <td class="acct-col">${row.acct}</td>
+      <td>${ansVal(row.ts && row.ts[0])}</td>
+      <td>${ansVal(row.ts && row.ts[1])}</td>
+      <td>${ansVal(row.adj && row.adj[0])}</td>
+      <td>${ansVal(row.adj && row.adj[1])}</td>
+      <td>${ansVal(row.pl && row.pl[0])}</td>
+      <td>${ansVal(row.pl && row.pl[1])}</td>
+      <td>${ansVal(row.bs && row.bs[0])}</td>
+      <td>${ansVal(row.bs && row.bs[1])}</td>
+    </tr>`;
+  });
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">精算表 完成版</span>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:8px;">
+        ※ 赤字＝記入が必要なセル　／　ハイライト行＝当期純利益
+      </div>
+      <div class="ans-seisan-wrap">
+        <table class="ans-seisan">
+          <thead>
+            <tr>
+              <th rowspan="2" class="acct-col" style="background:var(--green-dark);color:var(--white);">勘定科目</th>
+              <th colspan="2">残高試算表</th>
+              <th colspan="2">修正記入</th>
+              <th colspan="2">損益計算書</th>
+              <th colspan="2">貸借対照表</th>
+            </tr>
+            <tr>
+              <th>借方</th><th>貸方</th>
+              <th>借方</th><th>貸方</th>
+              <th>借方</th><th>貸方</th>
+              <th>借方</th><th>貸方</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div class="ans-totals" style="margin-top:14px;font-size:0.78rem;font-weight:400;color:var(--text);line-height:1.8;">
+        <div style="font-weight:700;color:var(--green-dark);margin-bottom:6px;font-size:0.85rem;">📌 主な決算整理仕訳</div>
+        <div><strong>1.</strong> 旅費交通費 2,500 ／ 小口現金 4,500　消耗品費 2,000</div>
+        <div><strong>2.</strong> 買掛金 50,000 ／ 仕入 50,000</div>
+        <div><strong>3.</strong> 貸倒引当金繰入 4,000 ／ 貸倒引当金 4,000　<span style="color:var(--text-sub);">※(310,000+390,000)×2%－10,000</span></div>
+        <div><strong>4.</strong> 仮受金 1,200,000 ／ 土地 1,100,000　固定資産売却益 100,000</div>
+        <div><strong>5.</strong> 未収入金 50,000 ／ 保険料 50,000　<span style="color:var(--text-sub);">※120,000×5/12</span></div>
+        <div><strong>6.</strong> 仕入 460,000 ／ 繰越商品 460,000　繰越商品 350,000 ／ 仕入 350,000</div>
+        <div><strong>7.</strong> 賞与 65,000 ／ 未払賞与 65,000</div>
+        <div><strong>8.</strong> 減価償却費 175,000 ／ 建物減価償却累計額 45,000　備品減価償却累計額 130,000<br>
+          <span style="color:var(--text-sub);padding-left:16px;">※建物：(900,000－90,000)÷18年＝45,000　備品：650,000÷5年＝130,000</span>
+        </div>
+        <div><strong>9.</strong> 前払利息 11,250 ／ 支払利息 11,250　<span style="color:var(--text-sub);">※300,000×5%×9/12</span></div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-weight:700;color:var(--accent);">
+          当期純利益：1,422,750円
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+renderSeisan();
+renderAnswersQ3();
 </script>
 </body>
 </html>
