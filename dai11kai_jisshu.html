@@ -1821,7 +1821,7 @@ header p{
 </section>
 
 <div class="footer-back">
-  <a href="javascript:history.back()">← 実習ページに戻る</a>
+  <a href="https://minaasa373-wq.github.io/dx-bookkeeping/">← 実習ページに戻る</a>
 </div>
 
 </div>
@@ -2790,12 +2790,12 @@ function renderAnswersQ2_3(){
     <div class="ans-totals" style="margin-top:12px;font-size:0.78rem;font-weight:400;color:var(--text);line-height:1.8;">
       <div style="font-weight:600;color:var(--green-dark);margin-bottom:6px;font-size:0.85rem;">💡 解法のポイント</div>
       <div style="margin-bottom:4px;"><strong style="color:var(--accent);">ア（40,000）</strong>：入金伝票No.103の売上額。</div>
-      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">現金勘定の借方変動から逆算：8/1の仕訳日計表転記額（？）＝出金伝票の合計13,000+33,000+26,000=72,000。<br>入金伝票合計＝45,000+30,000+ア＝115,000（現金借方の最初の転記） → ア＝40,000</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">現金勘定の借方仕訳日計表＝115,000（入金伝票合計）。<br>入金No.101(45,000)+入金No.102(30,000)+入金No.103(ア)=115,000 → ア=40,000</div>
       <div style="margin-bottom:4px;"><strong style="color:var(--accent);">イ（65,000）</strong>：振替伝票No.301の仕入額。</div>
-      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">仕入勘定の借方仕訳日計表＝124,000。出金No.202(33,000)+出金No.203(26,000)+振替No.301(イ)=124,000 → イ＝65,000</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">仕入勘定の借方仕訳日計表＝124,000。<br>出金No.202(33,000)+出金No.203(26,000)+振替No.301(イ)=124,000 → イ=65,000</div>
       <div style="margin-bottom:4px;"><strong style="color:var(--accent);">ウ（163,000）</strong>：仕訳日計表の売上貸方（最初の転記額）。</div>
-      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">入金伝票売上合計（45,000+ア=85,000）+振替伝票No.302売上(78,000)=163,000</div>
-      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">エ（12,000）</strong>：仕訳日計表の売上借方（売上戻り）。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">入金伝票の売上：No.101(45,000)+No.103(ア=40,000)=85,000<br>振替伝票No.302の売上：78,000<br>合計：85,000+78,000=163,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">エ（12,000）</strong>：仕訳日計表の売上借方（売上の取消・返品）。</div>
       <div style="font-size:0.75rem;color:var(--text-sub);padding-left:12px;">振替伝票No.303：(売上) 12,000／(売掛金) 12,000 → 売上の借方に12,000</div>
     </div>`;
 
@@ -2824,6 +2824,8 @@ renderAnswersQ2_1();
 renderQ22_1();
 renderQ22_2();
 renderAnswersQ2_2();
+renderQ23_nikkei();
+renderAnswersQ2_3();
 // ========== 第3問 精算表 ==========
 const SEISAN_DATA = [
   // [科目, 試算表借, 試算表貸, 修正借, 修正貸, PL借, PL貸, BS借, BS貸]
@@ -2845,7 +2847,7 @@ const SEISAN_DATA = [
   {acct:"資本金",         ts:[null, 1000000], adj:[null, null], pl:[null, null], bs:[null, 1000000]},
   {acct:"繰越利益剰余金", ts:[null, 390000], adj:[null, null], pl:[null, null], bs:[null, 390000]},
   {acct:"売上",           ts:[null, 5705000], adj:[null, null], pl:[null, 5705000], bs:[null, null]},
-  {acct:"仕入",           ts:[2800000, null], adj:[460000, 400000], pl:[2860000, null], bs:[null, null]},
+  {acct:"仕入",           ts:[2800000, null], adj:[460000, 50000], adjExtra:[null, 350000], pl:[2860000, null], bs:[null, null]},
   {acct:"賞与",           ts:[800000, null], adj:[65000, null], pl:[865000, null], bs:[null, null]},
   {acct:"旅費交通費",     ts:[70000, null], adj:[2500, null], pl:[72500, null], bs:[null, null]},
   {acct:"支払家賃",       ts:[140000, null], adj:[null, null], pl:[140000, null], bs:[null, null]},
@@ -2943,6 +2945,21 @@ function renderSeisan(){
       <td><input type="text" inputmode="numeric"></td>
       <td><input type="text" inputmode="numeric"></td>
     </tr>`;
+
+    // 補助行（仕入の貸方2行目など）
+    if(row.adjExtra){
+      bodyHTML += `<tr>
+        <td class="acct-col"></td>
+        <td></td>
+        <td></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td><input type="text" inputmode="numeric"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>`;
+    }
   });
   bodyHTML += "</tbody>";
 
@@ -2993,6 +3010,21 @@ function renderAnswersQ3(){
       <td>${ansVal(row.bs && row.bs[0])}</td>
       <td>${ansVal(row.bs && row.bs[1])}</td>
     </tr>`;
+
+    // 補助行（仕入の貸方2行目など）
+    if(row.adjExtra){
+      rows += `<tr>
+        <td class="acct-col"></td>
+        <td></td>
+        <td></td>
+        <td>${ansVal(row.adjExtra[0])}</td>
+        <td>${ansVal(row.adjExtra[1])}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>`;
+    }
   });
 
   wrap.innerHTML = `
