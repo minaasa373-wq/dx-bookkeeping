@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第1問 仕訳 練習問題</title>
+<style>
+:root{
+  --green:#2d6a4f;
+  --green-dark:#1b4332;
+  --green-light:#d8f3dc;
+  --green-soft:#f1faee;
+  --border:#cfd8dc;
+  --text:#1a2e2a;
+  --text-sub:#52796f;
+  --white:#ffffff;
+  --bg:#f6faf7;
+  --accent:#e76f51;
+  --shadow:0 2px 8px rgba(45,106,79,0.08);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  padding:20px 16px 60px;
+}
+
+.container{
+  max-width:780px;
+  margin:0 auto;
+}
+
+header{
+  text-align:center;
+  padding:24px 16px 28px;
+  background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
+  color:var(--white);
+  border-radius:12px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow);
+}
+
+header .badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.2);
+  padding:3px 12px;
+  border-radius:20px;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  margin-bottom:10px;
+}
+
+header h1{
+  font-size:1.5rem;
+  font-weight:700;
+  letter-spacing:0.02em;
+  margin-bottom:6px;
+}
+
+header p{
+  font-size:0.85rem;
+  opacity:0.92;
+}
+
+.instruction{
+  background:var(--white);
+  border-left:4px solid var(--green);
+  padding:14px 18px;
+  border-radius:6px;
+  margin-bottom:24px;
+  font-size:0.88rem;
+  color:var(--text-sub);
+  box-shadow:var(--shadow);
+}
+
+.instruction strong{color:var(--green-dark);}
+
+/* ========== Tab Navigation ========== */
+.tab-nav{
+  display:flex;
+  gap:6px;
+  margin-bottom:20px;
+  border-bottom:2px solid var(--green);
+  overflow-x:auto;
+  padding-bottom:0;
+}
+
+.tab-nav-btn{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-bottom:none;
+  color:var(--text-sub);
+  padding:8px 16px;
+  font-size:0.82rem;
+  font-family:inherit;
+  font-weight:600;
+  border-radius:8px 8px 0 0;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.15s;
+}
+
+.tab-nav-btn:hover{background:var(--green-soft);}
+
+.tab-nav-btn.active{
+  background:var(--green);
+  color:var(--white);
+  border-color:var(--green);
+  transform:translateY(2px);
+}
+
+.tab-section{display:none;}
+.tab-section.active{display:block;animation:fadeIn 0.3s;}
+
+/* ========== 商品有高帳 ========== */
+.ledger-wrap{
+  overflow-x:auto;
+  margin:14px 0;
+  border-radius:8px;
+  border:1.5px solid var(--border);
+}
+
+.ledger{
+  width:100%;
+  min-width:640px;
+  border-collapse:collapse;
+  font-size:0.78rem;
+  background:var(--white);
+}
+
+.ledger th, .ledger td{
+  border:1px solid var(--border);
+  padding:4px 4px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.ledger thead th{
+  background:var(--green);
+  color:var(--white);
+  font-weight:700;
+  font-size:0.75rem;
+  padding:6px 4px;
+}
+
+.ledger thead tr:nth-child(2) th{
+  background:var(--green-dark);
+  font-size:0.7rem;
+}
+
+.ledger .date-col{width:32px;background:var(--green-soft);font-weight:600;color:var(--green-dark);}
+.ledger .summary-col{width:78px;background:var(--green-soft);font-weight:600;color:var(--green-dark);text-align:center;font-size:0.72rem;}
+
+.ledger input{
+  width:100%;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.78rem;
+  text-align:right;
+  padding:3px 4px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text);
+  outline:none;
+  border-radius:3px;
+}
+
+.ledger input:focus{background:var(--green-soft);}
+
+.ledger .preset{
+  background:#f5f5f5;
+  color:var(--text-sub);
+  font-weight:600;
+}
+
+.ledger tfoot td{
+  background:var(--green-soft);
+  font-weight:600;
+  color:var(--green-dark);
+}
+
+.q-sub{
+  background:var(--green-soft);
+  padding:10px 14px;
+  border-radius:6px;
+  margin-top:14px;
+  font-size:0.88rem;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.q-sub label{
+  font-weight:600;
+  color:var(--green-dark);
+  flex:1;
+  min-width:200px;
+}
+
+.q-sub input{
+  border:1.5px solid var(--border);
+  border-radius:6px;
+  padding:6px 10px;
+  font-family:inherit;
+  font-size:0.9rem;
+  width:140px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  background:var(--white);
+}
+
+.q-sub input:focus{outline:none;border-color:var(--green);}
+
+.q-sub .yen{font-weight:600;color:var(--text-sub);}
+
+/* 仕入帳・売上帳 (Q2-1 (2)) */
+.source-tables{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:14px 0;
+}
+
+.source-table{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  font-size:0.78rem;
+}
+
+.source-table-title{
+  text-align:center;
+  font-weight:700;
+  background:var(--green-light);
+  color:var(--green-dark);
+  padding:4px;
+  margin:-10px -10px 8px;
+  border-radius:8px 8px 0 0;
+  font-size:0.82rem;
+}
+
+.source-table table{width:100%;border-collapse:collapse;}
+.source-table th, .source-table td{
+  border:1px solid var(--border);
+  padding:3px 6px;
+  text-align:right;
+}
+.source-table th{background:var(--green-soft);text-align:center;font-size:0.72rem;}
+.source-table .date{text-align:center;font-weight:600;width:32px;}
+.source-table .desc{text-align:left;}
+
+/* 解答用商品有高帳テーブル(展開時) */
+.ans-ledger{
+  width:100%;
+  min-width:580px;
+  border-collapse:collapse;
+  font-size:0.75rem;
+  background:var(--white);
+}
+.ans-ledger th, .ans-ledger td{
+  border:1px solid var(--border);
+  padding:3px 5px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.ans-ledger thead th{background:var(--green-light);color:var(--green-dark);text-align:center;font-size:0.72rem;}
+.ans-ledger .date-col, .ans-ledger .summary-col{
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+}
+.ans-ledger tfoot td{background:#fafdfb;font-weight:600;}
+.ans-ledger-wrap{overflow-x:auto;margin-top:8px;}
+
+.ans-totals{
+  margin-top:10px;
+  padding:8px 12px;
+  background:var(--green-soft);
+  border-radius:6px;
+  font-size:0.85rem;
+  color:var(--green-dark);
+  font-weight:600;
+}
+.ans-totals div{margin:3px 0;}
+.ans-totals .val{color:var(--accent);}
+
+/* ========== T字勘定 ========== */
+.t-account{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  margin:14px 0;
+  overflow:hidden;
+}
+
+.t-account-title{
+  background:var(--green);
+  color:var(--white);
+  text-align:center;
+  font-weight:700;
+  padding:6px;
+  font-size:0.9rem;
+  letter-spacing:0.1em;
+}
+
+.t-account-sides{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.t-side{
+  border-right:2px solid var(--green);
+}
+.t-side:last-child{border-right:none;}
+
+.t-side-header{
+  background:var(--green-light);
+  color:var(--green-dark);
+  text-align:center;
+  font-weight:700;
+  font-size:0.78rem;
+  padding:4px;
+  letter-spacing:0.1em;
+}
+
+.t-row{
+  display:grid;
+  grid-template-columns:38px 1fr 90px;
+  font-size:0.78rem;
+  border-top:1px solid var(--border);
+  align-items:stretch;
+}
+
+.t-row:first-of-type{border-top:none;}
+
+.t-row > div, .t-row > input, .t-row > select{
+  padding:5px 6px;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.78rem;
+  outline:none;
+  display:flex;
+  align-items:center;
+}
+
+.t-row .t-date{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  justify-content:center;
+  text-align:center;
+  border-right:1px solid var(--border);
+  font-size:0.72rem;
+}
+
+.t-row .t-desc{
+  border-right:1px solid var(--border);
+}
+
+.t-row .t-amt{
+  justify-content:flex-end;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+.t-row input.t-amt{text-align:right;width:100%;}
+.t-row input.t-desc{width:100%;}
+.t-row input:focus, .t-row select:focus{background:var(--green-soft);}
+
+.t-row select.t-desc{
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'><path fill='%2352796f' d='M0 0l4 6 4-6z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 6px center;
+  padding-right:18px;
+}
+
+.t-row .preset{
+  background:#f5f5f5;
+  color:var(--text-sub);
+  font-weight:500;
+}
+
+.t-row.t-total{
+  background:var(--green-soft);
+  font-weight:700;
+  border-top:2px solid var(--green);
+}
+.t-row.t-total > div{color:var(--green-dark);}
+.t-row.t-total .t-date{background:var(--green-light);}
+
+.choices-box{
+  background:var(--green-soft);
+  border-radius:6px;
+  padding:8px 12px;
+  margin:10px 0;
+  font-size:0.78rem;
+  color:var(--green-dark);
+  line-height:1.7;
+}
+
+.choices-box strong{color:var(--green-dark);margin-right:6px;}
+
+.t-section-title{
+  font-weight:700;
+  color:var(--green-dark);
+  margin:18px 0 6px;
+  font-size:0.95rem;
+  padding-left:8px;
+  border-left:4px solid var(--green);
+}
+
+.hp-tip{
+  background:#fff5e6;
+  border:1px dashed #f5a623;
+  border-radius:8px;
+  padding:10px 14px;
+  margin:14px 0;
+  font-size:0.82rem;
+  color:#7a5a1a;
+}
+
+.hp-tip strong{color:#c47800;}
+.hp-tip .hp-red{color:#d62828;font-weight:700;}
+.hp-tip .hp-blue{color:#1976d2;font-weight:700;}
+.hp-tip .hp-green{color:#2d6a4f;font-weight:700;}
+
+/* 解答用T字勘定 */
+.ans-taccount{
+  margin:14px 0;
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+}
+.ans-taccount-title{
+  background:var(--green-light);
+  color:var(--green-dark);
+  text-align:center;
+  font-weight:700;
+  padding:5px;
+  font-size:0.85rem;
+  letter-spacing:0.08em;
+}
+.ans-taccount-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.74rem;
+}
+.ans-taccount-table th{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  padding:3px;
+  border:1px solid var(--border);
+  text-align:center;
+}
+.ans-taccount-table td{
+  border:1px solid var(--border);
+  padding:3px 6px;
+  background:var(--white);
+}
+.ans-taccount-table .ans-date{
+  width:42px;
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  font-size:0.7rem;
+}
+.ans-taccount-table .ans-amt{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  width:80px;
+}
+.ans-taccount-table .ans-amt.total{font-weight:700;}
+.ans-taccount-table .ans-total-row td{
+  background:var(--green-soft);
+  font-weight:600;
+  color:var(--green-dark);
+  border-top:2px solid var(--green);
+}
+.ans-code{
+  display:inline-block;
+  background:var(--accent);
+  color:white;
+  font-weight:700;
+  font-size:0.7rem;
+  padding:1px 5px;
+  border-radius:4px;
+  margin-right:4px;
+}
+
+/* ========== 伝票 ========== */
+.denpyou-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:8px;
+  margin:14px 0;
+}
+
+.denpyou{
+  background:var(--white);
+  border:1.5px solid var(--green-dark);
+  border-radius:6px;
+  padding:8px 10px;
+  font-size:0.78rem;
+  position:relative;
+  min-height:62px;
+}
+
+.denpyou-nyuukin{background:#fff8e1;border-color:#f59e0b;}
+.denpyou-shukkin{background:#fee4e2;border-color:#dc2626;}
+.denpyou-furikae{background:#dbeafe;border-color:#2563eb;}
+
+.denpyou-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
+  font-size:0.78rem;
+  padding-bottom:4px;
+  margin-bottom:5px;
+  border-bottom:1px solid var(--border);
+}
+
+.denpyou-no{
+  font-size:0.68rem;
+  color:var(--text-sub);
+  font-weight:600;
+}
+
+.denpyou-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:0.78rem;
+  padding:2px 0;
+  font-variant-numeric:tabular-nums;
+}
+
+.denpyou-line .name{color:var(--text);}
+.denpyou-line .amt{font-weight:600;}
+.denpyou-line .blank{color:var(--accent);font-weight:700;font-size:0.85rem;}
+
+/* ========== 仕訳日計表 ========== */
+.nikkei-wrap{
+  margin:14px 0;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.nikkei-title{
+  text-align:center;
+  font-weight:700;
+  background:var(--green);
+  color:var(--white);
+  padding:6px;
+  font-size:0.95rem;
+  letter-spacing:0.1em;
+}
+
+.nikkei-date{
+  text-align:center;
+  background:var(--green-light);
+  color:var(--green-dark);
+  padding:4px;
+  font-size:0.82rem;
+  font-weight:600;
+}
+
+.nikkei-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.86rem;
+}
+
+.nikkei-table th, .nikkei-table td{
+  border:1px solid var(--border);
+  padding:5px 8px;
+}
+
+.nikkei-table th{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:700;
+}
+
+.nikkei-table .acct{
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  width:120px;
+}
+
+.nikkei-table input{
+  width:100%;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.86rem;
+  text-align:right;
+  padding:2px 6px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text);
+  outline:none;
+}
+
+.nikkei-table input:focus{background:var(--green-soft);}
+
+.nikkei-table tfoot td{
+  background:var(--green-soft);
+  font-weight:700;
+  color:var(--green-dark);
+  border-top:2px solid var(--green);
+}
+
+/* ========== 総勘定元帳（残高式） ========== */
+.motochou-wrap{
+  margin:12px 0;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.motochou-title{
+  text-align:center;
+  background:var(--green-light);
+  color:var(--green-dark);
+  font-weight:700;
+  font-size:0.8rem;
+  padding:3px;
+  letter-spacing:0.1em;
+}
+
+.motochou-acct{
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:700;
+  padding:3px;
+  font-size:0.95rem;
+}
+
+.motochou-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.76rem;
+}
+
+.motochou-table th, .motochou-table td{
+  border:1px solid var(--border);
+  padding:3px 6px;
+}
+
+.motochou-table th{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-size:0.72rem;
+  text-align:center;
+}
+
+.motochou-table .date-col{
+  width:42px;
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  font-size:0.72rem;
+}
+
+.motochou-table .desc-col{width:auto;}
+
+.motochou-table .amt-col{
+  width:75px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+.motochou-table .kashi-col{
+  width:40px;
+  text-align:center;
+  background:#fafdfb;
+  font-weight:600;
+  color:var(--text-sub);
+}
+
+.motochou-table .q-mark{color:var(--accent);font-weight:700;}
+
+/* ========== ア〜エ 解答欄 ==========*/
+.aiueo-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:10px;
+  margin:14px 0;
+}
+
+.aiueo-cell{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.aiueo-label{
+  background:var(--accent);
+  color:var(--white);
+  text-align:center;
+  font-weight:700;
+  padding:6px;
+  font-size:1rem;
+  letter-spacing:0.1em;
+}
+
+.aiueo-cell input{
+  width:100%;
+  border:none;
+  padding:10px 12px;
+  font-family:inherit;
+  font-size:0.95rem;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  background:transparent;
+  outline:none;
+}
+
+.aiueo-cell input:focus{background:var(--green-soft);}
+
+/* 解答 表示用 仕訳日計表 / aiueo */
+.ans-aiueo-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+  margin:10px 0;
+}
+
+@media (max-width:520px){
+  .denpyou-grid{grid-template-columns:repeat(2,1fr);}
+  .aiueo-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+.question{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:18px 20px 20px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+
+.q-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px dashed var(--border);
+}
+
+.q-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  background:var(--green);
+  color:var(--white);
+  font-weight:700;
+  font-size:0.95rem;
+  border-radius:8px;
+  flex-shrink:0;
+}
+
+.q-title{
+  font-size:0.85rem;
+  color:var(--text-sub);
+  font-weight:600;
+}
+
+.q-body{
+  font-size:0.92rem;
+  line-height:1.75;
+  margin-bottom:14px;
+  color:var(--text);
+}
+
+.choices{
+  background:var(--green-soft);
+  border-radius:8px;
+  padding:10px 14px;
+  margin-bottom:14px;
+  font-size:0.82rem;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px 10px;
+  color:var(--green-dark);
+}
+
+.choices span{display:block;}
+
+.sales-table{
+  background:var(--green-soft);
+  border:1px solid var(--border);
+  border-radius:6px;
+  margin:12px 0;
+  padding:10px;
+  font-size:0.78rem;
+}
+
+.sales-table table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.sales-table caption{
+  font-weight:600;
+  margin-bottom:6px;
+  color:var(--green-dark);
+}
+
+.sales-table th, .sales-table td{
+  border:1px solid var(--border);
+  padding:4px 8px;
+  text-align:right;
+  background:var(--white);
+}
+
+.sales-table th{
+  background:var(--green-light);
+  text-align:center;
+}
+
+.answer-box{
+  background:#fafdfb;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 12px;
+  margin-top:6px;
+}
+
+.answer-box-title{
+  font-size:0.72rem;
+  color:var(--text-sub);
+  font-weight:600;
+  margin-bottom:6px;
+  text-align:center;
+  letter-spacing:0.05em;
+}
+
+.entry-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.entry-side{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+}
+
+.entry-side-header{
+  background:var(--green-light);
+  color:var(--green-dark);
+  text-align:center;
+  font-size:0.75rem;
+  font-weight:700;
+  padding:5px 0;
+  letter-spacing:0.1em;
+}
+
+.entry-row{
+  display:grid;
+  grid-template-columns:55px 1fr;
+  border-top:1px solid var(--border);
+}
+
+.entry-row:first-of-type{border-top:none;}
+
+.entry-row select,
+.entry-row input{
+  border:none;
+  padding:6px 8px;
+  font-family:inherit;
+  font-size:0.85rem;
+  background:transparent;
+  color:var(--text);
+  width:100%;
+  outline:none;
+}
+
+.entry-row select{
+  border-right:1px solid var(--border);
+  text-align:center;
+  text-align-last:center;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'><path fill='%2352796f' d='M0 0l4 6 4-6z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 4px center;
+  padding-right:14px;
+}
+
+.entry-row input{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+.entry-row input::placeholder{
+  color:#b0bec5;
+  font-size:0.75rem;
+}
+
+.entry-row select:focus,
+.entry-row input:focus{
+  background:var(--green-soft);
+}
+
+/* Answer reveal */
+.reveal-section{
+  margin-top:32px;
+  text-align:center;
+}
+
+.reveal-btn{
+  background:var(--green);
+  color:var(--white);
+  border:none;
+  padding:14px 36px;
+  font-size:1rem;
+  font-weight:700;
+  font-family:inherit;
+  border-radius:30px;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(45,106,79,0.25);
+  transition:all 0.2s;
+  letter-spacing:0.05em;
+}
+
+.reveal-btn:hover{
+  background:var(--green-dark);
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(45,106,79,0.35);
+}
+
+.reveal-btn.shown{
+  background:var(--text-sub);
+}
+
+.answer-area{
+  display:none;
+  margin-top:24px;
+  background:var(--white);
+  border:2px solid var(--green);
+  border-radius:12px;
+  padding:24px 20px;
+  box-shadow:var(--shadow);
+}
+
+.answer-area.visible{display:block;animation:fadeIn 0.4s;}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.answer-area h2{
+  color:var(--green-dark);
+  font-size:1.2rem;
+  text-align:center;
+  margin-bottom:18px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--green-light);
+}
+
+.ans-item{
+  margin-bottom:18px;
+  padding-bottom:14px;
+  border-bottom:1px dashed var(--border);
+}
+
+.ans-item:last-child{border-bottom:none;margin-bottom:0;}
+
+.ans-num{
+  display:inline-block;
+  background:var(--green-light);
+  color:var(--green-dark);
+  font-weight:700;
+  padding:2px 10px;
+  border-radius:12px;
+  font-size:0.8rem;
+  margin-bottom:8px;
+}
+
+.ans-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.85rem;
+}
+
+.ans-table th, .ans-table td{
+  border:1px solid var(--border);
+  padding:4px 8px;
+}
+
+.ans-table th{
+  background:var(--green-light);
+  color:var(--green-dark);
+  font-size:0.75rem;
+}
+
+.ans-table td.code{
+  text-align:center;
+  width:40px;
+  font-weight:600;
+  color:var(--green-dark);
+  background:var(--green-soft);
+}
+
+.ans-table td.amount{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  width:100px;
+}
+
+.footer-back{
+  text-align:center;
+  margin-top:36px;
+}
+
+.footer-back a{
+  display:inline-block;
+  color:var(--green-dark);
+  text-decoration:none;
+  font-size:0.85rem;
+  font-weight:600;
+  padding:8px 20px;
+  border:1.5px solid var(--green);
+  border-radius:20px;
+  transition:all 0.15s;
+}
+
+.footer-back a:hover{
+  background:var(--green);
+  color:var(--white);
+}
+
+@media (max-width:520px){
+  .choices{grid-template-columns:repeat(2,1fr);font-size:0.78rem;}
+  .q-body{font-size:0.88rem;}
+  header h1{font-size:1.25rem;}
+  .entry-row{grid-template-columns:48px 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="badge">第11回 実習</div>
+  <h1>仕訳・帳簿 練習問題</h1>
+  <p>過去問題演習と解説</p>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-nav-btn active" data-tab="q1">第1問 仕訳</button>
+  <button class="tab-nav-btn" data-tab="q2-1">第2問-1 商品有高帳</button>
+  <button class="tab-nav-btn" data-tab="q2-2">第2問-2 勘定記入</button>
+  <button class="tab-nav-btn" data-tab="q2-3">第2問-3 伝票会計</button>
+</nav>
+
+<!-- ===== 第1問 ===== -->
+<section class="tab-section active" id="tab-q1">
+  <div class="instruction">
+    <strong>第1問：</strong>下記の各取引について仕訳しなさい。勘定科目は、設問ごとに最も適当と思われるものを選び、（　）の中にア〜カの記号で解答すること。なお、消費税は指示された問題のみ考慮すること。
+  </div>
+
+  <div id="questions"></div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn" onclick="toggleAnswers('q1')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q1" class="answer-area">
+    <h2>📝 第1問 解答</h2>
+    <div id="answer-list"></div>
+  </div>
+</section>
+
+<!-- ===== 第2問-1 ===== -->
+<section class="tab-section" id="tab-q2-1">
+  <div class="instruction">
+    <strong>第2問-1：</strong>当社は1つの商品（商品A）を仕入れ、販売している。次の8月中の商品売買取引に基づいて、以下の問いに答えなさい。なお、当社では、商品の払出単価の計算方法として、<strong>先入先出法</strong>を採用している。
+  </div>
+
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title">問題(1)　X8年8月中取引</div>
+    </div>
+    <div class="q-body">
+      X8年8月1日　前月より繰り越した商品有高は、40,000円（単価2,000円）である。<br>
+      X8年8月5日　甲社より、商品Aを仕入れた。（単価：2,150円　数量：40個）<br>
+      X8年8月6日　X8年8月5日に仕入れた商品Aの内、不良品があったため、10個を返品した。<br>
+      X8年8月10日　乙社へ、商品40個を売り上げ、代金は掛けとした。<br>
+      X8年8月31日　月末を迎え、商品有高帳の次月繰越を行った。
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:8px 0 4px;">問1. 商品有高帳を完成させなさい（商品A・先入先出法）</div>
+
+    <div class="ledger-wrap">
+      <table class="ledger" id="ledger-q1-fifo"></table>
+    </div>
+
+    <div class="q-sub">
+      <label>問2. 移動平均法を採用していた場合の8月の商品Aの次月繰越高</label>
+      <input type="text" inputmode="numeric" placeholder="数値を入力">
+      <span class="yen">円</span>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title">問題(2)　X8年11月中のα商品取引（移動平均法）</div>
+    </div>
+    <div class="q-body">
+      次の、X8年11月中のα商品に関する仕入帳と売上帳の記録に基づいて、移動平均法によって商品有高帳に記入するとともに、X8年11月中のα商品の売上高および売上総利益の金額を答えなさい。なお、消費税は考慮しないものとする。
+    </div>
+
+    <div class="source-tables">
+      <div class="source-table">
+        <div class="source-table-title">仕 入 帳</div>
+        <table>
+          <thead><tr><th>X8年</th><th>摘要</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td class="date">11/5</td><td class="desc">β社　掛け<br>α商品 150個 @480円</td><td>72,000</td></tr>
+            <tr><td class="date">11/18</td><td class="desc">γ社　掛け<br>α商品 180個 @483円</td><td>86,940</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="source-table">
+        <div class="source-table-title">売 上 帳</div>
+        <table>
+          <thead><tr><th>X8年</th><th>摘要</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td class="date">11/10</td><td class="desc">X社　掛け<br>α商品 200個 @650円</td><td>130,000</td></tr>
+            <tr><td class="date">11/25</td><td class="desc">Y社　掛け<br>α商品 110個 @660円</td><td>72,600</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:12px 0 4px;">商品有高帳を完成させなさい（α商品・移動平均法）</div>
+
+    <div class="ledger-wrap">
+      <table class="ledger" id="ledger-q2-mavg"></table>
+    </div>
+
+    <div class="q-sub">
+      <label>X8年11月中のα商品の売上高</label>
+      <input type="text" inputmode="numeric" placeholder="数値を入力">
+      <span class="yen">円</span>
+    </div>
+    <div class="q-sub">
+      <label>X8年11月中のα商品の売上総利益</label>
+      <input type="text" inputmode="numeric" placeholder="数値を入力">
+      <span class="yen">円</span>
+    </div>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q2-1" onclick="toggleAnswers('q2-1')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q2-1" class="answer-area">
+    <h2>📝 第2問-1 解答</h2>
+    <div id="answer-list-q2-1"></div>
+  </div>
+</section>
+
+<!-- ===== 第2問-2 ===== -->
+<section class="tab-section" id="tab-q2-2">
+  <div class="instruction">
+    <strong>第2問-2：</strong>勘定記入の問題です。空欄に当てはまる適切な金額または語句（ア〜クの記号）を答えなさい。
+  </div>
+
+  <div class="hp-tip">
+    💡 <strong>Home Positionで考えよう！</strong><br>
+    ① 元帳に<span class="hp-red">Home Position</span>を書こう!!<br>
+    ② <span class="hp-blue">BS科目</span>は、<span class="hp-green">Home Position最初に前月繰越</span>／<span class="hp-red">反対Position最後に、次月繰越を記入</span><br>
+    ③ <span class="hp-blue">PL科目</span>は、決算で<span class="hp-red">反対Position最後に、損益へ振替</span>
+  </div>
+
+  <!-- (1) -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title">問題(1)　A株式会社・8月中の買掛金</div>
+    </div>
+    <div class="q-body">
+      A株式会社の8月中の買掛金に関する取引の勘定記録は次の通り。空欄に当てはまる適切な金額または語句を答えなさい。なお、仕入先は甲商店と乙商店だけであり、各勘定は毎月末に締め切りを行っている。
+    </div>
+
+    <div class="choices-box">
+      <strong>勘定科目等：</strong>ア．売上　イ．損益　ウ．前月繰越　エ．次月繰越　オ．電子記録債務　カ．普通預金　キ．当座預金　ク．仕入
+    </div>
+
+    <div class="t-section-title">総勘定元帳</div>
+    <div id="t-q21-kaikake"></div>
+
+    <div class="t-section-title">買掛金元帳</div>
+    <div id="t-q21-koushouten"></div>
+    <div id="t-q21-otsushouten"></div>
+  </div>
+
+  <!-- (2) -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title">問題(2)　B株式会社・当期（X8年4月1日〜X9年3月31日）の商品売買</div>
+    </div>
+    <div class="q-body">
+      B株式会社は、三分法を用いて、仕入勘定で売上原価を算定している。当期の商品売買に関する取引の勘定記録について、解答用紙の空欄を埋めなさい。<br>
+      損益勘定には、売上勘定、仕入勘定からの振替のみを記入すること。次期の開始記入は不要である。
+    </div>
+
+    <div class="choices-box">
+      <strong>勘定科目等：</strong>ア．次期繰越　イ．仕入　ウ．前期繰越　エ．売上　オ．繰越商品　カ．普通預金　キ．損益　ク．買掛金
+    </div>
+
+    <div id="t-q22-uriage"></div>
+    <div id="t-q22-shiire"></div>
+    <div id="t-q22-kurikoshi"></div>
+    <div id="t-q22-soneki"></div>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q2-2" onclick="toggleAnswers('q2-2')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q2-2" class="answer-area">
+    <h2>📝 第2問-2 解答</h2>
+    <div id="answer-list-q2-2"></div>
+  </div>
+</section>
+
+<!-- ===== 第2問-3 ===== -->
+<section class="tab-section" id="tab-q2-3">
+  <div class="instruction">
+    <strong>第2問-3：</strong>伝票会計の問題です。各伝票の内容を読み取り、仕訳日計表または空欄を完成させなさい。
+  </div>
+
+  <!-- (1) A商店 -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title">問題(1)　A商店・X9年12月1日の取引</div>
+    </div>
+    <div class="q-body">
+      A商店は、日々の取引を入金伝票、出金伝票および振替伝票の3種類の伝票に記入し、これを1日分ずつ集計して仕訳日計表を作成している。同店のX9年12月1日の取引について作成された次の各伝票にもとづいて、答案用紙に示した仕訳日計表を完成させなさい。
+    </div>
+
+    <div class="denpyou-grid">
+      <!-- 入金伝票 -->
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.101</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">180,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.102</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">130,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.103</span></div>
+        <div class="denpyou-line"><span class="name">(当座預金)</span><span class="amt">230,000</span></div>
+      </div>
+      <!-- 出金伝票 -->
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.201</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">123,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.202</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">90,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.203</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">30,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.204</span></div>
+        <div class="denpyou-line"><span class="name">(支払手形)</span><span class="amt">26,000</span></div>
+      </div>
+      <!-- 振替伝票 -->
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.301</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">95,000</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">95,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.302</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">35,000</span></div>
+        <div class="denpyou-line"><span class="name">(支払手形)</span><span class="amt">35,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.303</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">145,000</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">145,000</span></div>
+      </div>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:14px 0 4px;">仕訳日計表を完成させなさい</div>
+
+    <div class="nikkei-wrap">
+      <div class="nikkei-title">仕 訳 日 計 表</div>
+      <div class="nikkei-date">X9年12月1日</div>
+      <table class="nikkei-table">
+        <thead>
+          <tr><th>借　方</th><th>勘定科目</th><th>貸　方</th></tr>
+        </thead>
+        <tbody id="nikkei-body"></tbody>
+        <tfoot>
+          <tr>
+            <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+            <td></td>
+            <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- (2) B商店 -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title">問題(2)　B商店・X9年8月1日の取引</div>
+    </div>
+    <div class="q-body">
+      B商店は、日々の取引を入金伝票、出金伝票および振替伝票の3種類の伝票に記入し、これを1日分ずつ集計して仕訳日計表を作成し、この仕訳日計表から総勘定元帳に転記している。同店のX9年8月1日の取引について作成された各伝票、総勘定元帳にもとづいて、ア〜エに当てはまる数字を答えなさい。
+    </div>
+
+    <div class="denpyou-grid">
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.101</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">45,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.102</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">30,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.103</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="blank">（ア）</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.201</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">13,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.202</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">33,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.203</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">26,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.301</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="blank">（イ）</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt" style="color:var(--text-sub);">???</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.302</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">78,000</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">78,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.303</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">12,000</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">12,000</span></div>
+      </div>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:14px 0 4px;">総勘定元帳</div>
+
+    <!-- 現金 -->
+    <div class="motochou-wrap">
+      <div class="motochou-title">総 勘 定 元 帳</div>
+      <div class="motochou-acct">現　金</div>
+      <table class="motochou-table">
+        <thead>
+          <tr><th>X9年</th><th>摘要</th><th>借方</th><th>貸方</th><th>借/貸</th><th>残高</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date-col">8/1</td><td class="desc-col">前月繰越</td><td class="amt-col">353,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">353,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col">115,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">468,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col"></td><td class="amt-col q-mark">？</td><td class="kashi-col">借</td><td class="amt-col q-mark">？</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 売上 -->
+    <div class="motochou-wrap">
+      <div class="motochou-title">総 勘 定 元 帳</div>
+      <div class="motochou-acct">売　上</div>
+      <table class="motochou-table">
+        <thead>
+          <tr><th>X9年</th><th>摘要</th><th>借方</th><th>貸方</th><th>借/貸</th><th>残高</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date-col">8/1</td><td class="desc-col">前月繰越</td><td class="amt-col"></td><td class="amt-col">1,583,000</td><td class="kashi-col">貸</td><td class="amt-col">1,583,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col"></td><td class="amt-col q-mark">（ウ）</td><td class="kashi-col">貸</td><td class="amt-col q-mark">？</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col q-mark">（エ）</td><td class="amt-col"></td><td class="kashi-col">貸</td><td class="amt-col q-mark">？</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 仕入 -->
+    <div class="motochou-wrap">
+      <div class="motochou-title">総 勘 定 元 帳</div>
+      <div class="motochou-acct">仕　入</div>
+      <table class="motochou-table">
+        <thead>
+          <tr><th>X9年</th><th>摘要</th><th>借方</th><th>貸方</th><th>借/貸</th><th>残高</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date-col">8/1</td><td class="desc-col">前月繰越</td><td class="amt-col">685,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">685,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col">124,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">809,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:18px 0 4px;">ア〜エに当てはまる数字を答えなさい</div>
+
+    <div class="aiueo-grid">
+      <div class="aiueo-cell">
+        <div class="aiueo-label">ア</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+      <div class="aiueo-cell">
+        <div class="aiueo-label">イ</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+      <div class="aiueo-cell">
+        <div class="aiueo-label">ウ</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+      <div class="aiueo-cell">
+        <div class="aiueo-label">エ</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q2-3" onclick="toggleAnswers('q2-3')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q2-3" class="answer-area">
+    <h2>📝 第2問-3 解答</h2>
+    <div id="answer-list-q2-3"></div>
+  </div>
+</section>
+
+<div class="footer-back">
+  <a href="javascript:history.back()">← 実習ページに戻る</a>
+</div>
+
+</div>
+
+<script>
+// ========== 問題データ ==========
+const questions = [
+  {
+    body:"事務所の賃貸借契約を結び、家賃6か月分（1か月￥300,000）、手数料￥300,000、敷金￥600,000を、小切手を振り出して支払った。",
+    choices:["ア．支払手数料","イ．前払金","ウ．支払家賃","エ．当座預金","オ．差入保証金","カ．受取手数料"],
+    debitRows:3, creditRows:1,
+    answer:{
+      debit:[["ウ","1,800,000"],["ア","300,000"],["オ","600,000"]],
+      credit:[["エ","2,700,000"]]
+    }
+  },
+  {
+    body:"従業員が出張から帰社し、旅費交通費として使うよう手渡していた￥40,000のうち、残った￥9,800を従業員から現金で受け取った。",
+    choices:["ア．旅費交通費","イ．従業員立替金","ウ．現金","エ．仮受金","オ．仮払金","カ．前払金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ウ","9,800"],["ア","30,200"]],
+      credit:[["オ","40,000"]]
+    }
+  },
+  {
+    body:"商品￥620,000（本体価格）を仕入れ、代金は10％の消費税を含めて掛けとした。なお、消費税は税抜方式で処理する。",
+    choices:["ア．仕入","イ．仮受消費税","ウ．仮払消費税","エ．未払消費税","オ．売掛金","カ．買掛金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","620,000"],["ウ","62,000"]],
+      credit:[["カ","682,000"]]
+    }
+  },
+  {
+    body:"A株式会社は増資を行い、株式3,500株を1株当たり￥200で発行し、株主からの払込金は普通預金口座に振り込まれた。",
+    choices:["ア．資本金","イ．普通預金","ウ．当座預金","エ．利益準備金","オ．広告宣伝費","カ．繰越利益剰余金"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["イ","700,000"]],
+      credit:[["ア","700,000"]]
+    }
+  },
+  {
+    body:"営業の用に供している建物の改修と修繕を行い、代金￥5,500,000は月末に支払うこととした。代金のうち￥2,900,000は収益的支出に、残額は資本的支出に該当する。",
+    choices:["ア．修繕費","イ．未収入金","ウ．資本金","エ．損益","オ．建物","カ．未払金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","2,900,000"],["オ","2,600,000"]],
+      credit:[["カ","5,500,000"]]
+    }
+  },
+  {
+    body:"A株式会社に商品￥820,000を売り上げ、代金のうち￥100,000は現金で受け取り、残額は同社振出しの約束手形で受け取った。",
+    choices:["ア．現金","イ．受取手形","ウ．支払手形","エ．売上","オ．当座預金","カ．支払利息"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","100,000"],["イ","720,000"]],
+      credit:[["エ","820,000"]]
+    }
+  },
+  {
+    body:"社会保険料について、すでに源泉徴収した従業員負担分￥55,000と当社負担分￥55,000の合計額を普通預金口座から納付した。",
+    choices:["ア．社会保険料預り金","イ．所得税預り金","ウ．住民税預り金","エ．従業員立替金","オ．法定福利費","カ．普通預金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","55,000"],["オ","55,000"]],
+      credit:[["カ","110,000"]]
+    }
+  },
+  {
+    body:"商品￥60,000を売り上げ、代金のうち￥20,000は現金で受け取り、残額は商品券で受け取った。",
+    choices:["ア．受取商品券","イ．受取手数料","ウ．売掛金","エ．現金","オ．クレジット売掛金","カ．売上"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["エ","20,000"],["ア","40,000"]],
+      credit:[["カ","60,000"]]
+    }
+  },
+  {
+    body:"かねて約束手形を受け取ってA株式会社に貸し付けていた￥1,250,000の満期日になり、同額が当座預金口座に振り込まれたので、約束手形を同社に返却した。",
+    choices:["ア．支払手形","イ．手形借入金","ウ．手形貸付金","エ．当座預金","オ．売上","カ．受取手形"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["エ","1,250,000"]],
+      credit:[["ウ","1,250,000"]]
+    }
+  },
+  {
+    body:"商品￥70,000を注文し、手付金として、￥30,000を現金で支払った。",
+    choices:["ア．前払金","イ．未払金","ウ．前受金","エ．仕入","オ．現金","カ．買掛金"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["ア","30,000"]],
+      credit:[["オ","30,000"]]
+    }
+  },
+  {
+    body:"A株式会社へ商品を売り上げ、商品代価￥200,000を掛けとした。また、A株式会社負担の発送費￥1,000を現金で支払い、後日請求することとした。立て替えた発送費は、立替金として分けて処理する。",
+    choices:["ア．発送費","イ．売掛金","ウ．売上","エ．立替金","オ．現金","カ．買掛金"],
+    debitRows:2, creditRows:2,
+    answer:{
+      debit:[["イ","200,000"],["エ","1,000"]],
+      credit:[["ウ","200,000"],["オ","1,000"]]
+    }
+  },
+  {
+    body:"得意先に対する売掛金（前期販売分）￥55,000が貸し倒れた。なお、貸倒引当金の残高は￥148,000である。",
+    choices:["ア．売掛金","イ．支払手数料","ウ．償却債権取立益","エ．貸倒引当金","オ．貸倒引当金繰入","カ．貸倒損失"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["エ","55,000"]],
+      credit:[["ア","55,000"]]
+    }
+  },
+  {
+    body:"当期首に、5年前の期首に取得した備品（取得原価￥1,800,000、耐用年数6年、残存価額ゼロ）を￥100,000で売却し、代金は月末に受け取ることとした。なお、この備品は定額法で減価償却を行い、間接法で記帳している。",
+    choices:["ア．未収入金","イ．普通預金","ウ．固定資産売却益","エ．備品","オ．固定資産売却損","カ．備品減価償却累計額"],
+    debitRows:3, creditRows:1,
+    answer:{
+      debit:[["ア","100,000"],["カ","1,500,000"],["オ","200,000"]],
+      credit:[["エ","1,800,000"]]
+    }
+  },
+  {
+    body:"普通預金口座から当座預金口座に￥5,000,000を振り替えた。",
+    choices:["ア．現金","イ．当座預金","ウ．損益","エ．普通預金","オ．受取利息","カ．支払利息"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["イ","5,000,000"]],
+      credit:[["エ","5,000,000"]]
+    }
+  },
+  {
+    body:"一日分の売上の仕訳を行う。集計結果は次の売上集計表のとおりであった。合計額のうち￥10,600は現金決済、残額はクレジットカード決済であった。なお、クレジットカード決済額の3％を売上時に手数料として計上し、クレジットカード会社に対する債権から控除する。",
+    choices:["ア．受取手数料","イ．売上","ウ．買掛金","エ．クレジット売掛金","オ．支払手数料","カ．現金"],
+    salesTable:true,
+    debitRows:3, creditRows:1,
+    answer:{
+      debit:[["カ","10,600"],["エ","19,400"],["オ","600"]],
+      credit:[["イ","30,600"]]
+    }
+  }
+];
+
+// ========== 問題エリア生成 ==========
+function renderQuestions(){
+  const wrap = document.getElementById("questions");
+  questions.forEach((q,i)=>{
+    const num = i+1;
+    const choicesHTML = q.choices.map(c=>`<span>${c}</span>`).join("");
+
+    const salesTableHTML = q.salesTable ? `
+      <div class="sales-table">
+        <table>
+          <caption>売上集計表（XX年X月X日）</caption>
+          <thead><tr><th>品名</th><th>数量</th><th>単価</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td>商品X</td><td>54個</td><td>¥300</td><td>¥16,200</td></tr>
+            <tr><td>商品Y</td><td>72個</td><td>¥200</td><td>¥14,400</td></tr>
+            <tr><td colspan="3"><strong>合計</strong></td><td><strong>¥30,600</strong></td></tr>
+          </tbody>
+        </table>
+      </div>` : "";
+
+    const debitRowsHTML = buildEntryRows(q.debitRows, `q${num}-d`);
+    const creditRowsHTML = buildEntryRows(q.creditRows, `q${num}-c`);
+
+    wrap.insertAdjacentHTML("beforeend", `
+      <div class="question">
+        <div class="q-header">
+          <div class="q-num">${num}</div>
+          <div class="q-title">問${num}</div>
+        </div>
+        <div class="q-body">${q.body}</div>
+        ${salesTableHTML}
+        <div class="choices">${choicesHTML}</div>
+        <div class="answer-box">
+          <div class="answer-box-title">▼ 答案欄</div>
+          <div class="entry-grid">
+            <div class="entry-side">
+              <div class="entry-side-header">借　方</div>
+              ${debitRowsHTML}
+            </div>
+            <div class="entry-side">
+              <div class="entry-side-header">貸　方</div>
+              ${creditRowsHTML}
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+}
+
+function buildEntryRows(count, prefix){
+  let html = "";
+  for(let i=0;i<count;i++){
+    html += `
+      <div class="entry-row">
+        <select name="${prefix}-code-${i}">
+          <option value=""></option>
+          <option>ア</option>
+          <option>イ</option>
+          <option>ウ</option>
+          <option>エ</option>
+          <option>オ</option>
+          <option>カ</option>
+        </select>
+        <input type="text" inputmode="numeric" name="${prefix}-amt-${i}" placeholder="金額">
+      </div>
+    `;
+  }
+  return html;
+}
+
+// ========== 解答エリア生成 ==========
+function renderAnswers(){
+  const wrap = document.getElementById("answer-list");
+  questions.forEach((q,i)=>{
+    const num = i+1;
+    const maxRows = Math.max(q.answer.debit.length, q.answer.credit.length);
+    let rows = "";
+    for(let r=0;r<maxRows;r++){
+      const d = q.answer.debit[r] || ["",""];
+      const c = q.answer.credit[r] || ["",""];
+      rows += `<tr>
+        <td class="code">${d[0]}</td><td class="amount">${d[1]}</td>
+        <td class="code">${c[0]}</td><td class="amount">${c[1]}</td>
+      </tr>`;
+    }
+    wrap.insertAdjacentHTML("beforeend", `
+      <div class="ans-item">
+        <span class="ans-num">問${num}</span>
+        <table class="ans-table">
+          <thead>
+            <tr><th colspan="2">借方</th><th colspan="2">貸方</th></tr>
+            <tr><th>記号</th><th>金額</th><th>記号</th><th>金額</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `);
+  });
+}
+
+// ========== 解答トグル ==========
+function toggleAnswers(tabId){
+  const area = document.getElementById("answer-area-"+tabId);
+  const btn = document.getElementById(tabId === "q1" ? "revealBtn" : "revealBtn-"+tabId);
+  if(area.classList.contains("visible")){
+    area.classList.remove("visible");
+    area.style.display = "none";
+    btn.textContent = "解答を表示する";
+    btn.classList.remove("shown");
+  } else {
+    area.style.display = "block";
+    requestAnimationFrame(()=>area.classList.add("visible"));
+    btn.textContent = "解答を隠す";
+    btn.classList.add("shown");
+    area.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+}
+
+// ========== タブ切り替え ==========
+document.querySelectorAll(".tab-nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const target = btn.dataset.tab;
+    document.querySelectorAll(".tab-nav-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".tab-section").forEach(s=>s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-"+target).classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+// ========== 商品有高帳ヘッダー共通 ==========
+function ledgerHeader(){
+  return `
+    <thead>
+      <tr>
+        <th rowspan="2" class="date-col">X8年</th>
+        <th rowspan="2" class="summary-col">摘要</th>
+        <th colspan="3">受入</th>
+        <th colspan="3">払出</th>
+        <th colspan="3">残高</th>
+      </tr>
+      <tr>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+      </tr>
+    </thead>`;
+}
+
+function ledgerInputRow(date, summary, presetCols={}){
+  // presetCols: { idx: value } — そのセルは preset 表示
+  let cells = "";
+  for(let i=0;i<9;i++){
+    if(presetCols[i] !== undefined){
+      cells += `<td class="preset">${presetCols[i]}</td>`;
+    } else {
+      cells += `<td><input type="text" inputmode="numeric"></td>`;
+    }
+  }
+  return `<tr>
+    <td class="date-col">${date}</td>
+    <td class="summary-col">${summary}</td>
+    ${cells}
+  </tr>`;
+}
+
+// 第2問-1 (1) 商品A 先入先出法 入力欄テーブル
+function renderLedgerFifoQ1(){
+  const tbl = document.getElementById("ledger-q1-fifo");
+  tbl.innerHTML = ledgerHeader() + `<tbody>
+    ${ledgerInputRow("8/1","前月繰越",{0:"20",1:"2,000",2:"40,000",6:"20",7:"2,000",8:"40,000"})}
+    ${ledgerInputRow("8/5","仕入")}
+    ${ledgerInputRow("8/6","仕入返品")}
+    ${ledgerInputRow("8/10","売上")}
+    ${ledgerInputRow("8/31","次月繰越")}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">合計</td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td colspan="3"></td>
+    </tr>
+    ${ledgerInputRow("9/1","前月繰越")}
+  </tfoot>`;
+}
+
+// 第2問-1 (2) α商品 移動平均法 入力欄テーブル
+function renderLedgerMavgQ2(){
+  const tbl = document.getElementById("ledger-q2-mavg");
+  tbl.innerHTML = ledgerHeader() + `<tbody>
+    ${ledgerInputRow("11/1","前月繰越",{0:"200",1:"466",2:"93,200",6:"200",7:"466",8:"93,200"})}
+    ${ledgerInputRow("11/5","仕入")}
+    ${ledgerInputRow("11/10","売上")}
+    ${ledgerInputRow("11/18","仕入")}
+    ${ledgerInputRow("11/25","売上")}
+    ${ledgerInputRow("11/30","次月繰越")}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">合計</td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td colspan="3"></td>
+    </tr>
+    ${ledgerInputRow("12/1","前月繰越")}
+  </tfoot>`;
+}
+
+// ========== 第2問-1 解答エリア生成 ==========
+function renderAnsLedger(rows, totals){
+  let body = rows.map(r=>{
+    const cells = r.cells.map(c=>`<td>${c}</td>`).join("");
+    return `<tr><td class="date-col">${r.date}</td><td class="summary-col">${r.summary}</td>${cells}</tr>`;
+  }).join("");
+  const tfoot = totals ? `<tfoot><tr><td colspan="2">合計</td>${totals.map(c=>`<td>${c}</td>`).join("")}</tr></tfoot>` : "";
+  return `<div class="ans-ledger-wrap"><table class="ans-ledger">
+    <thead>
+      <tr>
+        <th rowspan="2" class="date-col">X8年</th>
+        <th rowspan="2" class="summary-col">摘要</th>
+        <th colspan="3">受入</th>
+        <th colspan="3">払出</th>
+        <th colspan="3">残高</th>
+      </tr>
+      <tr>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+      </tr>
+    </thead>
+    <tbody>${body}</tbody>
+    ${tfoot}
+  </table></div>`;
+}
+
+function renderAnswersQ2_1(){
+  const wrap = document.getElementById("answer-list-q2-1");
+
+  // 問題(1) 先入先出法
+  const fifoRows = [
+    {date:"8/1", summary:"前月繰越", cells:["20","2,000","40,000","","","","20","2,000","40,000"]},
+    {date:"8/5", summary:"仕入", cells:["40","2,150","86,000","","","","20<br>40","2,000<br>2,150","40,000<br>86,000"]},
+    {date:"8/6", summary:"仕入返品", cells:["△10","2,150","△21,500","","","","20<br>30","2,000<br>2,150","40,000<br>64,500"]},
+    {date:"8/10", summary:"売上", cells:["","","","20<br>20","2,000<br>2,150","40,000<br>43,000","10","2,150","21,500"]},
+    {date:"8/31", summary:"次月繰越", cells:["","","","10","2,150","21,500","","",""]}
+  ];
+  const fifoTotal = ["50","－","104,500","50","－","104,500","","",""];
+  const fifoCarry = [
+    {date:"9/1", summary:"前月繰越", cells:["10","2,150","21,500","","","","10","2,150","21,500"]}
+  ];
+
+  // 問題(2) 移動平均法
+  const mavgRows = [
+    {date:"11/1", summary:"前月繰越", cells:["200","466","93,200","","","","200","466","93,200"]},
+    {date:"11/5", summary:"仕入", cells:["150","480","72,000","","","","350","472","165,200"]},
+    {date:"11/10", summary:"売上", cells:["","","","200","472","94,400","150","472","70,800"]},
+    {date:"11/18", summary:"仕入", cells:["180","483","86,940","","","","330","478","157,740"]},
+    {date:"11/25", summary:"売上", cells:["","","","110","478","52,580","220","478","105,160"]},
+    {date:"11/30", summary:"次月繰越", cells:["","","","220","478","105,160","","",""]}
+  ];
+  const mavgTotal = ["530","－","252,140","530","－","252,140","","",""];
+  const mavgCarry = [
+    {date:"12/1", summary:"前月繰越", cells:["220","478","105,160","","","","220","478","105,160"]}
+  ];
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 問1</span>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:6px;">商品A（先入先出法）</div>
+      ${renderAnsLedger(fifoRows, fifoTotal)}
+      ${renderAnsLedger(fifoCarry, null)}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 問2</span>
+      <div class="ans-totals">
+        <div>移動平均法を採用していた場合の8月の商品Aの次月繰越高：<span class="val">20,900円</span></div>
+        <div style="font-size:0.75rem;color:var(--text-sub);font-weight:400;margin-top:4px;">※(40,000+64,500)÷50=2,090円　×　10個＝20,900円</div>
+      </div>
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(2)</span>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:6px;">α商品（移動平均法）</div>
+      ${renderAnsLedger(mavgRows, mavgTotal)}
+      ${renderAnsLedger(mavgCarry, null)}
+      <div class="ans-totals">
+        <div>X8年11月中のα商品の売上高：<span class="val">202,600円</span></div>
+        <div style="font-size:0.72rem;color:var(--text-sub);font-weight:400;margin-top:2px;">※130,000+72,600=202,600</div>
+        <div style="margin-top:6px;">X8年11月中のα商品の売上総利益：<span class="val">55,620円</span></div>
+        <div style="font-size:0.72rem;color:var(--text-sub);font-weight:400;margin-top:2px;">※売上高202,600円－売上原価146,980円=55,620円</div>
+      </div>
+    </div>
+  `;
+}
+
+// ========== T字勘定 共通 ==========
+// row: { date, desc, amt } - 各値が文字列ならpreset、"_INPUT_"なら金額入力、"_SEL1_"なら勘定科目1(問21)、"_SEL2_"なら勘定科目2(問22)プルダウン
+const CHOICES_Q21 = ["ア","イ","ウ","エ","オ","カ","キ","ク"];
+const CHOICES_Q22 = ["ア","イ","ウ","エ","オ","カ","キ","ク"];
+
+function tRowCell(value, type){
+  // type: "date" | "desc" | "amt"
+  if(value === "_INPUT_"){
+    return `<input class="t-amt" type="text" inputmode="numeric" placeholder="">`;
+  }
+  if(value === "_SEL1_" || value === "_SEL2_"){
+    const opts = ["",...CHOICES_Q21].map(c=>`<option>${c}</option>`).join("");
+    return `<select class="t-desc">${opts}</select>`;
+  }
+  if(type === "amt"){
+    return `<div class="t-amt preset">${value}</div>`;
+  }
+  if(type === "desc"){
+    return `<div class="t-desc preset">${value}</div>`;
+  }
+  return `<div class="t-date">${value}</div>`;
+}
+
+function renderTAccount(title, leftRows, rightRows){
+  function buildRows(rows){
+    return rows.map(r=>{
+      if(r.total){
+        return `<div class="t-row t-total">
+          <div class="t-date"></div>
+          <div class="t-desc" style="text-align:center;justify-content:center;">${r.label||""}</div>
+          ${tRowCell(r.amt,"amt")}
+        </div>`;
+      }
+      return `<div class="t-row">
+        ${tRowCell(r.date,"date")}
+        ${tRowCell(r.desc,"desc")}
+        ${tRowCell(r.amt,"amt")}
+      </div>`;
+    }).join("");
+  }
+  return `<div class="t-account">
+    <div class="t-account-title">${title}</div>
+    <div class="t-account-sides">
+      <div class="t-side">
+        <div class="t-side-header">借　方</div>
+        ${buildRows(leftRows)}
+      </div>
+      <div class="t-side">
+        <div class="t-side-header">貸　方</div>
+        ${buildRows(rightRows)}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ========== 問題(1) ==========
+function renderQ22_1(){
+  // 買掛金 (総勘定元帳)
+  document.getElementById("t-q21-kaikake").innerHTML = renderTAccount(
+    "買 掛 金",
+    [
+      {date:"8/7", desc:"仕入", amt:"_INPUT_"},
+      {date:"8/23", desc:"_SEL1_", amt:"350,000"},
+      {date:"8/25", desc:"_SEL1_", amt:"_INPUT_"},
+      {date:"8/27", desc:"普通預金", amt:"_INPUT_"},
+      {date:"8/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"8/1", desc:"前月繰越", amt:"_INPUT_"},
+      {date:"8/6", desc:"_SEL1_", amt:"542,000"},
+      {date:"8/12", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 甲商店
+  document.getElementById("t-q21-koushouten").innerHTML = renderTAccount(
+    "甲 商 店",
+    [
+      {date:"8/23", desc:"当座預金支払", amt:"_INPUT_"},
+      {date:"8/25", desc:"電子記録債務へ振替", amt:"160,000"},
+      {date:"8/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"650,000"}
+    ],
+    [
+      {date:"8/1", desc:"_SEL1_", amt:"265,000"},
+      {date:"8/12", desc:"仕入れ", amt:"385,000"},
+      {total:true, amt:"650,000"}
+    ]
+  );
+
+  // 乙商店
+  document.getElementById("t-q21-otsushouten").innerHTML = renderTAccount(
+    "乙 商 店",
+    [
+      {date:"8/7", desc:"返品", amt:"_INPUT_"},
+      {date:"8/27", desc:"普通預金支払", amt:"250,000"},
+      {date:"8/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"8/1", desc:"_SEL1_", amt:"320,000"},
+      {date:"8/6", desc:"仕入れ", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+}
+
+// ========== 問題(2) ==========
+function renderQ22_2(){
+  // 売上
+  document.getElementById("t-q22-uriage").innerHTML = renderTAccount(
+    "売　上",
+    [
+      {date:"6/30", desc:"売掛金", amt:"150,000"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"6/25", desc:"売掛金", amt:"2,250,000"},
+      {date:"10/20", desc:"普通預金", amt:"_INPUT_"},
+      {date:"1/25", desc:"現金", amt:"250,000"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 仕入
+  document.getElementById("t-q22-shiire").innerHTML = renderTAccount(
+    "仕　入",
+    [
+      {date:"4/20", desc:"買掛金", amt:"800,000"},
+      {date:"5/30", desc:"普通預金", amt:"1,350,000"},
+      {date:"8/15", desc:"支払手形", amt:"550,000"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"4/25", desc:"買掛金", amt:"135,000"},
+      {date:"3/31", desc:"繰越商品", amt:"_INPUT_"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 繰越商品
+  document.getElementById("t-q22-kurikoshi").innerHTML = renderTAccount(
+    "繰 越 商 品",
+    [
+      {date:"4/1", desc:"_SEL1_", amt:"280,000"},
+      {date:"3/31", desc:"_SEL1_", amt:"350,000"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 損益
+  document.getElementById("t-q22-soneki").innerHTML = renderTAccount(
+    "損　益",
+    [
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"}
+    ],
+    [
+      {date:"3/31", desc:"_SEL1_", amt:"5,850,000"}
+    ]
+  );
+}
+
+// ========== 第2問-2 解答 ==========
+function ansTAccount(title, leftRows, rightRows){
+  function buildRows(rows){
+    return rows.map(r=>{
+      if(r.total){
+        return `<tr class="ans-total"><td></td><td style="text-align:center;">${r.label||""}</td><td>${r.amt}</td></tr>`;
+      }
+      return `<tr><td class="ans-date">${r.date}</td><td>${r.desc}</td><td class="ans-amt">${r.amt}</td></tr>`;
+    }).join("");
+  }
+  return `<div class="ans-taccount">
+    <div class="ans-taccount-title">${title}</div>
+    <table class="ans-taccount-table">
+      <thead><tr><th colspan="3">借方</th><th colspan="3">貸方</th></tr></thead>
+      <tbody>${buildAnsTBody(leftRows, rightRows)}</tbody>
+    </table>
+  </div>`;
+}
+
+function buildAnsTBody(left, right){
+  const max = Math.max(left.length, right.length);
+  let out = "";
+  for(let i=0;i<max;i++){
+    const l = left[i] || {empty:true};
+    const r = right[i] || {empty:true};
+    const lCells = l.empty ? `<td></td><td></td><td></td>` :
+      (l.total ? `<td></td><td style="text-align:center;font-weight:600;">${l.label||""}</td><td class="ans-amt total">${l.amt}</td>` :
+        `<td class="ans-date">${l.date}</td><td><span class="ans-code">${l.code||""}</span>${l.desc}</td><td class="ans-amt">${l.amt}</td>`);
+    const rCells = r.empty ? `<td></td><td></td><td></td>` :
+      (r.total ? `<td></td><td style="text-align:center;font-weight:600;">${r.label||""}</td><td class="ans-amt total">${r.amt}</td>` :
+        `<td class="ans-date">${r.date}</td><td><span class="ans-code">${r.code||""}</span>${r.desc}</td><td class="ans-amt">${r.amt}</td>`);
+    out += `<tr class="${l.total||r.total?"ans-total-row":""}">${lCells}${rCells}</tr>`;
+  }
+  return out;
+}
+
+function renderAnswersQ2_2(){
+  const wrap = document.getElementById("answer-list-q2-2");
+
+  // (1) 買掛金
+  const kakeKaikake = {
+    left:[
+      {date:"8/7", desc:"仕入", amt:"100,000"},
+      {date:"8/23", desc:"当座預金", code:"キ", amt:"350,000"},
+      {date:"8/25", desc:"電子記録債務", code:"オ", amt:"160,000"},
+      {date:"8/27", desc:"普通預金", amt:"250,000"},
+      {date:"8/31", desc:"次月繰越", code:"エ", amt:"652,000"},
+      {total:true, amt:"1,512,000"}
+    ],
+    right:[
+      {date:"8/1", desc:"前月繰越", amt:"585,000"},
+      {date:"8/6", desc:"仕入", code:"ク", amt:"542,000"},
+      {date:"8/12", desc:"仕入", code:"ク", amt:"385,000"},
+      {total:true, amt:"1,512,000"}
+    ]
+  };
+
+  // 甲商店
+  const koushouten = {
+    left:[
+      {date:"8/23", desc:"当座預金支払", amt:"350,000"},
+      {date:"8/25", desc:"電子記録債務へ振替", amt:"160,000"},
+      {date:"8/31", desc:"次月繰越", code:"エ", amt:"140,000"},
+      {total:true, amt:"650,000"}
+    ],
+    right:[
+      {date:"8/1", desc:"前月繰越", code:"ウ", amt:"265,000"},
+      {date:"8/12", desc:"仕入れ", amt:"385,000"},
+      {total:true, amt:"650,000"}
+    ]
+  };
+
+  // 乙商店
+  const otsushouten = {
+    left:[
+      {date:"8/7", desc:"返品", amt:"100,000"},
+      {date:"8/27", desc:"普通預金支払", amt:"250,000"},
+      {date:"8/31", desc:"次月繰越", code:"エ", amt:"512,000"},
+      {total:true, amt:"862,000"}
+    ],
+    right:[
+      {date:"8/1", desc:"前月繰越", code:"ウ", amt:"320,000"},
+      {date:"8/6", desc:"仕入れ", amt:"542,000"},
+      {total:true, amt:"862,000"}
+    ]
+  };
+
+  // (2)
+  const uriage = {
+    left:[
+      {date:"6/30", desc:"売掛金", amt:"150,000"},
+      {date:"3/31", desc:"損益", code:"キ", amt:"5,850,000"},
+      {total:true, amt:"6,000,000"}
+    ],
+    right:[
+      {date:"6/25", desc:"売掛金", amt:"2,250,000"},
+      {date:"10/20", desc:"普通預金", amt:"3,500,000"},
+      {date:"1/25", desc:"現金", amt:"250,000"},
+      {total:true, amt:"6,000,000"}
+    ]
+  };
+
+  const shiire = {
+    left:[
+      {date:"4/20", desc:"買掛金", amt:"800,000"},
+      {date:"5/30", desc:"普通預金", amt:"1,350,000"},
+      {date:"8/15", desc:"支払手形", amt:"550,000"},
+      {date:"3/31", desc:"繰越商品", code:"オ", amt:"280,000"},
+      {total:true, amt:"2,980,000"}
+    ],
+    right:[
+      {date:"4/25", desc:"買掛金", amt:"135,000"},
+      {date:"3/31", desc:"繰越商品", amt:"350,000"},
+      {date:"3/31", desc:"損益", code:"キ", amt:"2,495,000"},
+      {total:true, amt:"2,980,000"}
+    ]
+  };
+
+  const kurikoshi = {
+    left:[
+      {date:"4/1", desc:"前期繰越", code:"ウ", amt:"280,000"},
+      {date:"3/31", desc:"仕入", code:"イ", amt:"350,000"},
+      {total:true, amt:"630,000"}
+    ],
+    right:[
+      {date:"3/31", desc:"仕入", code:"イ", amt:"280,000"},
+      {date:"3/31", desc:"次期繰越", code:"ア", amt:"350,000"},
+      {total:true, amt:"630,000"}
+    ]
+  };
+
+  const soneki = {
+    left:[
+      {date:"3/31", desc:"仕入", code:"イ", amt:"2,495,000"}
+    ],
+    right:[
+      {date:"3/31", desc:"売上", code:"エ", amt:"5,850,000"}
+    ]
+  };
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 総勘定元帳</span>
+      ${ansTAccount("買 掛 金", kakeKaikake.left, kakeKaikake.right)}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 買掛金元帳</span>
+      ${ansTAccount("甲 商 店", koushouten.left, koushouten.right)}
+      ${ansTAccount("乙 商 店", otsushouten.left, otsushouten.right)}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(2)</span>
+      ${ansTAccount("売　上", uriage.left, uriage.right)}
+      ${ansTAccount("仕　入", shiire.left, shiire.right)}
+      ${ansTAccount("繰 越 商 品", kurikoshi.left, kurikoshi.right)}
+      ${ansTAccount("損　益", soneki.left, soneki.right)}
+      <div class="ans-totals" style="margin-top:14px;">
+        <div style="font-size:0.8rem;font-weight:600;color:var(--green-dark);margin-bottom:4px;">📌 決算整理仕訳（参考）</div>
+        <div style="font-weight:400;color:var(--text);font-size:0.82rem;">仕入 280,000 ／ 繰越商品 280,000</div>
+        <div style="font-weight:400;color:var(--text);font-size:0.82rem;">繰越商品 350,000 ／ 仕入 350,000</div>
+      </div>
+    </div>
+  `;
+}
+
+// ========== 第2問-3 ==========
+function renderQ23_nikkei(){
+  const accounts = ["現　金","当座預金","売　掛　金","支払手形","買　掛　金","売　　上","仕　　入"];
+  const body = document.getElementById("nikkei-body");
+  body.innerHTML = accounts.map(a=>`
+    <tr>
+      <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+      <td class="acct">${a}</td>
+      <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+    </tr>
+  `).join("");
+}
+
+function renderAnswersQ2_3(){
+  const wrap = document.getElementById("answer-list-q2-3");
+
+  const nikkeiRows = [
+    {acct:"現　金", debit:"540,000", credit:"269,000"},
+    {acct:"当座預金", debit:"0", credit:"230,000"},
+    {acct:"売　掛　金", debit:"145,000", credit:"130,000"},
+    {acct:"支払手形", debit:"26,000", credit:"35,000"},
+    {acct:"買　掛　金", debit:"188,000", credit:"95,000"},
+    {acct:"売　　上", debit:"0", credit:"325,000"},
+    {acct:"仕　　入", debit:"185,000", credit:"0"}
+  ];
+
+  const nikkeiHTML = `
+    <div class="nikkei-wrap" style="margin-top:10px;">
+      <div class="nikkei-title">仕 訳 日 計 表</div>
+      <div class="nikkei-date">X9年12月1日</div>
+      <table class="nikkei-table">
+        <thead><tr><th>借　方</th><th>勘定科目</th><th>貸　方</th></tr></thead>
+        <tbody>
+          ${nikkeiRows.map(r=>`
+            <tr>
+              <td style="text-align:right;font-variant-numeric:tabular-nums;">${r.debit}</td>
+              <td class="acct">${r.acct}</td>
+              <td style="text-align:right;font-variant-numeric:tabular-nums;">${r.credit}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td style="text-align:right;font-variant-numeric:tabular-nums;">1,084,000</td>
+            <td></td>
+            <td style="text-align:right;font-variant-numeric:tabular-nums;">1,084,000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>`;
+
+  const aiueo = [
+    {label:"ア", val:"40,000"},
+    {label:"イ", val:"65,000"},
+    {label:"ウ", val:"163,000"},
+    {label:"エ", val:"12,000"}
+  ];
+
+  const aiueoHTML = `
+    <div class="aiueo-grid" style="margin-top:10px;">
+      ${aiueo.map(a=>`
+        <div class="aiueo-cell">
+          <div class="aiueo-label">${a.label}</div>
+          <div style="padding:10px 12px;text-align:right;font-size:0.95rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;">${a.val}</div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="ans-totals" style="margin-top:12px;font-size:0.78rem;font-weight:400;color:var(--text);line-height:1.8;">
+      <div style="font-weight:600;color:var(--green-dark);margin-bottom:6px;font-size:0.85rem;">💡 解法のポイント</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">ア（40,000）</strong>：入金伝票No.103の売上額。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">現金勘定の借方変動から逆算：8/1の仕訳日計表転記額（？）＝出金伝票の合計13,000+33,000+26,000=72,000。<br>入金伝票合計＝45,000+30,000+ア＝115,000（現金借方の最初の転記） → ア＝40,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">イ（65,000）</strong>：振替伝票No.301の仕入額。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">仕入勘定の借方仕訳日計表＝124,000。出金No.202(33,000)+出金No.203(26,000)+振替No.301(イ)=124,000 → イ＝65,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">ウ（163,000）</strong>：仕訳日計表の売上貸方（最初の転記額）。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">入金伝票売上合計（45,000+ア=85,000）+振替伝票No.302売上(78,000)=163,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">エ（12,000）</strong>：仕訳日計表の売上借方（売上戻り）。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);padding-left:12px;">振替伝票No.303：(売上) 12,000／(売掛金) 12,000 → 売上の借方に12,000</div>
+    </div>`;
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 仕訳日計表</span>
+      ${nikkeiHTML}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(2) ア〜エ</span>
+      ${aiueoHTML}
+    </div>
+  `;
+}
+
+// ========== 初期化 ==========
+renderQuestions();
+renderAnswers();
+renderLedgerFifoQ1();
+renderLedgerMavgQ2();
+renderAnswersQ2_1();
+renderQ22_1();
+renderQ22_2();
+renderAnswersQ2_2();
+renderQ23_nikkei();
+renderAnswersQ2_3();
+</script>
+</body>
+</html>
