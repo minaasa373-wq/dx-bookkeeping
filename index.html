@@ -660,6 +660,60 @@
     padding: 6px 14px; border-radius: 6px; text-decoration: none; transition: all 0.15s;
   }
   .tool-link:hover { background: var(--green-accent); color: var(--white); border-color: var(--green-accent); }
+  /* === 第11回 練習問題リスト === */
+  .practice-list { display: flex; flex-direction: column; gap: 12px; margin: 12px 0; }
+  .practice-card {
+    background: var(--white);
+    border: 1.5px solid var(--green-accent);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: 0 1px 3px rgba(60,179,113,0.08);
+  }
+  .practice-card-title {
+    font-weight: 700;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .practice-card-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .practice-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.15s;
+    border: 1.5px solid transparent;
+  }
+  .practice-link-main {
+    background: var(--green-accent);
+    color: var(--white);
+  }
+  .practice-link-main:hover {
+    background: var(--green-mid);
+    transform: translateY(-1px);
+  }
+  .practice-link-sub {
+    background: var(--white);
+    color: var(--green-dark);
+    border-color: var(--green-accent);
+  }
+  .practice-link-sub:hover {
+    background: var(--green-light);
+  }
+  .practice-link-video {
+    background: #fff4e6;
+    color: #c47800;
+    border-color: #f5a623;
+  }
+  .practice-link-video:hover {
+    background: #f5a623;
+    color: var(--white);
+  }
   .link-url-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
   .link-url-row {
     display: flex; align-items: center; gap: 8px;
@@ -1357,6 +1411,53 @@ const lessons = [
         body: "分からないところは動画に戻って確認しましょう。"
       }
     ]
+  },
+  {
+    date: "2026/5/26",
+    label: "第11回",
+    theme: "過去問題演習と解説",
+    title: "本試験想定問題を解く",
+    purpose: [
+      "試験の問題用紙に慣れる",
+      "時間配分を意識する（第1問：15分／第2問：20分／第3問：25分／見直し：5分）"
+    ],
+    steps: [
+      { num: 1, label: "時間内に問題を解く練習を行う",
+        body: "まずは、問題と解答集をダウンロードして準備を行い、時間を測って問題に取り組みましょう。",
+        driveLink: {
+          label: "問題・解答（Google Drive）",
+          url: "https://drive.google.com/drive/folders/1IWjsLu3V03QLG6O30RSgOlBGLcDORore?usp=sharing"
+        },
+        practiceSections: [
+          {
+            title: "第1問 仕訳",
+            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
+            videoUrl: "https://www.youtube.com/watch?v=rD2IFjqc2UA"
+          },
+          {
+            title: "第2問-1 商品有高帳",
+            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
+            videoUrl: "https://youtu.be/O67Qdne_HA8?si=VJnt5XrXKOY_YVfO"
+          },
+          {
+            title: "第2問-2 勘定記入",
+            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
+            videoUrl: "https://youtu.be/VLVLMlqPano?si=wNMSp3Sj8_vaOOKk"
+          },
+          {
+            title: "第2問-3 伝票会計",
+            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
+            videoUrl: "https://youtu.be/VLVLMlqPano?si=wNMSp3Sj8_vaOOKk"
+          }
+        ]
+      },
+      { num: 2, label: "早めに終わった人は、答え合わせを行う",
+        body: "解説動画を観て答え合わせをしてみましょう。"
+      },
+      { num: 3, label: "復習",
+        body: "まだ知識が不安な人は、過去の実習を復習しよう。"
+      }
+    ]
   }
 
 
@@ -1556,6 +1657,35 @@ function renderStepBody(step) {
         </li>`;
     });
     html += `</ul>`;
+  }
+
+  if (step.driveLink) {
+    html += `<div class="practice-card-links" style="margin:10px 0 4px;">
+      <a class="practice-link practice-link-sub" href="${step.driveLink.url}" target="_blank" rel="noopener">📂 ${step.driveLink.label}</a>
+    </div>`;
+  }
+
+  if (step.practiceSections) {
+    html += `<div class="practice-list">`;
+    step.practiceSections.forEach(p => {
+      html += `<div class="practice-card">
+        <div class="practice-card-title">${p.title}</div>
+        <div class="practice-card-links">`;
+      if (p.practiceUrl) {
+        html += `<a class="practice-link practice-link-main" href="${p.practiceUrl}" target="_blank" rel="noopener">📝 練習問題を解く →</a>`;
+      }
+      if (p.videoUrl) {
+        html += `<a class="practice-link practice-link-video" href="${p.videoUrl}" target="_blank" rel="noopener">▶ 解説動画</a>`;
+      }
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (step.videoUrl) {
+    html += `<div class="practice-card-links" style="margin-top:8px;">
+      <a class="practice-link practice-link-video" href="${step.videoUrl}" target="_blank" rel="noopener">▶ 解説動画を見る</a>
+    </div>`;
   }
 
   return html;
