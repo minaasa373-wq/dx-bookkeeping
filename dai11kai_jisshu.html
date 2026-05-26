@@ -751,7 +751,48 @@ header p{
   .aiueo-grid{grid-template-columns:repeat(2,1fr);}
 }
 
-/* ========== 精算表 ========== */
+/* ========== クリアボタン ========== */
+.clear-bar{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:10px;
+  margin:14px 0 18px;
+  padding:10px 14px;
+  background:#fff5f0;
+  border:1.5px dashed var(--accent);
+  border-radius:8px;
+  font-size:0.82rem;
+}
+
+.clear-bar .clear-msg{
+  flex:1;
+  color:var(--text-sub);
+  font-size:0.78rem;
+}
+
+.clear-btn{
+  background:var(--accent);
+  color:var(--white);
+  border:none;
+  padding:8px 18px;
+  font-size:0.85rem;
+  font-weight:700;
+  font-family:inherit;
+  border-radius:20px;
+  cursor:pointer;
+  transition:all 0.15s;
+  box-shadow:0 2px 6px rgba(231,111,81,0.25);
+  white-space:nowrap;
+}
+
+.clear-btn:hover{
+  background:#d65a3a;
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(231,111,81,0.35);
+}
+
+.clear-btn:active{transform:translateY(0);}
 .seisan-intro{
   background:var(--green-soft);
   border:1px solid var(--green-accent);
@@ -1243,6 +1284,11 @@ header p{
     <strong>第1問：</strong>下記の各取引について仕訳しなさい。勘定科目は、設問ごとに最も適当と思われるものを選び、（　）の中にア〜カの記号で解答すること。なお、消費税は指示された問題のみ考慮すること。
   </div>
 
+  <div class="clear-bar">
+    <span class="clear-msg">※ 記入内容はリロードでリセットされます</span>
+    <button class="clear-btn" onclick="clearTab('tab-q1')">🗑 解答をクリア</button>
+  </div>
+
   <div id="questions"></div>
 
   <div class="reveal-section">
@@ -1259,6 +1305,11 @@ header p{
 <section class="tab-section" id="tab-q2-1">
   <div class="instruction">
     <strong>第2問-1：</strong>当社は1つの商品（商品A）を仕入れ、販売している。次の8月中の商品売買取引に基づいて、以下の問いに答えなさい。なお、当社では、商品の払出単価の計算方法として、<strong>先入先出法</strong>を採用している。
+  </div>
+
+  <div class="clear-bar">
+    <span class="clear-msg">※ 記入内容はリロードでリセットされます</span>
+    <button class="clear-btn" onclick="clearTab('tab-q2-1')">🗑 解答をクリア</button>
   </div>
 
   <div class="question">
@@ -1353,6 +1404,11 @@ header p{
     <strong>第2問-2：</strong>勘定記入の問題です。空欄に当てはまる適切な金額または語句（ア〜クの記号）を答えなさい。
   </div>
 
+  <div class="clear-bar">
+    <span class="clear-msg">※ 記入内容はリロードでリセットされます</span>
+    <button class="clear-btn" onclick="clearTab('tab-q2-2')">🗑 解答をクリア</button>
+  </div>
+
   <div class="hp-tip">
     💡 <strong>Home Positionで考えよう！</strong><br>
     ① 元帳に<span class="hp-red">Home Position</span>を書こう!!<br>
@@ -1417,6 +1473,11 @@ header p{
 <section class="tab-section" id="tab-q2-3">
   <div class="instruction">
     <strong>第2問-3：</strong>伝票会計の問題です。各伝票の内容を読み取り、仕訳日計表または空欄を完成させなさい。
+  </div>
+
+  <div class="clear-bar">
+    <span class="clear-msg">※ 記入内容はリロードでリセットされます</span>
+    <button class="clear-btn" onclick="clearTab('tab-q2-3')">🗑 解答をクリア</button>
   </div>
 
   <!-- (1) A商店 -->
@@ -1636,6 +1697,11 @@ header p{
 <section class="tab-section" id="tab-q3">
   <div class="instruction">
     <strong>第3問：</strong>次の決算整理事項（未処理事項含む）によって、精算表を完成させなさい。会計期間は、X7年4月1日からX8年3月31日までの1年である。
+  </div>
+
+  <div class="clear-bar">
+    <span class="clear-msg">※ 記入内容はリロードでリセットされます</span>
+    <button class="clear-btn" onclick="clearTab('tab-q3')">🗑 解答をクリア</button>
   </div>
 
   <div class="question">
@@ -1925,6 +1991,33 @@ function renderAnswers(){
       </div>
     `);
   });
+}
+
+// ========== 解答クリア ==========
+function clearTab(tabId){
+  if(!confirm("このタブの記入内容を全て消去します。よろしいですか？")) return;
+  const section = document.getElementById(tabId);
+  if(!section) return;
+  // 解答エリア以外の入力欄をクリア
+  section.querySelectorAll("input").forEach(el => {
+    if(!el.closest(".answer-area")) el.value = "";
+  });
+  section.querySelectorAll("select").forEach(el => {
+    if(!el.closest(".answer-area")) el.selectedIndex = 0;
+  });
+  // 解答エリアも閉じる
+  const ansArea = section.querySelector(".answer-area");
+  if(ansArea && ansArea.classList.contains("visible")){
+    ansArea.classList.remove("visible");
+    ansArea.style.display = "none";
+    const btn = section.querySelector(".reveal-btn");
+    if(btn){
+      btn.textContent = "解答を表示する";
+      btn.classList.remove("shown");
+    }
+  }
+  // 先頭にスクロール
+  section.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 // ========== 解答トグル ==========
