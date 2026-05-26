@@ -3,1771 +3,2363 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DXコース 簿記実習アーカイブ</title>
+<title>第1問 仕訳 練習問題</title>
 <style>
-  :root {
-    --green-dark: #1a5c3a;
-    --green-mid: #2d8a57;
-    --green-light: #e8f5ee;
-    --green-accent: #3cb371;
-    --orange-dark: #c2410c;
-    --orange-mid: #ea580c;
-    --orange-light: #ffedd5;
-    --text-main: #1c2b22;
-    --text-sub: #4a6b55;
-    --border: #c2dece;
-    --white: #ffffff;
-    --gray-light: #f4f9f6;
-    --yt-red: #c4302b;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-    background: var(--gray-light);
-    color: var(--text-main);
-    min-height: 100vh;
-  }
-
-  header {
-    background: var(--green-dark);
-    color: var(--white);
-    padding: 24px 32px 20px;
-    border-bottom: 4px solid var(--green-accent);
-  }
-
-  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; }
-  header p { font-size: 0.8rem; opacity: 0.65; margin-top: 4px; }
-
-  /* バナー帯 */
-  .banner {
-    background: var(--green-light);
-    border-bottom: 2px solid var(--border);
-    padding: 12px 20px;
-  }
-
-  .banner-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .banner-left {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .banner-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .banner-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: var(--text-main);
-  }
-
-  .banner-label {
-    font-weight: 700;
-    color: var(--green-dark);
-    white-space: nowrap;
-  }
-
-  .banner-value { color: var(--text-main); }
-
-  .countdown {
-    display: inline-block;
-    background: var(--orange-mid);
-    color: var(--white);
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-left: 4px;
-  }
-
-  .countdown.done { background: var(--green-mid); }
-
-  .banner-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--green-mid);
-    color: var(--white);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 20px;
-    transition: background 0.15s;
-    white-space: nowrap;
-  }
-
-  .banner-link:hover { background: var(--green-dark); }
-
-  .banner-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--white);
-    border: 1.5px solid var(--green-mid);
-    color: var(--green-dark);
-    font-size: 0.8rem;
-    font-weight: 700;
-    padding: 5px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .banner-btn:hover { background: var(--green-mid); color: var(--white); }
-
-  /* モーダル */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: var(--white);
-    border-radius: 12px;
-    max-width: 680px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  }
-
-  .modal-header {
-    position: sticky;
-    top: 0;
-    background: var(--green-dark);
-    color: var(--white);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 12px 12px 0 0;
-  }
-
-  .modal-title { font-size: 1rem; font-weight: 700; }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--white);
-    font-size: 1.3rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0 4px;
-    opacity: 0.8;
-  }
-
-  .modal-close:hover { opacity: 1; }
-
-  .modal-body { padding: 24px; }
-
-  /* カリキュラム表 */
-  .legend {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 12px;
-    font-size: 0.78rem;
-    color: var(--text-sub);
-  }
-
-  .legend-item { display: flex; align-items: center; gap: 4px; }
-
-  .legend-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    font-size: 0.7rem;
-    font-weight: 700;
-  }
-
-  .legend-mark.done { background: var(--green-mid); color: var(--white); }
-  .legend-mark.today { background: var(--orange-mid); color: var(--white); }
-  .legend-mark.future { background: var(--gray-light); color: var(--text-sub); border: 1px solid var(--border); }
-
-  .curriculum-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-  }
-
-  .curriculum-table th {
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-weight: 700;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 2px solid var(--border);
-  }
-
-  .curriculum-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-    line-height: 1.55;
-  }
-
-  .curriculum-table tr:last-child td { border-bottom: none; }
-
-  .curriculum-table .num {
-    font-weight: 700;
-    color: var(--green-dark);
-    white-space: nowrap;
-    width: 56px;
-  }
-
-  .curriculum-table .status-cell {
-    text-align: center;
-    padding: 0;
-  }
-
-  .curriculum-table tr.done td { color: var(--text-sub); }
-  .curriculum-table tr.done .num { color: var(--green-mid); }
-
-  .curriculum-table tr.today td {
-    background: var(--orange-light);
-    font-weight: 700;
-  }
-  .curriculum-table tr.today .num { color: var(--orange-dark); }
-
-  .curriculum-table tr.future td { color: var(--text-sub); opacity: 0.55; }
-  .curriculum-table tr.future .num { color: var(--text-sub); }
-
-  @media (max-width: 640px) {
-    .banner-inner { gap: 8px; }
-    .banner-sep { display: none; }
-  }
-
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 24px 20px 60px;
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-  }
-
-  /* サイドバー */
-  .sidebar {
-    width: 180px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    position: sticky;
-    top: 20px;
-  }
-
-  .sidebar-section {
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--text-sub);
-    letter-spacing: 0.08em;
-    padding: 8px 4px 3px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2px;
-  }
-
-  .sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 7px;
-    padding: 7px 9px;
-    text-decoration: none;
-    color: var(--text-main);
-    transition: all 0.15s;
-    font-size: 0.76rem;
-    font-weight: 600;
-    line-height: 1.3;
-  }
-
-  .sidebar-link:hover {
-    border-color: var(--green-accent);
-    background: var(--green-light);
-    color: var(--green-dark);
-  }
-
-  .sidebar-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 0.85rem;
-  }
-
-  .sidebar-icon.yt { background: var(--yt-red); }
-  .sidebar-icon.yt svg { width: 12px; height: 12px; fill: var(--white); }
-  .sidebar-icon.nlm {
-    background: var(--white);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    padding: 2px;
-  }
-
-  .sidebar-creator {
-    font-size: 0.66rem;
-    color: var(--text-sub);
-    line-height: 1.2;
-  }
-
-  .sidebar-name {
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: var(--green-dark);
-  }
-
-  /* メインエリア */
-  .main {
-    flex: 1;
-    min-width: 0;
-  }
-
-  /* モバイルメニュー開閉ボタン */
-  .menu-toggle {
-    display: none;
-    background: var(--white);
-    border: 1.5px solid var(--green-mid);
-    color: var(--green-dark);
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: 700;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 12px;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .menu-toggle:hover { background: var(--green-light); }
-
-  @media (max-width: 640px) {
-    .container { flex-direction: column; }
-    .menu-toggle { display: inline-flex; }
-    .sidebar {
-      width: 100%;
-      position: static;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      padding: 0;
-    }
-    .sidebar.open {
-      max-height: 1200px;
-      padding: 8px 0;
-    }
-  }
-
-
-
-
-
-  .tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tab-btn {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-bottom: none;
-    color: var(--text-sub);
-    padding: 5px 6px;
-    font-size: 0.68rem;
-    font-family: inherit;
-    border-radius: 6px 6px 0 0;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-weight: 500;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.4;
-    min-width: 52px;
-    text-align: center;
-  }
-
-  .tab-row1 { font-weight: 700; font-size: 0.68rem; }
-  .tab-row2 { font-size: 0.64rem; opacity: 0.85; }
-
-  .tab-btn:hover { background: var(--green-light); color: var(--green-dark); }
-
-  .tab-btn.active {
-    background: var(--green-mid);
-    color: var(--white);
-    font-weight: 700;
-    position: relative;
-    border-color: var(--green-mid);
-  }
-
-  .tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0; right: 0;
-    height: 2px;
-    background: var(--white);
-  }
-
-  .panel-wrap {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 0 8px 8px 8px;
-    padding: 32px 36px;
-    box-shadow: 0 2px 12px rgba(45,138,87,0.06);
-  }
-
-  .panel { display: none; }
-  .panel.active { display: block; }
-
-  .date-badge {
-    display: inline-block;
-    background: transparent;
-    color: var(--text-sub);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    padding: 0;
-    border: none;
-  }
-
-  .date-badge::before {
-    content: "🗓 ";
-    margin-right: 2px;
-  }
-
-  .lesson-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-main);
-    margin-bottom: 20px;
-    line-height: 1.5;
-  }
-
-  .section-title {
-    font-size: 1.0rem;
-    font-weight: 700;
-    color: var(--green-dark);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
-  }
-
-  .purpose-list { list-style: none; margin-bottom: 28px; }
-
-  .purpose-list li {
-    padding: 5px 0 5px 20px;
-    position: relative;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  .purpose-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--green-accent);
-    font-weight: 700;
-  }
-
-  .steps { display: flex; flex-direction: column; gap: 20px; }
-
-  .step {
-    border-left: 3px solid var(--green-accent);
-    padding-left: 20px;
-  }
-
-  .step-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .step-num {
-    background: var(--green-mid);
-    color: var(--white);
-    font-size: 0.72rem;
-    font-weight: 700;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .step-label { font-size: 0.92rem; font-weight: 700; color: var(--green-dark); }
-  .step-body { font-size: 0.87rem; color: var(--text-main); line-height: 1.75; }
-
-  /* URLブロック */
-  .url-block {
-    background: var(--gray-light);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
-    margin: 10px 0;
-  }
-
-  .url-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 4px 0;
-  }
-
-  .url-text {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.78rem;
-    color: var(--text-sub);
-    word-break: break-all;
-    flex: 1;
-  }
-
-  .copy-btn {
-    background: var(--green-light);
-    border: 1px solid var(--border);
-    color: var(--green-dark);
-    font-size: 0.7rem;
-    font-family: inherit;
-    padding: 3px 9px;
-    border-radius: 4px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .copy-btn:hover {
-    background: var(--green-accent);
-    color: var(--white);
-    border-color: var(--green-accent);
-  }
-
-  .copy-btn.copied {
-    background: var(--green-mid);
-    color: var(--white);
-    border-color: var(--green-mid);
-  }
-
-  /* プロンプトブロック */
-  .prompt-wrap { position: relative; margin: 10px 0; }
-
-  .prompt-block {
-    background: var(--green-light);
-    border-left: 4px solid var(--green-accent);
-    border-radius: 0 6px 6px 0;
-    padding: 12px 16px;
-    font-size: 0.86rem;
-    line-height: 1.7;
-    color: var(--text-main);
-  }
-
-  .prompt-block-text { padding-right: 70px; }
-
-  .prompt-copy-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    color: var(--green-dark);
-    font-size: 0.7rem;
-    font-family: inherit;
-    padding: 3px 9px;
-    border-radius: 4px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    font-weight: 600;
-  }
-
-  .prompt-copy-btn:hover {
-    background: var(--green-accent);
-    color: var(--white);
-    border-color: var(--green-accent);
-  }
-
-  .prompt-copy-btn.copied {
-    background: var(--green-mid);
-    color: var(--white);
-    border-color: var(--green-mid);
-  }
-
-  .hint-label {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--text-sub);
-    margin-top: 14px;
-    margin-bottom: 6px;
-    letter-spacing: 0.04em;
-  }
-
-  /* 追加指示リスト */
-  .hint-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .step-note {
-    font-size: 0.82rem; color: var(--text-sub); background: #fffbea;
-    border-left: 3px solid #f0c040; border-radius: 0 4px 4px 0;
-    padding: 7px 12px; margin: 8px 0; line-height: 1.65;
-  }
-  .tool-links { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
-  .tool-link {
-    display: inline-block; background: var(--green-light); border: 1.5px solid var(--border);
-    color: var(--green-dark); font-size: 0.83rem; font-weight: 700;
-    padding: 6px 14px; border-radius: 6px; text-decoration: none; transition: all 0.15s;
-  }
-  .tool-link:hover { background: var(--green-accent); color: var(--white); border-color: var(--green-accent); }
-  /* === 第11回 練習問題リスト === */
-  .practice-list { display: flex; flex-direction: column; gap: 12px; margin: 12px 0; }
-  .practice-card {
-    background: var(--white);
-    border: 1.5px solid var(--green-accent);
-    border-radius: 10px;
-    padding: 12px 14px;
-    box-shadow: 0 1px 3px rgba(60,179,113,0.08);
-  }
-  .practice-card-title {
-    font-weight: 700;
-    color: var(--green-dark);
-    font-size: 0.95rem;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-    border-bottom: 1px dashed var(--border);
-  }
-  .practice-card-links { display: flex; flex-wrap: wrap; gap: 8px; }
-  .practice-link {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.82rem;
-    font-weight: 700;
-    padding: 7px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: all 0.15s;
-    border: 1.5px solid transparent;
-  }
-  .practice-link-main {
-    background: var(--green-accent);
-    color: var(--white);
-  }
-  .practice-link-main:hover {
-    background: var(--green-mid);
-    transform: translateY(-1px);
-  }
-  .practice-link-sub {
-    background: var(--white);
-    color: var(--green-dark);
-    border-color: var(--green-accent);
-  }
-  .practice-link-sub:hover {
-    background: var(--green-light);
-  }
-  .practice-link-video {
-    background: #fff4e6;
-    color: #c47800;
-    border-color: #f5a623;
-  }
-  .practice-link-video:hover {
-    background: #f5a623;
-    color: var(--white);
-  }
-  .link-url-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
-  .link-url-row {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--gray-light); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px;
-  }
-  .link-url-num { font-size: 0.78rem; font-weight: 700; color: var(--green-dark); min-width: 18px; }
-  .link-url-a { font-family: 'Courier New', Courier, monospace; font-size: 0.78rem; color: var(--green-mid); text-decoration: none; word-break: break-all; }
-  .link-url-a:hover { text-decoration: underline; }
-  .prep-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
-  .prep-item { display: flex; gap: 10px; align-items: flex-start; }
-  .prep-check { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
-  .prep-body { flex: 1; }
-  .prep-label { font-size: 0.88rem; font-weight: 700; color: var(--green-dark); margin-bottom: 4px; }
-  .prep-text { font-size: 0.85rem; color: var(--text-main); line-height: 1.65; margin-bottom: 4px; }
-  .prep-link-wrap { margin-top: 6px; }
-  .prep-link { font-size: 0.82rem; color: var(--green-dark); text-decoration: none; word-break: break-all; font-weight: 600; }
-  .prep-link:hover { text-decoration: underline; }
-  .lesson-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
-  .theme-badge {
-    display: inline-block; background: var(--green-mid); color: var(--white);
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; padding: 3px 10px; border-radius: 20px;
-  }
-  .hint-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 10px;
-    background: var(--gray-light);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-  }
-
-  .hint-text {
-    font-size: 0.83rem;
-    color: var(--text-sub);
-    flex: 1;
-    line-height: 1.5;
-  }
+:root{
+  --green:#2d6a4f;
+  --green-dark:#1b4332;
+  --green-light:#d8f3dc;
+  --green-soft:#f1faee;
+  --border:#cfd8dc;
+  --text:#1a2e2a;
+  --text-sub:#52796f;
+  --white:#ffffff;
+  --bg:#f6faf7;
+  --accent:#e76f51;
+  --shadow:0 2px 8px rgba(45,106,79,0.08);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  padding:20px 16px 60px;
+}
+
+.container{
+  max-width:780px;
+  margin:0 auto;
+}
+
+header{
+  text-align:center;
+  padding:24px 16px 28px;
+  background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
+  color:var(--white);
+  border-radius:12px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow);
+}
+
+header .badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.2);
+  padding:3px 12px;
+  border-radius:20px;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  margin-bottom:10px;
+}
+
+header h1{
+  font-size:1.5rem;
+  font-weight:700;
+  letter-spacing:0.02em;
+  margin-bottom:6px;
+}
+
+header p{
+  font-size:0.85rem;
+  opacity:0.92;
+}
+
+.instruction{
+  background:var(--white);
+  border-left:4px solid var(--green);
+  padding:14px 18px;
+  border-radius:6px;
+  margin-bottom:24px;
+  font-size:0.88rem;
+  color:var(--text-sub);
+  box-shadow:var(--shadow);
+}
+
+.instruction strong{color:var(--green-dark);}
+
+/* ========== Tab Navigation ========== */
+.tab-nav{
+  display:flex;
+  gap:6px;
+  margin-bottom:20px;
+  border-bottom:2px solid var(--green);
+  overflow-x:auto;
+  padding-bottom:0;
+}
+
+.tab-nav-btn{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-bottom:none;
+  color:var(--text-sub);
+  padding:8px 16px;
+  font-size:0.82rem;
+  font-family:inherit;
+  font-weight:600;
+  border-radius:8px 8px 0 0;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.15s;
+}
+
+.tab-nav-btn:hover{background:var(--green-soft);}
+
+.tab-nav-btn.active{
+  background:var(--green);
+  color:var(--white);
+  border-color:var(--green);
+  transform:translateY(2px);
+}
+
+.tab-section{display:none;}
+.tab-section.active{display:block;animation:fadeIn 0.3s;}
+
+/* ========== 商品有高帳 ========== */
+.ledger-wrap{
+  overflow-x:auto;
+  margin:14px 0;
+  border-radius:8px;
+  border:1.5px solid var(--border);
+}
+
+.ledger{
+  width:100%;
+  min-width:640px;
+  border-collapse:collapse;
+  font-size:0.78rem;
+  background:var(--white);
+}
+
+.ledger th, .ledger td{
+  border:1px solid var(--border);
+  padding:4px 4px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.ledger thead th{
+  background:var(--green);
+  color:var(--white);
+  font-weight:700;
+  font-size:0.75rem;
+  padding:6px 4px;
+}
+
+.ledger thead tr:nth-child(2) th{
+  background:var(--green-dark);
+  font-size:0.7rem;
+}
+
+.ledger .date-col{width:32px;background:var(--green-soft);font-weight:600;color:var(--green-dark);}
+.ledger .summary-col{width:78px;background:var(--green-soft);font-weight:600;color:var(--green-dark);text-align:center;font-size:0.72rem;}
+
+.ledger input{
+  width:100%;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.78rem;
+  text-align:right;
+  padding:3px 4px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text);
+  outline:none;
+  border-radius:3px;
+}
+
+.ledger input:focus{background:var(--green-soft);}
+
+.ledger .preset{
+  background:#f5f5f5;
+  color:var(--text-sub);
+  font-weight:600;
+}
+
+.ledger tfoot td{
+  background:var(--green-soft);
+  font-weight:600;
+  color:var(--green-dark);
+}
+
+.q-sub{
+  background:var(--green-soft);
+  padding:10px 14px;
+  border-radius:6px;
+  margin-top:14px;
+  font-size:0.88rem;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.q-sub label{
+  font-weight:600;
+  color:var(--green-dark);
+  flex:1;
+  min-width:200px;
+}
+
+.q-sub input{
+  border:1.5px solid var(--border);
+  border-radius:6px;
+  padding:6px 10px;
+  font-family:inherit;
+  font-size:0.9rem;
+  width:140px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  background:var(--white);
+}
+
+.q-sub input:focus{outline:none;border-color:var(--green);}
+
+.q-sub .yen{font-weight:600;color:var(--text-sub);}
+
+/* 仕入帳・売上帳 (Q2-1 (2)) */
+.source-tables{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:14px 0;
+}
+
+.source-table{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  font-size:0.78rem;
+}
+
+.source-table-title{
+  text-align:center;
+  font-weight:700;
+  background:var(--green-light);
+  color:var(--green-dark);
+  padding:4px;
+  margin:-10px -10px 8px;
+  border-radius:8px 8px 0 0;
+  font-size:0.82rem;
+}
+
+.source-table table{width:100%;border-collapse:collapse;}
+.source-table th, .source-table td{
+  border:1px solid var(--border);
+  padding:3px 6px;
+  text-align:right;
+}
+.source-table th{background:var(--green-soft);text-align:center;font-size:0.72rem;}
+.source-table .date{text-align:center;font-weight:600;width:32px;}
+.source-table .desc{text-align:left;}
+
+/* 解答用商品有高帳テーブル(展開時) */
+.ans-ledger{
+  width:100%;
+  min-width:580px;
+  border-collapse:collapse;
+  font-size:0.75rem;
+  background:var(--white);
+}
+.ans-ledger th, .ans-ledger td{
+  border:1px solid var(--border);
+  padding:3px 5px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.ans-ledger thead th{background:var(--green-light);color:var(--green-dark);text-align:center;font-size:0.72rem;}
+.ans-ledger .date-col, .ans-ledger .summary-col{
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+}
+.ans-ledger tfoot td{background:#fafdfb;font-weight:600;}
+.ans-ledger-wrap{overflow-x:auto;margin-top:8px;}
+
+.ans-totals{
+  margin-top:10px;
+  padding:8px 12px;
+  background:var(--green-soft);
+  border-radius:6px;
+  font-size:0.85rem;
+  color:var(--green-dark);
+  font-weight:600;
+}
+.ans-totals div{margin:3px 0;}
+.ans-totals .val{color:var(--accent);}
+
+/* ========== T字勘定 ========== */
+.t-account{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  margin:14px 0;
+  overflow:hidden;
+}
+
+.t-account-title{
+  background:var(--green);
+  color:var(--white);
+  text-align:center;
+  font-weight:700;
+  padding:6px;
+  font-size:0.9rem;
+  letter-spacing:0.1em;
+}
+
+.t-account-sides{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.t-side{
+  border-right:2px solid var(--green);
+}
+.t-side:last-child{border-right:none;}
+
+.t-side-header{
+  background:var(--green-light);
+  color:var(--green-dark);
+  text-align:center;
+  font-weight:700;
+  font-size:0.78rem;
+  padding:4px;
+  letter-spacing:0.1em;
+}
+
+.t-row{
+  display:grid;
+  grid-template-columns:38px 1fr 90px;
+  font-size:0.78rem;
+  border-top:1px solid var(--border);
+  align-items:stretch;
+}
+
+.t-row:first-of-type{border-top:none;}
+
+.t-row > div, .t-row > input, .t-row > select{
+  padding:5px 6px;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.78rem;
+  outline:none;
+  display:flex;
+  align-items:center;
+}
+
+.t-row .t-date{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  justify-content:center;
+  text-align:center;
+  border-right:1px solid var(--border);
+  font-size:0.72rem;
+}
+
+.t-row .t-desc{
+  border-right:1px solid var(--border);
+}
+
+.t-row .t-amt{
+  justify-content:flex-end;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+.t-row input.t-amt{text-align:right;width:100%;}
+.t-row input.t-desc{width:100%;}
+.t-row input:focus, .t-row select:focus{background:var(--green-soft);}
+
+.t-row select.t-desc{
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'><path fill='%2352796f' d='M0 0l4 6 4-6z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 6px center;
+  padding-right:18px;
+}
+
+.t-row .preset{
+  background:#f5f5f5;
+  color:var(--text-sub);
+  font-weight:500;
+}
+
+.t-row.t-total{
+  background:var(--green-soft);
+  font-weight:700;
+  border-top:2px solid var(--green);
+}
+.t-row.t-total > div{color:var(--green-dark);}
+.t-row.t-total .t-date{background:var(--green-light);}
+
+.choices-box{
+  background:var(--green-soft);
+  border-radius:6px;
+  padding:8px 12px;
+  margin:10px 0;
+  font-size:0.78rem;
+  color:var(--green-dark);
+  line-height:1.7;
+}
+
+.choices-box strong{color:var(--green-dark);margin-right:6px;}
+
+.t-section-title{
+  font-weight:700;
+  color:var(--green-dark);
+  margin:18px 0 6px;
+  font-size:0.95rem;
+  padding-left:8px;
+  border-left:4px solid var(--green);
+}
+
+.hp-tip{
+  background:#fff5e6;
+  border:1px dashed #f5a623;
+  border-radius:8px;
+  padding:10px 14px;
+  margin:14px 0;
+  font-size:0.82rem;
+  color:#7a5a1a;
+}
+
+.hp-tip strong{color:#c47800;}
+.hp-tip .hp-red{color:#d62828;font-weight:700;}
+.hp-tip .hp-blue{color:#1976d2;font-weight:700;}
+.hp-tip .hp-green{color:#2d6a4f;font-weight:700;}
+
+/* 解答用T字勘定 */
+.ans-taccount{
+  margin:14px 0;
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+}
+.ans-taccount-title{
+  background:var(--green-light);
+  color:var(--green-dark);
+  text-align:center;
+  font-weight:700;
+  padding:5px;
+  font-size:0.85rem;
+  letter-spacing:0.08em;
+}
+.ans-taccount-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.74rem;
+}
+.ans-taccount-table th{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  padding:3px;
+  border:1px solid var(--border);
+  text-align:center;
+}
+.ans-taccount-table td{
+  border:1px solid var(--border);
+  padding:3px 6px;
+  background:var(--white);
+}
+.ans-taccount-table .ans-date{
+  width:42px;
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  font-size:0.7rem;
+}
+.ans-taccount-table .ans-amt{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  width:80px;
+}
+.ans-taccount-table .ans-amt.total{font-weight:700;}
+.ans-taccount-table .ans-total-row td{
+  background:var(--green-soft);
+  font-weight:600;
+  color:var(--green-dark);
+  border-top:2px solid var(--green);
+}
+.ans-code{
+  display:inline-block;
+  background:var(--accent);
+  color:white;
+  font-weight:700;
+  font-size:0.7rem;
+  padding:1px 5px;
+  border-radius:4px;
+  margin-right:4px;
+}
+
+/* ========== 伝票 ========== */
+.denpyou-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:8px;
+  margin:14px 0;
+}
+
+.denpyou{
+  background:var(--white);
+  border:1.5px solid var(--green-dark);
+  border-radius:6px;
+  padding:8px 10px;
+  font-size:0.78rem;
+  position:relative;
+  min-height:62px;
+}
+
+.denpyou-nyuukin{background:#fff8e1;border-color:#f59e0b;}
+.denpyou-shukkin{background:#fee4e2;border-color:#dc2626;}
+.denpyou-furikae{background:#dbeafe;border-color:#2563eb;}
+
+.denpyou-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
+  font-size:0.78rem;
+  padding-bottom:4px;
+  margin-bottom:5px;
+  border-bottom:1px solid var(--border);
+}
+
+.denpyou-no{
+  font-size:0.68rem;
+  color:var(--text-sub);
+  font-weight:600;
+}
+
+.denpyou-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:0.78rem;
+  padding:2px 0;
+  font-variant-numeric:tabular-nums;
+}
+
+.denpyou-line .name{color:var(--text);}
+.denpyou-line .amt{font-weight:600;}
+.denpyou-line .blank{color:var(--accent);font-weight:700;font-size:0.85rem;}
+
+/* ========== 仕訳日計表 ========== */
+.nikkei-wrap{
+  margin:14px 0;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.nikkei-title{
+  text-align:center;
+  font-weight:700;
+  background:var(--green);
+  color:var(--white);
+  padding:6px;
+  font-size:0.95rem;
+  letter-spacing:0.1em;
+}
+
+.nikkei-date{
+  text-align:center;
+  background:var(--green-light);
+  color:var(--green-dark);
+  padding:4px;
+  font-size:0.82rem;
+  font-weight:600;
+}
+
+.nikkei-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.86rem;
+}
+
+.nikkei-table th, .nikkei-table td{
+  border:1px solid var(--border);
+  padding:5px 8px;
+}
+
+.nikkei-table th{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:700;
+}
+
+.nikkei-table .acct{
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  width:120px;
+}
+
+.nikkei-table input{
+  width:100%;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:0.86rem;
+  text-align:right;
+  padding:2px 6px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text);
+  outline:none;
+}
+
+.nikkei-table input:focus{background:var(--green-soft);}
+
+.nikkei-table tfoot td{
+  background:var(--green-soft);
+  font-weight:700;
+  color:var(--green-dark);
+  border-top:2px solid var(--green);
+}
+
+/* ========== 総勘定元帳（残高式） ========== */
+.motochou-wrap{
+  margin:12px 0;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.motochou-title{
+  text-align:center;
+  background:var(--green-light);
+  color:var(--green-dark);
+  font-weight:700;
+  font-size:0.8rem;
+  padding:3px;
+  letter-spacing:0.1em;
+}
+
+.motochou-acct{
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:700;
+  padding:3px;
+  font-size:0.95rem;
+}
+
+.motochou-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.76rem;
+}
+
+.motochou-table th, .motochou-table td{
+  border:1px solid var(--border);
+  padding:3px 6px;
+}
+
+.motochou-table th{
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-size:0.72rem;
+  text-align:center;
+}
+
+.motochou-table .date-col{
+  width:42px;
+  text-align:center;
+  background:var(--green-soft);
+  color:var(--green-dark);
+  font-weight:600;
+  font-size:0.72rem;
+}
+
+.motochou-table .desc-col{width:auto;}
+
+.motochou-table .amt-col{
+  width:75px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+.motochou-table .kashi-col{
+  width:40px;
+  text-align:center;
+  background:#fafdfb;
+  font-weight:600;
+  color:var(--text-sub);
+}
+
+.motochou-table .q-mark{color:var(--accent);font-weight:700;}
+
+/* ========== ア〜エ 解答欄 ==========*/
+.aiueo-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:10px;
+  margin:14px 0;
+}
+
+.aiueo-cell{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.aiueo-label{
+  background:var(--accent);
+  color:var(--white);
+  text-align:center;
+  font-weight:700;
+  padding:6px;
+  font-size:1rem;
+  letter-spacing:0.1em;
+}
+
+.aiueo-cell input{
+  width:100%;
+  border:none;
+  padding:10px 12px;
+  font-family:inherit;
+  font-size:0.95rem;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  background:transparent;
+  outline:none;
+}
+
+.aiueo-cell input:focus{background:var(--green-soft);}
+
+/* 解答 表示用 仕訳日計表 / aiueo */
+.ans-aiueo-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+  margin:10px 0;
+}
+
+@media (max-width:520px){
+  .denpyou-grid{grid-template-columns:repeat(2,1fr);}
+  .aiueo-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+.question{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:18px 20px 20px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+
+.q-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px dashed var(--border);
+}
+
+.q-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  background:var(--green);
+  color:var(--white);
+  font-weight:700;
+  font-size:0.95rem;
+  border-radius:8px;
+  flex-shrink:0;
+}
+
+.q-title{
+  font-size:0.85rem;
+  color:var(--text-sub);
+  font-weight:600;
+}
+
+.q-body{
+  font-size:0.92rem;
+  line-height:1.75;
+  margin-bottom:14px;
+  color:var(--text);
+}
+
+.choices{
+  background:var(--green-soft);
+  border-radius:8px;
+  padding:10px 14px;
+  margin-bottom:14px;
+  font-size:0.82rem;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px 10px;
+  color:var(--green-dark);
+}
+
+.choices span{display:block;}
+
+.sales-table{
+  background:var(--green-soft);
+  border:1px solid var(--border);
+  border-radius:6px;
+  margin:12px 0;
+  padding:10px;
+  font-size:0.78rem;
+}
+
+.sales-table table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.sales-table caption{
+  font-weight:600;
+  margin-bottom:6px;
+  color:var(--green-dark);
+}
+
+.sales-table th, .sales-table td{
+  border:1px solid var(--border);
+  padding:4px 8px;
+  text-align:right;
+  background:var(--white);
+}
+
+.sales-table th{
+  background:var(--green-light);
+  text-align:center;
+}
+
+.answer-box{
+  background:#fafdfb;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 12px;
+  margin-top:6px;
+}
+
+.answer-box-title{
+  font-size:0.72rem;
+  color:var(--text-sub);
+  font-weight:600;
+  margin-bottom:6px;
+  text-align:center;
+  letter-spacing:0.05em;
+}
+
+.entry-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.entry-side{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+}
+
+.entry-side-header{
+  background:var(--green-light);
+  color:var(--green-dark);
+  text-align:center;
+  font-size:0.75rem;
+  font-weight:700;
+  padding:5px 0;
+  letter-spacing:0.1em;
+}
+
+.entry-row{
+  display:grid;
+  grid-template-columns:55px 1fr;
+  border-top:1px solid var(--border);
+}
+
+.entry-row:first-of-type{border-top:none;}
+
+.entry-row select,
+.entry-row input{
+  border:none;
+  padding:6px 8px;
+  font-family:inherit;
+  font-size:0.85rem;
+  background:transparent;
+  color:var(--text);
+  width:100%;
+  outline:none;
+}
+
+.entry-row select{
+  border-right:1px solid var(--border);
+  text-align:center;
+  text-align-last:center;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'><path fill='%2352796f' d='M0 0l4 6 4-6z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 4px center;
+  padding-right:14px;
+}
+
+.entry-row input{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+.entry-row input::placeholder{
+  color:#b0bec5;
+  font-size:0.75rem;
+}
+
+.entry-row select:focus,
+.entry-row input:focus{
+  background:var(--green-soft);
+}
+
+/* Answer reveal */
+.reveal-section{
+  margin-top:32px;
+  text-align:center;
+}
+
+.reveal-btn{
+  background:var(--green);
+  color:var(--white);
+  border:none;
+  padding:14px 36px;
+  font-size:1rem;
+  font-weight:700;
+  font-family:inherit;
+  border-radius:30px;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(45,106,79,0.25);
+  transition:all 0.2s;
+  letter-spacing:0.05em;
+}
+
+.reveal-btn:hover{
+  background:var(--green-dark);
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(45,106,79,0.35);
+}
+
+.reveal-btn.shown{
+  background:var(--text-sub);
+}
+
+.answer-area{
+  display:none;
+  margin-top:24px;
+  background:var(--white);
+  border:2px solid var(--green);
+  border-radius:12px;
+  padding:24px 20px;
+  box-shadow:var(--shadow);
+}
+
+.answer-area.visible{display:block;animation:fadeIn 0.4s;}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.answer-area h2{
+  color:var(--green-dark);
+  font-size:1.2rem;
+  text-align:center;
+  margin-bottom:18px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--green-light);
+}
+
+.ans-item{
+  margin-bottom:18px;
+  padding-bottom:14px;
+  border-bottom:1px dashed var(--border);
+}
+
+.ans-item:last-child{border-bottom:none;margin-bottom:0;}
+
+.ans-num{
+  display:inline-block;
+  background:var(--green-light);
+  color:var(--green-dark);
+  font-weight:700;
+  padding:2px 10px;
+  border-radius:12px;
+  font-size:0.8rem;
+  margin-bottom:8px;
+}
+
+.ans-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.85rem;
+}
+
+.ans-table th, .ans-table td{
+  border:1px solid var(--border);
+  padding:4px 8px;
+}
+
+.ans-table th{
+  background:var(--green-light);
+  color:var(--green-dark);
+  font-size:0.75rem;
+}
+
+.ans-table td.code{
+  text-align:center;
+  width:40px;
+  font-weight:600;
+  color:var(--green-dark);
+  background:var(--green-soft);
+}
+
+.ans-table td.amount{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  width:100px;
+}
+
+.footer-back{
+  text-align:center;
+  margin-top:36px;
+}
+
+.footer-back a{
+  display:inline-block;
+  color:var(--green-dark);
+  text-decoration:none;
+  font-size:0.85rem;
+  font-weight:600;
+  padding:8px 20px;
+  border:1.5px solid var(--green);
+  border-radius:20px;
+  transition:all 0.15s;
+}
+
+.footer-back a:hover{
+  background:var(--green);
+  color:var(--white);
+}
+
+@media (max-width:520px){
+  .choices{grid-template-columns:repeat(2,1fr);font-size:0.78rem;}
+  .q-body{font-size:0.88rem;}
+  header h1{font-size:1.25rem;}
+  .entry-row{grid-template-columns:48px 1fr;}
+}
 </style>
 </head>
 <body>
+<div class="container">
 
 <header>
-  <h1>DXコース 簿記実習アーカイブ</h1>
+  <div class="badge">第11回 実習</div>
+  <h1>仕訳・帳簿 練習問題</h1>
+  <p>過去問題演習と解説</p>
 </header>
 
-<!-- バナー帯 -->
-<div class="banner">
-  <div class="banner-inner">
-    <div class="banner-left">
-      <div class="banner-item">
-        <span class="banner-label">🎯 コース目標</span>
-        <span class="banner-value">簿記3級のオンラインテストに合格する（AI利用可）</span>
-      </div>
-      <div class="banner-item">
-        <span class="banner-label">📅 最終テスト日</span>
-        <span class="banner-value">2026年5月28日</span>
-        <span class="countdown" id="countdown"></span>
-      </div>
+<nav class="tab-nav">
+  <button class="tab-nav-btn active" data-tab="q1">第1問 仕訳</button>
+  <button class="tab-nav-btn" data-tab="q2-1">第2問-1 商品有高帳</button>
+  <button class="tab-nav-btn" data-tab="q2-2">第2問-2 勘定記入</button>
+  <button class="tab-nav-btn" data-tab="q2-3">第2問-3 伝票会計</button>
+</nav>
+
+<!-- ===== 第1問 ===== -->
+<section class="tab-section active" id="tab-q1">
+  <div class="instruction">
+    <strong>第1問：</strong>下記の各取引について仕訳しなさい。勘定科目は、設問ごとに最も適当と思われるものを選び、（　）の中にア〜カの記号で解答すること。なお、消費税は指示された問題のみ考慮すること。
+  </div>
+
+  <div id="questions"></div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn" onclick="toggleAnswers('q1')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q1" class="answer-area">
+    <h2>📝 第1問 解答</h2>
+    <div id="answer-list"></div>
+  </div>
+</section>
+
+<!-- ===== 第2問-1 ===== -->
+<section class="tab-section" id="tab-q2-1">
+  <div class="instruction">
+    <strong>第2問-1：</strong>当社は1つの商品（商品A）を仕入れ、販売している。次の8月中の商品売買取引に基づいて、以下の問いに答えなさい。なお、当社では、商品の払出単価の計算方法として、<strong>先入先出法</strong>を採用している。
+  </div>
+
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title">問題(1)　X8年8月中取引</div>
     </div>
-    <div class="banner-right">
-      <a class="banner-link" href="https://nsboki-cbt.net-school.co.jp/" target="_blank" rel="noopener">
-        📝 模擬試験を受ける
-      </a>
-      <button class="banner-btn" onclick="openModal()">
-        📋 カリキュラム一覧
-      </button>
+    <div class="q-body">
+      X8年8月1日　前月より繰り越した商品有高は、40,000円（単価2,000円）である。<br>
+      X8年8月5日　甲社より、商品Aを仕入れた。（単価：2,150円　数量：40個）<br>
+      X8年8月6日　X8年8月5日に仕入れた商品Aの内、不良品があったため、10個を返品した。<br>
+      X8年8月10日　乙社へ、商品40個を売り上げ、代金は掛けとした。<br>
+      X8年8月31日　月末を迎え、商品有高帳の次月繰越を行った。
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:8px 0 4px;">問1. 商品有高帳を完成させなさい（商品A・先入先出法）</div>
+
+    <div class="ledger-wrap">
+      <table class="ledger" id="ledger-q1-fifo"></table>
+    </div>
+
+    <div class="q-sub">
+      <label>問2. 移動平均法を採用していた場合の8月の商品Aの次月繰越高</label>
+      <input type="text" inputmode="numeric" placeholder="数値を入力">
+      <span class="yen">円</span>
     </div>
   </div>
-</div>
 
-<!-- カリキュラムモーダル -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">📋 5月簿記コース カリキュラム（全13回）</span>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title">問題(2)　X8年11月中のα商品取引（移動平均法）</div>
     </div>
-    <div class="modal-body">
-      <div class="legend">
-        <span class="legend-item"><span class="legend-mark done">✓</span>完了</span>
-        <span class="legend-item"><span class="legend-mark today">●</span>本日</span>
-        <span class="legend-item"><span class="legend-mark future">○</span>未実施</span>
+    <div class="q-body">
+      次の、X8年11月中のα商品に関する仕入帳と売上帳の記録に基づいて、移動平均法によって商品有高帳に記入するとともに、X8年11月中のα商品の売上高および売上総利益の金額を答えなさい。なお、消費税は考慮しないものとする。
+    </div>
+
+    <div class="source-tables">
+      <div class="source-table">
+        <div class="source-table-title">仕 入 帳</div>
+        <table>
+          <thead><tr><th>X8年</th><th>摘要</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td class="date">11/5</td><td class="desc">β社　掛け<br>α商品 150個 @480円</td><td>72,000</td></tr>
+            <tr><td class="date">11/18</td><td class="desc">γ社　掛け<br>α商品 180個 @483円</td><td>86,940</td></tr>
+          </tbody>
+        </table>
       </div>
-      <table class="curriculum-table" id="curriculumTable">
+      <div class="source-table">
+        <div class="source-table-title">売 上 帳</div>
+        <table>
+          <thead><tr><th>X8年</th><th>摘要</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td class="date">11/10</td><td class="desc">X社　掛け<br>α商品 200個 @650円</td><td>130,000</td></tr>
+            <tr><td class="date">11/25</td><td class="desc">Y社　掛け<br>α商品 110個 @660円</td><td>72,600</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:12px 0 4px;">商品有高帳を完成させなさい（α商品・移動平均法）</div>
+
+    <div class="ledger-wrap">
+      <table class="ledger" id="ledger-q2-mavg"></table>
+    </div>
+
+    <div class="q-sub">
+      <label>X8年11月中のα商品の売上高</label>
+      <input type="text" inputmode="numeric" placeholder="数値を入力">
+      <span class="yen">円</span>
+    </div>
+    <div class="q-sub">
+      <label>X8年11月中のα商品の売上総利益</label>
+      <input type="text" inputmode="numeric" placeholder="数値を入力">
+      <span class="yen">円</span>
+    </div>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q2-1" onclick="toggleAnswers('q2-1')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q2-1" class="answer-area">
+    <h2>📝 第2問-1 解答</h2>
+    <div id="answer-list-q2-1"></div>
+  </div>
+</section>
+
+<!-- ===== 第2問-2 ===== -->
+<section class="tab-section" id="tab-q2-2">
+  <div class="instruction">
+    <strong>第2問-2：</strong>勘定記入の問題です。空欄に当てはまる適切な金額または語句（ア〜クの記号）を答えなさい。
+  </div>
+
+  <div class="hp-tip">
+    💡 <strong>Home Positionで考えよう！</strong><br>
+    ① 元帳に<span class="hp-red">Home Position</span>を書こう!!<br>
+    ② <span class="hp-blue">BS科目</span>は、<span class="hp-green">Home Position最初に前月繰越</span>／<span class="hp-red">反対Position最後に、次月繰越を記入</span><br>
+    ③ <span class="hp-blue">PL科目</span>は、決算で<span class="hp-red">反対Position最後に、損益へ振替</span>
+  </div>
+
+  <!-- (1) -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title">問題(1)　A株式会社・8月中の買掛金</div>
+    </div>
+    <div class="q-body">
+      A株式会社の8月中の買掛金に関する取引の勘定記録は次の通り。空欄に当てはまる適切な金額または語句を答えなさい。なお、仕入先は甲商店と乙商店だけであり、各勘定は毎月末に締め切りを行っている。
+    </div>
+
+    <div class="choices-box">
+      <strong>勘定科目等：</strong>ア．売上　イ．損益　ウ．前月繰越　エ．次月繰越　オ．電子記録債務　カ．普通預金　キ．当座預金　ク．仕入
+    </div>
+
+    <div class="t-section-title">総勘定元帳</div>
+    <div id="t-q21-kaikake"></div>
+
+    <div class="t-section-title">買掛金元帳</div>
+    <div id="t-q21-koushouten"></div>
+    <div id="t-q21-otsushouten"></div>
+  </div>
+
+  <!-- (2) -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title">問題(2)　B株式会社・当期（X8年4月1日〜X9年3月31日）の商品売買</div>
+    </div>
+    <div class="q-body">
+      B株式会社は、三分法を用いて、仕入勘定で売上原価を算定している。当期の商品売買に関する取引の勘定記録について、解答用紙の空欄を埋めなさい。<br>
+      損益勘定には、売上勘定、仕入勘定からの振替のみを記入すること。次期の開始記入は不要である。
+    </div>
+
+    <div class="choices-box">
+      <strong>勘定科目等：</strong>ア．次期繰越　イ．仕入　ウ．前期繰越　エ．売上　オ．繰越商品　カ．普通預金　キ．損益　ク．買掛金
+    </div>
+
+    <div id="t-q22-uriage"></div>
+    <div id="t-q22-shiire"></div>
+    <div id="t-q22-kurikoshi"></div>
+    <div id="t-q22-soneki"></div>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q2-2" onclick="toggleAnswers('q2-2')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q2-2" class="answer-area">
+    <h2>📝 第2問-2 解答</h2>
+    <div id="answer-list-q2-2"></div>
+  </div>
+</section>
+
+<!-- ===== 第2問-3 ===== -->
+<section class="tab-section" id="tab-q2-3">
+  <div class="instruction">
+    <strong>第2問-3：</strong>伝票会計の問題です。各伝票の内容を読み取り、仕訳日計表または空欄を完成させなさい。
+  </div>
+
+  <!-- (1) A商店 -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title">問題(1)　A商店・X9年12月1日の取引</div>
+    </div>
+    <div class="q-body">
+      A商店は、日々の取引を入金伝票、出金伝票および振替伝票の3種類の伝票に記入し、これを1日分ずつ集計して仕訳日計表を作成している。同店のX9年12月1日の取引について作成された次の各伝票にもとづいて、答案用紙に示した仕訳日計表を完成させなさい。
+    </div>
+
+    <div class="denpyou-grid">
+      <!-- 入金伝票 -->
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.101</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">180,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.102</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">130,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.103</span></div>
+        <div class="denpyou-line"><span class="name">(当座預金)</span><span class="amt">230,000</span></div>
+      </div>
+      <!-- 出金伝票 -->
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.201</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">123,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.202</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">90,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.203</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">30,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.204</span></div>
+        <div class="denpyou-line"><span class="name">(支払手形)</span><span class="amt">26,000</span></div>
+      </div>
+      <!-- 振替伝票 -->
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.301</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">95,000</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">95,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.302</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">35,000</span></div>
+        <div class="denpyou-line"><span class="name">(支払手形)</span><span class="amt">35,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.303</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">145,000</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">145,000</span></div>
+      </div>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:14px 0 4px;">仕訳日計表を完成させなさい</div>
+
+    <div class="nikkei-wrap">
+      <div class="nikkei-title">仕 訳 日 計 表</div>
+      <div class="nikkei-date">X9年12月1日</div>
+      <table class="nikkei-table">
         <thead>
-          <tr>
-            <th style="width:32px;"></th>
-            <th>回</th>
-            <th>テーマ</th>
-          </tr>
+          <tr><th>借　方</th><th>勘定科目</th><th>貸　方</th></tr>
         </thead>
-        <tbody id="curriculumBody"></tbody>
+        <tbody id="nikkei-body"></tbody>
+        <tfoot>
+          <tr>
+            <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+            <td></td>
+            <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
+
+  <!-- (2) B商店 -->
+  <div class="question">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title">問題(2)　B商店・X9年8月1日の取引</div>
+    </div>
+    <div class="q-body">
+      B商店は、日々の取引を入金伝票、出金伝票および振替伝票の3種類の伝票に記入し、これを1日分ずつ集計して仕訳日計表を作成し、この仕訳日計表から総勘定元帳に転記している。同店のX9年8月1日の取引について作成された各伝票、総勘定元帳にもとづいて、ア〜エに当てはまる数字を答えなさい。
+    </div>
+
+    <div class="denpyou-grid">
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.101</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">45,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.102</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">30,000</span></div>
+      </div>
+      <div class="denpyou denpyou-nyuukin">
+        <div class="denpyou-header">入金伝票<span class="denpyou-no">No.103</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="blank">（ア）</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.201</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt">13,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.202</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">33,000</span></div>
+      </div>
+      <div class="denpyou denpyou-shukkin">
+        <div class="denpyou-header">出金伝票<span class="denpyou-no">No.203</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="amt">26,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.301</span></div>
+        <div class="denpyou-line"><span class="name">(仕 入)</span><span class="blank">（イ）</span></div>
+        <div class="denpyou-line"><span class="name">(買掛金)</span><span class="amt" style="color:var(--text-sub);">???</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.302</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">78,000</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">78,000</span></div>
+      </div>
+      <div class="denpyou denpyou-furikae">
+        <div class="denpyou-header">振替伝票<span class="denpyou-no">No.303</span></div>
+        <div class="denpyou-line"><span class="name">(売 上)</span><span class="amt">12,000</span></div>
+        <div class="denpyou-line"><span class="name">(売掛金)</span><span class="amt">12,000</span></div>
+      </div>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:14px 0 4px;">総勘定元帳</div>
+
+    <!-- 現金 -->
+    <div class="motochou-wrap">
+      <div class="motochou-title">総 勘 定 元 帳</div>
+      <div class="motochou-acct">現　金</div>
+      <table class="motochou-table">
+        <thead>
+          <tr><th>X9年</th><th>摘要</th><th>借方</th><th>貸方</th><th>借/貸</th><th>残高</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date-col">8/1</td><td class="desc-col">前月繰越</td><td class="amt-col">353,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">353,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col">115,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">468,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col"></td><td class="amt-col q-mark">？</td><td class="kashi-col">借</td><td class="amt-col q-mark">？</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 売上 -->
+    <div class="motochou-wrap">
+      <div class="motochou-title">総 勘 定 元 帳</div>
+      <div class="motochou-acct">売　上</div>
+      <table class="motochou-table">
+        <thead>
+          <tr><th>X9年</th><th>摘要</th><th>借方</th><th>貸方</th><th>借/貸</th><th>残高</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date-col">8/1</td><td class="desc-col">前月繰越</td><td class="amt-col"></td><td class="amt-col">1,583,000</td><td class="kashi-col">貸</td><td class="amt-col">1,583,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col"></td><td class="amt-col q-mark">（ウ）</td><td class="kashi-col">貸</td><td class="amt-col q-mark">？</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col q-mark">（エ）</td><td class="amt-col"></td><td class="kashi-col">貸</td><td class="amt-col q-mark">？</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 仕入 -->
+    <div class="motochou-wrap">
+      <div class="motochou-title">総 勘 定 元 帳</div>
+      <div class="motochou-acct">仕　入</div>
+      <table class="motochou-table">
+        <thead>
+          <tr><th>X9年</th><th>摘要</th><th>借方</th><th>貸方</th><th>借/貸</th><th>残高</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date-col">8/1</td><td class="desc-col">前月繰越</td><td class="amt-col">685,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">685,000</td></tr>
+          <tr><td class="date-col">〃</td><td class="desc-col">仕訳日計表</td><td class="amt-col">124,000</td><td class="amt-col"></td><td class="kashi-col">借</td><td class="amt-col">809,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="font-weight:600;color:var(--green-dark);font-size:0.9rem;margin:18px 0 4px;">ア〜エに当てはまる数字を答えなさい</div>
+
+    <div class="aiueo-grid">
+      <div class="aiueo-cell">
+        <div class="aiueo-label">ア</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+      <div class="aiueo-cell">
+        <div class="aiueo-label">イ</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+      <div class="aiueo-cell">
+        <div class="aiueo-label">ウ</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+      <div class="aiueo-cell">
+        <div class="aiueo-label">エ</div>
+        <input type="text" inputmode="numeric" placeholder="金額">
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal-section">
+    <button class="reveal-btn" id="revealBtn-q2-3" onclick="toggleAnswers('q2-3')">解答を表示する</button>
+  </div>
+
+  <div id="answer-area-q2-3" class="answer-area">
+    <h2>📝 第2問-3 解答</h2>
+    <div id="answer-list-q2-3"></div>
+  </div>
+</section>
+
+<div class="footer-back">
+  <a href="javascript:history.back()">← 実習ページに戻る</a>
 </div>
 
-<div class="container">
-
-  <!-- サイドバー -->
-  <aside class="sidebar">
-    <div class="sidebar-section">ツール</div>
-
-    <a class="sidebar-link" href="https://www.youtube.com/@DX-Biome/playlists" target="_blank" rel="noopener">
-      <div class="sidebar-icon yt">
-        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      </div>
-      <div>
-        <div class="sidebar-creator">動画アーカイブ</div>
-        <div class="sidebar-name">DX-Biome</div>
-      </div>
-    </a>
-
-    <a class="sidebar-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener">
-      <div class="sidebar-icon nlm">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAC+fSURBVHhe7d15XFXV3j/wzxkAQcwByTEHlLL7IDhmampKZOh1epzSa2V5Mxt8NJ+uDaKVJGmW2qB5y6l7y+ssVuKYJeaAoqJgKgiCAzKpcA4gwzlnPX/83PxgbTGUvffZ65zv+/X6vl611saz9nC+Z+1pLQNjjIEQQgRg5AsIIUSvKGERQoRBCYsQIgxKWIQQYVDCIoQIgxIWIUQYlLAIIcKghEUIEQYlLEKIMChhEUKEQQmLECIMSliEEGFQwiKECIMSFiFEGJSwCCHCoIRFCBEGJSxCiDAoYRFChEEJixAiDEpYhBBhUMIihAiDEhYhRBiUsAghwqCERQgRBiUsQogwKGERQoRBCYsQIgxKWIQQYVDCIoQIgxIWIUQYlLAIIcKghEUIEQYlLEKIMChhEUKEQQmLECIMSliEEGFQwiKECIMSFiFEGJSwCCHCoIRFCBEGJSxCiDAoYRFChEEJixAiDEpYhBBhUMIihAiDEhYhRBiUsAghwqCERQgRBiUsQogwDIwxxhcScjc2mw0WiwWlpaUoKyuDw+GAw+EAADDGYDAYZP9tNBphMplgNpvh7e0NX19feHh4VPl3CfkzlLAIAMBut6OgoAAlJSXIzs5GUVERLl++jOzsbBQWFuLkyZPYsmUL/2e15uXlhSFDhiAkJAS+vr5o0qQJWrduDW9vbzz44IPw9vZG/fr1YTKZ+D8lbogSlpspKSlBcXEx8vPzkZ6ejqysLMTHx+PSpUu4cuUKLBYLzp49y/9ZFVJvyWg0VvSgasrhcIAxBrvdXtErq84jjzyCBg0aoHnz5mjXrh1CQkLQokULtG3bFvXr14e3tzfq1KnD/xlxYZSwXFxZWRmuXr2KtLQ0JCUlITk5GUlJSYiNjeUXBQCYTCZIhwRjrOK/tWIwGKqcRtpsNn4RAMCAAQPw6KOPIjAwECEhIWjVqhVatGgBLy8vflHiQihhuRir1YpLly7hzJkziI+Px8KFC/lFgNvJ4M96OHp1t7b/4x//QPfu3fGXv/wFrVq1Qr169fhFiMAoYQmuuLgY2dnZSExMxO7du7F06VJ+kYpeU3VfctFJp6Z2u52vwtSpUxEaGoqgoCA0a9YMPj4+/CJEIJSwBFRUVIS0tDQcPnwY+/fvx9q1a6vUe3h41OgakauSrrGVl5dXKZ8wYQKeeOIJ9O7dGwEBAZS8BEQJSxB2ux2JiYk4cOAAVq9ejZMnT1bUGQwGza81iYY/jezSpQtefPFF9OnTBx07doTRSI8kioASlo6VlpYiLS0Nu3fvxvTp0/lqoqAlS5Zg4MCBCAgIgKenJ19NdIISls44HA7k5eVh//792LBhAzZt2lRR5+npibKysirLk9rht+moUaPw7LPP4oknnoC/vz/1vHSGEpaOnDp1CjExMZgzZ07F7Xz+VIaop/K29vHxQUREBAYNGoSQkBB+UeIklLCczGKx4ODBg/j888+xa9cugK5J6ULlfRAWFoYZM2agZ8+eqF+/Pr8o0RAlLCfJyclBdHQ0PvnkE6SmpgK3Hz+406154jxms7mitxsYGIh3330XgwYNQpMmTfhFiQYoYWns6tWr2LJlC1atWoWEhASATvuEUHkfdejQAdOmTcPgwYPx0EMP8YsSFVHC0si1a9ewdetWvP7663wVEdhnn32G0aNHU+LSCCUslV2+fBlr1qzBnDlz+CriQt5//31MmTIFTZs25auIgihhqeT69ev46aefMG3aNFgsFrqQ7sKk08U2bdogIiICI0aMQKNGjfjFiAIoYSmMMYYff/wRs2fPRmJiIl9N3EBQUBAiIyMxZMgQGsdLYZSwFHTkyBG8+uqrFRfTiXsLCgrCN998g549e/JV5D7RY7wKuHz5Mt566y307NkTCQkJ9KtKYDKZkJSUhF69euHNN9/ElStX+EXIfaAeVi2UlpZi+/btGDlyJF9FiMzGjRsxZMgQGmSwFqiHdZ/OnDmDMWPGYOTIkfS+GflTRqMRo0ePxujRo3Hu3Dm+mtQQ9bDukcViwdq1a/Hqq6/yVW6rpgmbOWHIZb36+uuvMW7cOHrV5x5RwroHp0+fRlRUFNavX+/SjykYDAYYjUaYzWaYTCbYbDZVR4kwGAzw8PCA2WyG3W6HzWarmKzCFUmPQYwbNw5z5sxBhw4d+EVINShh1dDGjRsxZswYvthl1PT1oFGjRqFz587w8fFBnTp14OvriwceeAD16tWDr68vvzgAoLCwEAUFBSgqKoLVaq2YuScxMRHr1q3jF5epadtEtXHjRowcOfKeZyByR5Sw/sTFixcxY8YMREdHV3kRVlTSrDR3SgBPPfUUOnfujPbt26N58+Zo0aIFGjduDF9fXzRs2JBfXFE3b95EYWEhcnNzkZmZiczMTFy8eBGnTp3Cjh07+MXvuh4ikY6poUOH4vPPP0ebNm34RUgllLCqwRhDbGwsxo0bh2vXrgk7kkJ145uPHTsWHTp0QFBQENq2bYs2bdrA29sbHh4eupmR2Wazoby8HMXFxcjIyEBaWhrOnDmDc+fOyXpmZrMZjkozUItEOraaNGmCDRs2oE+fPtTbqgYlrDsoLS3FmjVrMGXKFL5KCHc6hQoICMCUKVPQtWtXtGvXDn5+ftWewuldYWEhrl+/jtTUVBw/fhzLli1Denp6lWXutA1EsXz5ckycOJEef7gTRqrIyspif/vb3xgAZjabGQBhwmAwVPn/iIgItmvXLpaens4cDge/qi7D4XCwjIwMFhMTw2bNmiXbLiKFh4cHA8DGjx/Prl27xq+q26MeViUJCQno3LkzXyyMvn37YtiwYejTpw86dOjgtpOIWq1WnDt3DrGxsdi2bRsOHDjALyKMkydPolOnTnyx26KEdduOHTswaNAgvliXKk+cEBAQgPHjx2Pw4MF45JFHVL84LpqbN2/i/PnziImJwbp165CSkgLcnruRv66nVzExMQgPD+eL3RPf5XJH8+fPl3XN9R7Dhg1j27dvZ9nZ2fzqkGrk5OSwn376iY0YMUK2PfUeCxYs4FfHLbl1wsrPz2eTJk1iAJjRaJQdJHqLhg0bssWLF7OLFy/yq0Lu0cWLF9mnn37KWrVqJdvOegvp2Jw0aRIrKCjgV8WtuG3CyszMZC+++CKDTi+uV27TgAED2ObNm1lOTg6/GqSWcnNz2aZNm1hYWNgdt71eQmrTSy+9xDIzM/nVcBtumbCuXr3K+vfvLzso9BbdunVjO3fudPtfVS1YLBb2888/s65du8r2g94iNDSUXb16lV8Ft+B2F91TUlLw8MMP88W6EhYWhlmzZqFPnz41frGYKMPhcODo0aNYtGgRNm7cyFfrSnJyMgIDA/lil+ZWCevIkSO6Hv1x/PjxmDx5Mnr06IE6derw1URD5eXlOHz4ML788kts2rSJr9aNw4cP4/HHH+eLXRff5XJVcXFxsq61s0O6mBoUFMQ2bdrEiouL+WYTJysqKmKbN29mf/nLX6rsMz1FXFwc32yX5RY9rOPHj6Nbt266fB9wxYoVGDlyJBo0aMBXER0pKCjAli1b8NJLL/FVTiUd0/Hx8ejatStf7Xr4DOZqfv/9dwaA1a1bV/bL5MyYMWOGW9/tEVVmZiZ76623ZPvTmSEd27///jvfXJfj0gnr8OHDsp3rrJDeEevduzeLjY1l5eXlfHOJIGw2G/vtt98q7jRL+1YPcfjwYb65LsVlE9bp06dlO9PZMXv2bGaxWPimEkFZrVYWEREh28/OjtOnT/NNdRkueQ0rNTUV7du3r/LOnTP17dsXX3zxBUJCQvgq4gJOnTqF119/HQcPHuSrNCcd8ykpKWjfvj1fLTyXe8jn4sWLeP755wFAF8nqk08+QUxMDCUrFxYSEoKdO3fis88+46s0Jx3zzz33HC5evMhXi4/vcons+vXr7K9//ausi+yMaN68OduxYwffROLidu3axVq2bCk7HpwRgwcPZtevX+ebKDSXSVilpaUsNDRUttOcESNHjqTB19xYVlYWGzNmjOy4cEb079+flZaW8k0UlkskrJKSEjZz5kyGO4y6qXUsW7aM2Ww2vonEzdhsNrZs2TLZ8aFlSN+FmTNnspKSEr6JQnKJhLVq1SoGgJlMJtlO0zL27NnDN424uT179siOEy1D+k6sWLGCb5qQhL9LKI0U6uyn2F31rgypvbS0NLRr144v1ow0IceOHTvwzDPP8NVCEfouYVJSUsWwxlonK09PTwDAK6+8goKCAkpWpFoBAQGwWCx4/fXXgdvDM2tJmj0oPDwciYmJfLVY+C6XKHJzc1lAQICsC6xFSIOpRUVF0YOgpMasViuLioqqcgxpHe3bt2e5ubl804QhZA+rrKwMCxcuRFpaGl+lCZvNhgULFmDmzJluOzMNuXe+vr6YOXMmFi5c6LQZxC9cuIDPPvtMmAk4ZPgMJoKvvvpK9suhZaxdu5ZvEiH3ZP369bLjSsv48ssv+SYJQbiL7tIgfM66yL5r1y48/fTTfDEh92z37t0YOHAgX6w66bsj4uB/QiWs69evo3HjxnyxZvbt24f+/fvzxYTct/379+PJJ5/kizVz/fp1NGrUiC/WLWESlsPhwKxZszB//ny+ShO7d+9GWFgYX6wrhYWFuHXrFsrLy+FwOGCz2VBaWorS0tIqyzHG4OXlhTp16sDDwwMGgwEeHh7w9vaGr69vlWWJ+vbs2eO0Xvvbb7+NqKgoYeYOECZhrVu3DuPGjeOLNbF//3707duXL9aUxWJBUVERCgoKkJ2djStXrqCgoAAnTpxAcnIyrl69qshNiDZt2qBly5b4r//6LwQFBaFhw4Zo1aoV/P39Ub9+ffj6+sLX1xcGg4H/U1ILBw4ccNoxtmHDBowePZov1iUhElZqaio6deqEwsJCvko1BoMBjDHNe1bl5eUoKSlBXl4eMjIycPbsWVy4cAHp6elIT0/HiRMn+D+pwmQywWQyVSSU228z8IvBYDBUhMPhgN1u/9Nrgl26dEGbNm3QunVrtG/fHkFBQWjdujX8/Pzg5eWl+fNFrmbfvn0IDQ2tOPa04ufnh7i4OKc+3FpTQiSsQYMGYceOHXyxasxmM2w2G3744QeMHz+er1ac1WrFxYsXkZCQgKSkJOzZswcJCQn8YhVJSEoyWpFOF6pLfsHBwXj66afRqVMnBAUFISAggB73uE//+c9/MH78+IpjUCsDBgzAL7/8whfrT5V7hjok3f7V6j1BT09PBpXfvbJarSwpKYmtWbOm2uFw9Dg7y52iunaOHDmS/fvf/2aJiYnMarXym4DcxcqVKxkqHYtqh7QP161bxzdFd3SdsC5cuCDbuGqG9Hb7okWLFB1z3eFwsBs3brC4uDj24YcfymadNplMzMvLy+kjTdQ2jEYj8/Lykj3F3adPH/bxxx+zI0eOuNz4TGooLy9nixcvZnDC6CPp6el8c3RFtwnLZrOxt99+W7ZB1Y7XXntNsfkBb926xeLj49m8efNYnz59qnyOVj1GZwe/np07d2affvopi4+PZ7du3eI3Gbnt1q1b7LXXXpNtT7Xj7bffZmVlZXxzdEO3CWvHjh0MdznlUCM6dOjACgsL+abcs7Nnz7KvvvqKNWjQQPYZ7h78/vznP//Jzp8/z29CcnsS127dusm2oVoh9eZ27tzJN0U3dJmwbty4IduYakebNm1q1R3Oy8tjMTExbOjQoVX+Xb6HQfH/gt8uo0aNYjExMezGjRv8pnVrly5dYm3btpVtP7Xj5s2bfFN0QZcJa+nSpbINqHbc7ySUV69eZStWrGC9e/eu+Lf4azgUd4/Kva6nnnqKrVq1ioaYruTQoUOybaZ2fPXVV3wzdEF3CSsjI4NBo4uN0hfl+++/55vxp1JTU9n8+fNl/yaFcvHJJ5+wjIwMftO7pX//+98MdzilViOkz6jNGYdadJWwysrK2CuvvCLbgGrGyy+/zDfjrpKSkqpcDNUisbp7TJ48mZ05c4bfFW5H64vwU6ZM0d0FeF0lrIMHD8o2mprRt29flpOTwzdDxuFwsLS0NDZt2rSKv9XT9OSuHJVPr99//3124cIF5nA4+F3kFnJzc9mTTz4p20ZqxoEDB/hmOJVuElZJSQl79tlnZRtMjZC6vEePHuWbIZOZmck+/fRT2b9BoW1UvkgfFRXlthfnjx49yqDRqSEANnr0aF31snSTsGJiYmQbS81YuXIl34QqLBZLxRPHFPqMNWvWsIKCAn7XubzVq1fLtoWa8eOPP/JNcBpdJKxbt27JNpKaMW7cuGqfZC8vL2d79uypeNCTrlHpM6T90rZtW7Z///5q96crKi0tZaNHj5ZtEzVDL70sXSSs6Ohohjs8m6N0SNdDkpOT+SYwdvsRhcrXqSjEiTlz5ujyrpZaUlJSGDQ4NZS+kzt27OCb4BROT1gWi4V17txZtqHUiju91Gy329m6detky1KIEZV7wRs3bnSbi/IrVqyQbQu1ol+/foq8BVJbTk9YWiaKF154Qfb+WnJysuxlZAqxY8iQIezChQtV9rMrKi4uZhMnTpStv1oRHR3NN0FzTk1YN2/eZM8884xsw6gVCQkJFZ9dWlpacSoKDbrWFNqEtB/9/f3Zf/7zH5fvbSUmJsq2gVoxdOhQlp+fzzdBU05NWHv37pVtFLVi4cKFFZ+bn5/P3nzzTdkyFK4Xs2bNcvkhbRYsWCBbb7XC2deynDbiKGMMbdu2RUZGBl+liuLiYnh7e+Po0aPo0aMHX01c3JEjR1x2vxcXF6Nu3bqaDK0cHByMhIQEp43p77SpMuLi4pCRkQGTycRXKUbaqNHR0fD29saaNWtc9qCtzGAwwGg0VglprHeTySSrcwePP/44vvvuO3FnPL4LHx8fbNmyBYwxVROJyWTC6dOncfjwYb5KO3yXSwt2u51NnTpV1t1UI5599lmWn5/vUo8rGAwGZjabmdlsVu1REJPJxDw8PJjJZHKJZ9Gka1uRkZHMYrHwh6TwiouLWXh4uGy91YjXX3+d2e12vgmacMop4YULFxAYGAij0aj6ZApr1qzBzp07sW7dOr5KGJVnwKnOyJEjERwcDG9vbzRo0KBiWi6DwQCz2VyxXOVZchwOBwoKCpCTk4OCggIUFxfj1KlTiI6OrvJvV6bFaYdapLaHhoZi5cqVaN26Nb+I0KRZ0dUkbcMLFy44ZZYdpySsxYsXY8aMGXyx4urWrYvy8nKUlZXxVbpWefqtysaPH482bdrg0UcfRbt27eDn54cmTZqgbt26Vab2qg3GGOx2OwoLC5GTk4O8vDykpKQgLS0NaWlp+P7776ssX5NkqlfHjx9Hly5d+GJh2Ww2zJo1C5988glfpbglS5Zg2rRpfLHqNE9Yubm5GDRoEOLj4/kqt1anTh2UlJRU/H/Hjh3RsWNHPPHEEwgODka7du3g6+uLOnXqVOkxacVut6OkpAT5+flIT0/HmTNn8Msvv+D06dM4d+5cxXJeXl6ymab1bM+ePXjqqaf4YmGdPn0aISEhqp+9dO3aFTt27IC/vz9fpS7+HFFt27dvl50TU/z/mDt3Lvv111/ZtWvXnHadoKZsNhu7evUqi42NZbNnz66yHiJd97qfARz1bMqUKbJ1VCN+/vln/qNVp2nCstvt1c7D564xcOBA9vXXX7OkpCThH3K02+0sKSmJLV++nHXv3l22rnqOhQsXMpvNxq+SkM6ePcugwVDdw4YN0/yY1TRhSRtSrTtbeo7K69yxY0c2d+5cFh8fz4qKivjN5BKsViuLi4tjH3zwAQsMDKxYd7W/RPcT0r5ZsGABKykp4VdFSJMmTZKtp5IhbbM//viD/2hVaZqwli9fLltxV4/Kp0Zt27ZlmzdvZpmZmfymcWmZmZnshx9+qJK49BbSCLLz5s3TvNeghvj4eNk6qhFff/01/9Gq0ixhlZeXy1bWXWLKlCns4MGDuhlTyFnKy8vZwYMH2ZgxY2TbSA8h9f7+8Y9/8E0XTklJCXvppZdk66hGaDkWmWYJS8r4ejwlUDIq96imT5/OTp065RK/2EoqLy9n8fHxbPr06RXbSi8vn0vHZ2RkpPCnh/v375etn5IhbasTJ07wH60azRLW4sWLZSvsSlH5GtWkSZPYyZMn3b5H9WfKyspYXFwcGzduXMW208PdRemLuGjRIt3fqb2bwsJC1qtXL9n6KR2ff/45/9Gq0SRhWSwW1rdvX9mKukpIvYPOnTuz/fv3U4/qHtlsNvbbb7+xFi1ayLats0JKWsuXL+ebK5Tvv/+eQeUfgn79+jGr1cp/tCo0SVjSTB+uFpVPY6Kjo6lHVUtlZWVs/fr1d9y+zgjp8zdu3Mg3VRg5OTkMGlyKOXbsGP/RqtDkVf0DBw7wRS7B4XAgIiICV69exbBhw+Dh4cEvQu6Bh4cHxowZgytXriAiIkLVJ7VrQvr80aNHY//+/Xy1EPz9/fHqq6/CZrPxVYqKjY3li9TBZzClFRYWsmHDhskysqhR+VefTv/Upbe3IrR+5kgp0gTFap4WDh06VJMx31VPWNLDos7u3isZ77zzjiY7hzCWl5cne+3HmZGdnc03UfcKCgrYU089JVsXpUL6bmuR0FU/JZRecnZ2914pv/zyC+bNm4e6devyVUQFfn5++PDDDxETEwMfHx+g0ggRzjB16tQqL6mL4IEHHsCQIUP4YsVI320tBjRQPWFt3ryZLxKKNCLnk08+ifT0dAwYMMBtRunUC4PBgPDwcJw4cQJ//etfwVQeWfNuNmzYgG+//Va4H+DQ0FC+SHFbtmzhi5THd7mUlJ+fzyDwu4NeXl4MLvIQoauwWq0sIiJCtq+0CulumzNGKqiNoqIiNnLkSNn6KBXSd1ztWXVUTVjS4wyenp6yFRQltm3bRhfWdWjt2rWyfaV1JCUl8c3StVWrVjGodPFd+o7HxcXxH6soVc9tEhISAEDIgf+bNm2KQ4cOYejQoU47/SDVGzduHH777Te+WFMjRowQarDCxx57DLj9+IjSpO/46dOn+SpFqZawbDZbRcLSeFDTWjMYDNizZ4/q42OT2unXrx/OnDnDF2vCYDAgJSUFK1eu5Kt06+GHHwYAVYYMl77jJ0+eVPeZL77LpZSbN2/Kuo16Dqmb3KNHD5aTk8OvDtGxnJwcp7769euvv/JN0q3IyEhZ+5WOGzdu8B+rGNV6WFpNkKoEo9EIdns2lZiYGO3HqSa14u/vjw0bNuD555/nqzQxd+5cZGdn88W61Lt3b6DS3W8lSZdO1PzuK9/q25KTk/ki3XI4HBg2bBjWrVuHRo0a8dVEAE2aNMGiRYsQHh7OV6nu119/xdKlS/liXQoMDETTpk1VuS4rnRaeP3+er1KMaglL7YtvSho4cCC+++47NG7cmK8iAvHz88P69evx5JNP8lWqMpvNiIyMxMGDB/kq3WnevDlCQkJgt9v5KsUkJSXxRYpRJWFZrVZcuHCBL9alTp06Yf369ahfvz5fRQRUr149bNiwAcOGDeOrVCNdZJ4yZQoKCwv5al0xGo2qPvUOAKmpqbBarXyxIlRJWBaLBYcPH+aLdadHjx746aefKFm5GH9/f3z55Zfo1q0bX6WqpKQkIWYYDwoK4osUdfDgQVgsFr5YEapMpJqYmIjg4GDVJ3OsrbNnz6JDhw58MXERKSkpePjhh2E2m9W91X6bdLynpKSgffv2fLVuXLlyBQ899BBfrAhpG5w4cQKdO3fmq2tNlR6WNBOwHpOVyWQCbl9jo2Tl2gIDA3H48GFNkhUqHe9RUVF8la40aNAAzz33HF+sCGkbpKam8lWKUCVhpaSk8EW6YDAYYLfbsW3bNnTs2JGvVoXNZkNpaSlKSkpQWFiImzdvIi8vD7m5ubLIy8vDzZs3YbVaUVJSgtLSUs2+bK7q8ccfx4YNG/hi1RgMBqxevVrXF+Dr1q2LgIAAvlhRaWlpfJEiVDklHDFiBKKjo/liXXj//ffxwQcf8MWKKCoqQk5ODvLy8nD58mUUFBQgLS0NVqsVt27dQkZGBs6cOYMrV67wf1qhVatWCAgIQGBgIHx8fFCvXj20bt0aDRs2xEMPPQQ/Pz80b94c3t7e/J+SajDGsGDBArz77rt8lWo6deqE48ePq/K8kxLWrVuHcePG8cWKGT58OLZu3coX1x7/JGltFRYWsrZt28qeftVDTJ48WbFRF/Ly8lhiYiLbvHkzmzdvHuvQoYPs86oLg8HAjEajLO7lpdSOHTuyDz74gG3atImdPn2a5eXl8U0klZSWlqo6iF3lkEYu2L59O98M3Th+/DiDigNrtm3bVpVZzRXvYWVlZeGRRx5BcXGx7k5nLl++jJYtW/LFNWKxWHDp0iWcOnUK+/btw7Fjx5CYmFhlGaPRCA8PDzgcDtjtdtweDaPKMvfDYDDAYDDAZDLBaDSivLxcdn0wODgYHTp0wNChQxEcHIyHHnoIDRo0qLKMu7ty5QratGmj6jNIlfXt2xfbtm3T5X7IyspCs2bNYDKZFN8eZrMZ3t7eSE5ORtOmTfnq2uEzWG2dO3eOQYNZOmoa0hTksbGxfFP/VFFRETt8+DBbsGABGz58uOzfNplM99QrUiMMBsMdxxsLCwtj8+bNY4cOHWIWi4VfNbcljROv1X7bvHkz3wRdKCkpkbVVqZC++2fPnuU/ttYUT1ixsbEMKnY17yfeeustvpnVKisrY/Hx8Wz+/Pmyf0erg7y2cad2fvDBB+z48eOKnRKL7OOPP5ZtH7WiV69e7ObNm3wTnM5ms7FXXnlF1l4lQvru308n4c8onrC2bt1apdHOjmeeeaZGPYzLly+zVatWMW9v7yp/r5f1uN/g2+/n58eWL1/OMjIy3HZgwvz8fNaxY0fZtlIrNmzYwDfB6RwOB4uKipK1VYmQjrno6Gj+Y2tN8YS1ZMkS2Qo4Mw4dOsQ3sUJZWRk7d+4cmz17dpWL5no5nVU6Kq9X3bp12ezZs9mpU6dYeXk5v2lcXlxcHINGw3c/+OCDupxkd926dQx3+FFTKpYsWcJ/ZK0pnrA++ugjWcOdFZGRkdX2Io4dO8amTZsm+xt3jMmTJ7OEhAR+E7m81157TbYtlA7pR0KN06Pa2rNnD4OKCeujjz7iP7LWFE9Yap0X30/wp4IOh4MdO3bMqYO96TkGDx7Mjhw5Um2SdzV5eXmsXbt2su2gRowdO1Z3PdmEhASGSjemlI6XX36Z/8haUzRh2e121rlzZ1nDtQzp1+Knn36q0rZz586x6dOnVyyn1k4SNSpvjylTprDExES3SFzbtm2TbQu1Qm+TVly6dIkBYHXq1JG1VYkICQlhdrud/9haUTRhlZWVyRrtjBg8eHDFr9mNGzfYsmXLKurU6v66SlTePlFRUez69ev8bnYphYWFbMyYMbLtoEZERUXxH+9UWVlZDCpfs1X62p2iCau0tJTBiUlBup0vXY+RnrmpXEdRs6i8vaKjo3V3OqMk6alvNS/AGwwG5u/vz65cucJ/vNNYrVZZO5UKKQco/RiNoi86FRQUACqNF10TjDF8/PHHaNy4MV544QUMHjy4Sh2pucrba/jw4ZgwYYKqQ986U5cuXTB58mTFn/iujDGG3NxcxMbG8lVO4+vri8DAQL5YEVIOUHogP0UzS3FxMVBpMHpnyMzMxPDhw/Gvf/3LaYnT1RiNRqxfvx4dOnTA1q1bhZqLr6amTp0KaHDsrlmzRvZalTOp/dqQ4iOw8l2u2khOTmZw4gVtOu1TN6RTpv/5n/9hubm5/O4Xntp3uNV8ZeV+DRo0SNZOJULKAefPn+c/slYU7YJIs7866/TLWZ/rLqRTpi+++AL+/v44cuQIv4jQpk2bBqjYy5IGA9i7dy9f5TSKv5x8m/RdVPo0W9GERQnDvfTs2RM//PCDKjMJO0O7du3w5ptvqn4cv/fee7rZZmpPa6f06S8lLFIrEyZMwJw5c3Dr1i2+Sjienp4YPXo0X6wos9kMq9Wqm3k71U5YSucERRMWcT8mkwkLFixAv379kJuby1cLp2vXrnj66af5YsVIp0h6uVvo4eHBF+kaJSxSK9IX8NixYxg6dGjFBCSi8vT0xKuvvgqo9HiO1OOIjY1FUVERX605te8SKk35PULc1pEjRzB06FDEx8fzVUJ54oknABWuv0gMBgPWr1+PrKwsvor8CUpYRFEpKSno3r07EhIS+CphNG7cGG+99RZfrBiplyV6YncGSlgqMRqNFVEbRqOxYkx3Ufj4+KBz5844dOgQXyWMsWPHAiqdFkp2797NF5E/oegkFElJSejYsaNmM+3qiaenJxwOh2y9e/TogYYNG+LBBx9E06ZN8cADD6BRo0Zo2LAhfH194eHhAZvNBqvVivz8fFy/fh1WqxXZ2dnIyspCfn6+7Hkns9kMo9Gom1vjd3Pw4EH06tWLL9a9goICjB8/HjExMXyVYrp3747t27fD39+fr9LMihUr8PLLL/PFtSblgMTERAQFBfHV949/krQ2EhMTGVR++1vv0axZM/bZZ5+xnTt3ssTERJaVlcXy8/OZzWbjN9dd2Ww2VlBQwLKyslhSUhLbtWsXW7x4MevSpYvsM/X+hP+5c+f41RPCggULZOuiVEgvB584cYL/WE19++23srYpEVIOSExM5D+yVihh1TL69+/PlixZwo4eParZUCw3btxgR48eZcuWLWPh4eGyNukppGSalpbGr4bunTx5UrY+Ssc333zDf6ymKGG5aMKqvE7h4eFs6dKl7OzZs6y4uJjfDJoqKSlhZ8+eZStWrGDDhg2raKPeel3h4eEsMzOTb76uWSwW1qtXL9m6KBnDhw/nP1ZTlLBcLGFV/uJPnDiR/f7777qctond/oLFxsZWeYlXT4lr0qRJ7NatW3yzdctut7PIyEjZeigVao0ZdS9ES1jq3QJxEYwxzJ49G3/88QdWr16N3r176/Zhu3r16qFPnz5Yvnw5UlNTERUVVXEL3dl3GY1GI1auXIn33nuPr9Ito9FY8UyW2Wzmq2utTp06AIBr167xVaQalLA4lb/Yc+fORXp6OubOnYtHH320ynJ6FxAQgHfffReZmZn49NNPKxKXmrfp78bhcMBsNmPx4sWIjo7mq3VL2u9qbDfpLm9KSgpfRaqh/F4QHGMMf//735GYmIiIiAi0bt2aX0QozZo1w4wZM5CSkoKXXnpJtae3a0J65GPEiBE4ffo0X61LTZo0gZeXlyqPkEivNaWmpvJVpBqUsLhe1e7du7F8+XIEBQU5/TRKKQaDAe3bt8eKFSuwc+dOvtop3njjDVgsFr5YlyIiIvgiRUi93tTU1Iqx5MjdUcK6feBERkbi5s2bCAsLg8lk4hdxCQaDAQMHDkRJSQnmzZvHV2vqwIEDeOedd/hiXerevTug0mkhbg/op0YPzhWpswcE88svv+Cdd97R7cV0pXl5eeG9997D3r170b59e75aE0ajEV9//TX27dvHV+lOQEAAoNKNC6PRiISEBJcYT0wLbp2wevbsieTkZAwYMECVu0B6Fxoail9//RUDBw4EVLoTVh3pWlpoaKjux9Hy8/PDY489pvhwv6h0Wnj16lW+ityB2yUs6XTvww8/xN69e1Wb5kgULVu2xM8//4zZs2fDZrM55XT4yy+/VHxkSiU1atRItZsv0npLU+SRu3OrhGU2m2G327F69WpERETAx8eHX8Qtmc1mvP/++9i4caMqvYi7MRgMiIyM1M0InNVR+7GWtLQ0vojcgdskLC8vL9hsNqxduxYTJ05U7QKqqEwmE0aNGqXq6AR3IvUw5s6dq4sROKsTHBzMFykqOzubLyJ34BbfWl9fX5SWliImJgbjxo3jq0kl4eHhThmnad++ffjxxx/5Yt1Q+4ZMdna2U5+RE4XLJywvLy8UFhbit99+Q3h4OF9N7iAsLAwHDx7ki1VlMBgwfvx45OTk8FW60LZtW0DFRxuys7PpTmENqLP1dcJoNKK0tBQbN25Ev379+GpyF7169aqY8FON2/nV2bBhA1+kC9J7f2rdHCgpKZEN/kjkXDphORwOfPPNNxg1ahRfRWogNDQU3333HRhjqk8HxRiD0WjE1KlTkZGRwVc7XZ06ddCrVy/VElZRURElrBpw6YQ1f/58/P3vf+eLyT14/vnnMX/+fJSXl6ve05Ku4axcuZKvcjovLy888sgjfLFizpw5Q6eENeCyCWvEiBGYPn266l8ydzB16lRNpnCXLFu2DOnp6XyxUxmNRtV6mUajEVeuXEFpaSlfRTgum7CWLFkCLy8vvpjcBx8fH01fXbp+/Tq2bNnCFzuV0WiEt7c3X6woOiX8cy6VsKSntPfu3YtWrVrx1aQWHnzwwYqRHtS6UyYxmUz43//9X109l2UymVR/0Fjrh3ZFpO6RpzG73Y5FixYhNDSUryIK6NGjBxYtWqT680LSqeeuXbv4Kqcxm8144IEH+GKiMZdKWD179sSkSZP4YqKgiRMnYujQoXyxoqSE+P3336OkpISvdpq6devyRURjLpGwpFEG5s2bR7+CKmvYsGHFuOxq39DYunUrkpOT+WKn8fT0BDRYb1I9l0hYNpsNL774Ivr3789XERU89thj+PjjjzW5a7h161a+yGm0WF9ydy6RsBo2bIhZs2bxxUQlBoMBEydOBDS4AL9z507dvq5DtKfu0aaRmTNnol27dnwxUVHTpk3x+eefq34B/siRI/jjjz/4YuKmhE5Y0rWECRMm8FVEA3/729/QrFkzvlhxmzZt4ouImxI6YTHG8MUXX6Bly5Z8FdGAn58fIiMj+WLFLV26FDdu3OCLiRsSNmFJD4n+93//N19FNPTMM8+oertf2s/nz5/nq4gbEjZh2e12vPHGG2jRogVfRTTUvHlzVaefl57+Pnr0KF9F3JCQCUv61X3hhRf4KqIxg8FQMXyPmncMv/32W3p1hYiZsOx2O/r164egoCC+ijhBQEAAwsPDVbtjaDQacebMGWRmZvJVxM0ImbAAYOzYsRWjQBLnMpvNeO655/hixV28eJEvIm5GuIQlnXaEhYXxVcSJevXqBag0GavUc4uPj+eriJsRLmE5HA5MmDBBk+d/SM21bt0aYWFhqo7pdP78eRqV080Jl7Bwe5gTNW+lk/szduxYvkhRcXFxuhoji2hPqIQlnQ4+/vjjfBXRgW7dugEq3S00Go04deoU8vPz+SriRpQ/slQkvS0fGBjIVxEdaNmyJUJDQ1W5Wyj9mzSlu3sTLmFNmDABvr6+fBXRgfr16+PRRx/lixWVlZXFFxE3IlTCAoDg4OCKB0eJvpjNZtUT1qlTp/gi4kaESVjSdZHg4GC+iuiI2vuHeljuTZiEJfWq6N1BfWvSpAmg0oV3ALh06RIsFgtfTNyEOkeVCqSxr/z8/PgqoiP+/v6ASsMJG41GlJSUoKysjK8ibkKYhCUdpPXq1eOriI54enqiT58+qiQsg8EAq9VKMyS7MWESFgB07NiR7hDqnIeHB7p27coXK4IxhvPnz8NqtfJVxE0IlbDo+pX+GQwG1ad0p9dz3JdQCYumn9c/o9Go+mtT5eXlfBFxE0IlrObNm/NFRGeMRmPFZLZqTTiqxpP0RAxCJaz69evzRUSHfHx8ABUTlhoX9IkYhEpYdMFdDGolKkKESlj0y0qIexMqYdEvNyHuTaiERQhxb5SwiGpc9RTeVddLBIomLGlHqjWuN81LJwZpPyn9xZYeZ1D6360ptR6ncOZ6qfWdknKA0utkYAr+iykpKZg7dy4aN26seENLS0sRFhZGU9ML4Mcff0RMTIwq07AVFRXhjTfeQEhICF+lui1btmD37t2qrdc777yDdu3a8VWq2rJlC/bs2QMvLy++qlYMBgPy8vIwZ84cRUcIVjRhEUKImhQ9JSSEEDVRwiKECIMSFiFEGJSwCCHCoIRFCBEGJSxCiDAoYRFChEEJixAiDEpYhBBhUMIihAiDEhYhRBiUsAghwqCERQgRBiUsQogwKGERQoRBCYsQIgxKWIQQYVDCIoQIgxIWIUQYlLAIIcKghEUIEQYlLEKIMChhEUKEQQmLECIMSliEEGFQwiKECIMSFiFEGJSwCCHCoIRFCBEGJSxCiDAoYRFChEEJixAiDEpYhBBhUMIihAiDEhYhRBiUsAghwqCERQgRBiUsQogwKGERQoRBCYsQIgxKWIQQYVDCIoQIgxIWIUQYlLAIIcKghEUIEQYlLEKIMChhEUKEQQmLECIMSliEEGFQwiKECIMSFiFEGJSwCCHCoIRFCBEGJSxCiDAoYRFChEEJixAiDEpYhBBhUMIihAjj/wD78z3i5uNy4QAAAABJRU5ErkJggg==" alt="NotebookLM" style="width:16px;height:16px;object-fit:contain;">
-      </div>
-      <div>
-        <div class="sidebar-creator">実習ツール</div>
-        <div class="sidebar-name">NotebookLM</div>
-      </div>
-    </a>
-
-    <div class="sidebar-section" style="margin-top:8px;">Webアプリ</div>
-    <div style="font-size:0.7rem;color:var(--text-sub);padding:3px 2px 4px;font-weight:600;">荻原麻実さん制作</div>
-
-    <a class="sidebar-link" href="https://aoao62.github.io/bookkeeping-town/" target="_blank" rel="noopener">
-      <div class="sidebar-icon" style="background:var(--green-light);font-size:1rem;">🎮</div>
-      <div style="font-size:0.72rem;color:var(--green-dark);font-weight:600;line-height:1.35;">勘定科目の<br>仕分けゲーム</div>
-    </a>
-
-    <a class="sidebar-link" href="https://aoao62.github.io/boki-puzzle/" target="_blank" rel="noopener">
-      <div class="sidebar-icon" style="background:var(--green-light);font-size:1rem;">🧩</div>
-      <div style="font-size:0.72rem;color:var(--green-dark);font-weight:600;line-height:1.35;">転記が学べる<br>パズル</div>
-    </a>
-
-    <div class="sidebar-section" style="margin-top:8px;">Webサイト</div>
-    <div style="font-size:0.7rem;color:var(--text-sub);padding:3px 2px 4px;font-weight:600;">小柳聡史さん制作</div>
-
-    <a class="sidebar-link" href="https://minaasa373-wq.github.io/fullmetal-alchemist-bookkeeping/" target="_blank" rel="noopener">
-      <div class="sidebar-icon" style="background:var(--green-light);font-size:1rem;">📖</div>
-      <div style="font-size:0.72rem;color:var(--green-dark);font-weight:600;line-height:1.35;">カリキュラム<br>まとめ前半</div>
-    </a>
-
-    <a class="sidebar-link" href="https://minaasa373-wq.github.io/fullmetal-alchemist-bookkeeping/index2" target="_blank" rel="noopener">
-      <div class="sidebar-icon" style="background:var(--green-light);font-size:1rem;">📖</div>
-      <div style="font-size:0.72rem;color:var(--green-dark);font-weight:600;line-height:1.35;">カリキュラム<br>まとめ後半</div>
-    </a>
-  </aside>
-
-  <!-- メインエリア -->
-  <div class="main">
-    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ メニューを開く</button>
-  <div class="tabs" id="tabs"></div>
-  <div class="panel-wrap" id="panels"></div>
-  </div><!-- /main -->
-</div><!-- /container -->
+</div>
 
 <script>
-const lessons = [
+// ========== 問題データ ==========
+const questions = [
   {
-    date: "2026/5/7",
-    label: "第1回前半",
-    theme: "簿記の基本概念",
-    title: "Geminiの「ノートブック」機能とNotebookLMを使ってみよう",
-    purpose: ["Geminiのさまざまな使い方を体験する"],
-    prep: [
-      { label: "Googleアカウントの準備", body: "ブラウザでGeminiにアクセスし、Googleアカウントでサインインします。実習用Googleアカウントをまだお持ちでない方は新規作成してください。" },
-      { label: "参考動画", linkUrl: "https://www.youtube.com/watch?v=1INqlD-Hw78" }
-    ],
-    steps: [
-      { num: 1, label: "動画を見ながら実習する", body: "動画を見ながら、Geminiの「ノートブック」機能を試してみましょう。",
-        toolLinks: [
-          { name: "Gemini", url: "https://gemini.google.com/" },
-          { name: "NotebookLM", url: "https://notebooklm.google.com/" }
-        ]
-      }
-    ]
+    body:"事務所の賃貸借契約を結び、家賃6か月分（1か月￥300,000）、手数料￥300,000、敷金￥600,000を、小切手を振り出して支払った。",
+    choices:["ア．支払手数料","イ．前払金","ウ．支払家賃","エ．当座預金","オ．差入保証金","カ．受取手数料"],
+    debitRows:3, creditRows:1,
+    answer:{
+      debit:[["ウ","1,800,000"],["ア","300,000"],["オ","600,000"]],
+      credit:[["エ","2,700,000"]]
+    }
   },
   {
-    date: "2026/5/7",
-    label: "第1回後半",
-    theme: "簿記の基本概念",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成",
-    purpose: [
-      "NotebookLMを使い、複数の動画からテストを自動生成する方法を身につける",
-      "AIによる情報整理と業務効率化を体感する"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: ["https://youtu.be/pQrxmzrDR1c", "https://youtu.be/ydenauRwjS0"]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ2つの動画の内容に基づいて、簿記の基礎知識に関する確認テストを5問作成してください。形式は選択式とし、最後に解答と解説も出力してください。"
-      },
-      { num: 3, label: "内容を確認し、追加指示で仕上げる",
-        body: "生成されたテストの難易度・表現が適切かどうか確認します。調整が必要な場合は、そのままチャットで追加指示を出してブラッシュアップしましょう。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      }
-    ]
+    body:"従業員が出張から帰社し、旅費交通費として使うよう手渡していた￥40,000のうち、残った￥9,800を従業員から現金で受け取った。",
+    choices:["ア．旅費交通費","イ．従業員立替金","ウ．現金","エ．仮受金","オ．仮払金","カ．前払金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ウ","9,800"],["ア","30,200"]],
+      credit:[["オ","40,000"]]
+    }
   },
   {
-    date: "2026/5/8",
-    label: "第2回前半",
-    theme: "仕訳の基礎と勘定科目の理解",
-    sectionLabel: "実習の内容",
-    title: "Canvaの使い方を覚えよう",
-    purpose: ["Canvaの操作や機能を身につける"],
-    steps: [
-      { num: 1, label: "参考動画を見ながら実習する",
-        body: "参考動画を見ながら、Canvaの機能を使ってみましょう。",
-        note: "作ったデザインは、必ずファイル名に自分の名前をつけてから、自分のフォルダの中に格納しましょう。",
-        linkUrls: [
-          { label: "①", url: "https://www.youtube.com/watch?v=nRds9qeaLiM" },
-          { label: "②", url: "https://www.youtube.com/watch?v=uumr0BVAJE4" }
-        ]
-      }
-    ]
+    body:"商品￥620,000（本体価格）を仕入れ、代金は10％の消費税を含めて掛けとした。なお、消費税は税抜方式で処理する。",
+    choices:["ア．仕入","イ．仮受消費税","ウ．仮払消費税","エ．未払消費税","オ．売掛金","カ．買掛金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","620,000"],["ウ","62,000"]],
+      credit:[["カ","682,000"]]
+    }
   },
   {
-    date: "2026/5/8",
-    label: "第2回後半",
-    theme: "仕訳の基礎と勘定科目の理解",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/_7yZZofZnqQ?si=BvcU-fgTNXlVly0r",
-          "https://youtu.be/p2H_GistKWE?si=TCAOnXXa4K-rtTyf",
-          "https://youtu.be/w40zRfN1P0w?si=GFMkjW4Jl2Jv2hfX"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"A株式会社は増資を行い、株式3,500株を1株当たり￥200で発行し、株主からの払込金は普通預金口座に振り込まれた。",
+    choices:["ア．資本金","イ．普通預金","ウ．当座預金","エ．利益準備金","オ．広告宣伝費","カ．繰越利益剰余金"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["イ","700,000"]],
+      credit:[["ア","700,000"]]
+    }
   },
   {
-    date: "2026/5/12",
-    label: "第3回前半",
-    theme: "複式簿記と帳簿の種類",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/HI2DXDOyx8Q?si=e_gaXt8mHtWiDRCg",
-          "https://youtu.be/JGnQIxkZChI?si=R_uX9UHQ7Qo-Pzyw",
-          "https://youtu.be/EeDOxSb95ew?si=LHdWiCmlvKz4a4j7"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"営業の用に供している建物の改修と修繕を行い、代金￥5,500,000は月末に支払うこととした。代金のうち￥2,900,000は収益的支出に、残額は資本的支出に該当する。",
+    choices:["ア．修繕費","イ．未収入金","ウ．資本金","エ．損益","オ．建物","カ．未払金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","2,900,000"],["オ","2,600,000"]],
+      credit:[["カ","5,500,000"]]
+    }
   },
   {
-    date: "2026/5/12",
-    label: "第3回後半",
-    theme: "複式簿記と帳簿の種類",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/5yVU7wLuXP0?si=QTrTgtOszkOT2y4o",
-          "https://youtu.be/ViIAqPXtrAY?si=mWO3Bz1KoCDONDLc"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"A株式会社に商品￥820,000を売り上げ、代金のうち￥100,000は現金で受け取り、残額は同社振出しの約束手形で受け取った。",
+    choices:["ア．現金","イ．受取手形","ウ．支払手形","エ．売上","オ．当座預金","カ．支払利息"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","100,000"],["イ","720,000"]],
+      credit:[["エ","820,000"]]
+    }
   },
   {
-    date: "2026/5/13",
-    label: "第4回前半",
-    theme: "現金・預金の管理と処理",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/muHUrvssPXk?si=8pNcUFeL9_Ya3uij",
-          "https://youtu.be/SMtcz63KdcQ?si=7NrRASg25PXIeSkR",
-          "https://youtu.be/WH8KHhXYefE?si=lMUN9plZW4N4DwUs"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"社会保険料について、すでに源泉徴収した従業員負担分￥55,000と当社負担分￥55,000の合計額を普通預金口座から納付した。",
+    choices:["ア．社会保険料預り金","イ．所得税預り金","ウ．住民税預り金","エ．従業員立替金","オ．法定福利費","カ．普通預金"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["ア","55,000"],["オ","55,000"]],
+      credit:[["カ","110,000"]]
+    }
   },
   {
-    date: "2026/5/13",
-    label: "第4回後半",
-    theme: "現金・預金の管理と処理",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/PvlpEKhTuv4?si=Wf-gITMO9szsYtOy",
-          "https://www.youtube.com/watch?v=ftgPhQplnlw",
-          "https://youtu.be/PN8sp-eY7fc?si=zcypD6a0_XCa23fw",
-          "https://youtu.be/xSeUTCc_l84?si=7o-BxymPOcTpTioJ"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"商品￥60,000を売り上げ、代金のうち￥20,000は現金で受け取り、残額は商品券で受け取った。",
+    choices:["ア．受取商品券","イ．受取手数料","ウ．売掛金","エ．現金","オ．クレジット売掛金","カ．売上"],
+    debitRows:2, creditRows:1,
+    answer:{
+      debit:[["エ","20,000"],["ア","40,000"]],
+      credit:[["カ","60,000"]]
+    }
   },
   {
-    date: "2026/5/14",
-    label: "第5回前半",
-    theme: "商品売買と売掛金・買掛金の処理",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/BboEGZR2XV8?si=wK7Hq-z6ntCesgpH",
-          "https://www.youtube.com/watch?v=qHPXHWv8xws",
-          "https://youtu.be/NCw9voGKR74?si=cYpDxnPJ3n_4QTMV"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"かねて約束手形を受け取ってA株式会社に貸し付けていた￥1,250,000の満期日になり、同額が当座預金口座に振り込まれたので、約束手形を同社に返却した。",
+    choices:["ア．支払手形","イ．手形借入金","ウ．手形貸付金","エ．当座預金","オ．売上","カ．受取手形"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["エ","1,250,000"]],
+      credit:[["ウ","1,250,000"]]
+    }
   },
   {
-    date: "2026/5/14",
-    label: "第5回後半",
-    theme: "商品売買と売掛金・買掛金の処理",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/8YeucmRVqbw?si=6ZuAmDYOmB-YfPAy",
-          "https://youtu.be/fai9jxaXIho?si=-If1QxtpMmC2H6nd",
-          "https://www.youtube.com/watch?v=wmihafdKezA"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"商品￥70,000を注文し、手付金として、￥30,000を現金で支払った。",
+    choices:["ア．前払金","イ．未払金","ウ．前受金","エ．仕入","オ．現金","カ．買掛金"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["ア","30,000"]],
+      credit:[["オ","30,000"]]
+    }
   },
   {
-    date: "2026/5/15",
-    label: "第6回前半",
-    theme: "固定資産と減価償却の基礎",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/MOR8WF5UHqM?si=lMz9DU8XdZGcZzNv",
-          "https://www.youtube.com/watch?v=C1tXaGiIyS4",
-          "https://youtu.be/pPvP1uFf8Uw?si=_YQiA2CTPTo7s5oc"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"A株式会社へ商品を売り上げ、商品代価￥200,000を掛けとした。また、A株式会社負担の発送費￥1,000を現金で支払い、後日請求することとした。立て替えた発送費は、立替金として分けて処理する。",
+    choices:["ア．発送費","イ．売掛金","ウ．売上","エ．立替金","オ．現金","カ．買掛金"],
+    debitRows:2, creditRows:2,
+    answer:{
+      debit:[["イ","200,000"],["エ","1,000"]],
+      credit:[["ウ","200,000"],["オ","1,000"]]
+    }
   },
   {
-    date: "2026/5/15",
-    label: "第6回後半",
-    theme: "固定資産と減価償却の基礎",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://www.youtube.com/watch?v=pbAig18gqpo",
-          "https://youtu.be/95gTu-gtf7Y?si=rBm0Sp3NLoK1ey2S",
-          "https://youtu.be/GsCpbBK1BM0?si=lY8pfsGyJraSRI6b"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"得意先に対する売掛金（前期販売分）￥55,000が貸し倒れた。なお、貸倒引当金の残高は￥148,000である。",
+    choices:["ア．売掛金","イ．支払手数料","ウ．償却債権取立益","エ．貸倒引当金","オ．貸倒引当金繰入","カ．貸倒損失"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["エ","55,000"]],
+      credit:[["ア","55,000"]]
+    }
   },
   {
-    date: "2026/5/19",
-    label: "第7回前半",
-    theme: "試算表の作成と活用",
-    title: "NotebookLMを活用したDX・経理基礎テストを作って復習しよう",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/TqX3L-HbPEU?si=5WPsJxsWiuOW6R3c",
-          "https://youtu.be/ibMfbGE8F-w?si=MIQMkJlYG93qzpJH",
-          "https://youtu.be/O0QkZ6yHkgQ?si=I0ZO7UU2oOoZZ7XV"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"当期首に、5年前の期首に取得した備品（取得原価￥1,800,000、耐用年数6年、残存価額ゼロ）を￥100,000で売却し、代金は月末に受け取ることとした。なお、この備品は定額法で減価償却を行い、間接法で記帳している。",
+    choices:["ア．未収入金","イ．普通預金","ウ．固定資産売却益","エ．備品","オ．固定資産売却損","カ．備品減価償却累計額"],
+    debitRows:3, creditRows:1,
+    answer:{
+      debit:[["ア","100,000"],["カ","1,500,000"],["オ","200,000"]],
+      credit:[["エ","1,800,000"]]
+    }
   },
   {
-    date: "2026/5/19",
-    label: "第7回後半",
-    theme: "試算表の作成と活用",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://www.youtube.com/watch?v=Wqkafa3IxqY",
-          "https://www.youtube.com/watch?v=WQ2fMu3K81s"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
+    body:"普通預金口座から当座預金口座に￥5,000,000を振り替えた。",
+    choices:["ア．現金","イ．当座預金","ウ．損益","エ．普通預金","オ．受取利息","カ．支払利息"],
+    debitRows:1, creditRows:1,
+    answer:{
+      debit:[["イ","5,000,000"]],
+      credit:[["エ","5,000,000"]]
+    }
   },
   {
-    date: "2026/5/20",
-    label: "第8回前半",
-    theme: "決算整理仕訳と財務諸表の作成",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://www.youtube.com/watch?v=NipSac5n6vE&list=PLznsJCRbaNwapDB7ujjcLwx6hght77KFZ&index=32"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
-  },
-  {
-    date: "2026/5/20",
-    label: "第8回後半",
-    theme: "決算整理仕訳と財務諸表の作成",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://www.youtube.com/watch?v=NipSac5n6vE&list=PLznsJCRbaNwapDB7ujjcLwx6hght77KFZ&index=32",
-          "https://www.youtube.com/watch?v=Qs_vQmcxOOQ"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
-  },
-  {
-    date: "2026/5/21",
-    label: "第9回前半",
-    theme: "税金の基礎と消費税の処理",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://www.youtube.com/watch?v=aCw1RWErEZU",
-          "https://youtu.be/bCgeXm0zgrg?si=owrWWauYov0CIl7h",
-          "https://youtu.be/RZBzb7YdBRo?si=5XLRFYrQdQMV0mWV"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
-  },
-  {
-    date: "2026/5/21",
-    label: "第9回後半",
-    theme: "税金の基礎と消費税の処理",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/LG5_UlikCAI?si=0eC1F6EwD8ggPbB-",
-          "https://youtu.be/ssh4POSgru4?si=itTYSN3bJZ8BCfMl",
-          "https://youtu.be/QEQnzYa3N54?si=k2wXhywwZO66giCJ"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
-  },
-  {
-    date: "2026/5/22",
-    label: "第10回前半",
-    theme: "帳簿の締め切りと財務分析",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://youtu.be/X3rBFpFaoiE?si=CK_IMEbzqUnU3WV7",
-          "https://youtu.be/sOv9DnkQ0TU?si=K4s6BN7TKn7Zh_bn"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
-  },
-  {
-    date: "2026/5/22",
-    label: "第10回後半",
-    theme: "帳簿の締め切りと財務分析",
-    title: "NotebookLMを活用したDX・経理基礎テストの自動生成と復習",
-    purpose: [
-      "簿記の基本を身につける",
-      "NotebookLMを使い、効果的に復習する方法を覚える"
-    ],
-    steps: [
-      { num: 1, label: "ソースを読み込む",
-        body: "NotebookLMにアクセスして新しいノートブックを作成し、「ソースを追加」から下記のYouTube動画URLを入力します。",
-        urls: [
-          "https://www.youtube.com/watch?v=kLgNIAO7GGk",
-          "https://www.youtube.com/watch?v=FGmVWgmBe1s"
-        ]
-      },
-      { num: 2, label: "プロンプトを入力してテストを生成する",
-        body: "チャット欄に以下のようなプロンプトを入力し、実行します。",
-        prompt: "読み込んだ動画の内容に基づいて、簿記の基礎知識に関する確認テストを20問作成してください。形式は選択式とし、最後に解答と解説も出力してください。",
-        hints: ["新人経理担当者向けに、もう少し難易度を下げてください", "問題文をより実務に近い表現に変えてください"]
-      },
-      { num: 3, label: "内容を確認し、問題を解いて復習する",
-        body: "分からないところは動画に戻って確認しましょう。"
-      }
-    ]
-  },
-  {
-    date: "2026/5/26",
-    label: "第11回",
-    theme: "過去問題演習と解説",
-    title: "本試験想定問題を解く",
-    purpose: [
-      "試験の問題用紙に慣れる",
-      "時間配分を意識する（第1問：15分／第2問：20分／第3問：25分／見直し：5分）"
-    ],
-    steps: [
-      { num: 1, label: "時間内に問題を解く練習を行う",
-        body: "まずは、問題と解答集をダウンロードして準備を行い、時間を測って問題に取り組みましょう。",
-        driveLink: {
-          label: "問題・解答（Google Drive）",
-          url: "https://drive.google.com/drive/folders/1IWjsLu3V03QLG6O30RSgOlBGLcDORore?usp=sharing"
-        },
-        practiceSections: [
-          {
-            title: "第1問 仕訳",
-            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
-            videoUrl: "https://www.youtube.com/watch?v=rD2IFjqc2UA"
-          },
-          {
-            title: "第2問-1 商品有高帳",
-            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
-            videoUrl: "https://youtu.be/O67Qdne_HA8?si=VJnt5XrXKOY_YVfO"
-          },
-          {
-            title: "第2問-2 勘定記入",
-            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
-            videoUrl: "https://youtu.be/VLVLMlqPano?si=wNMSp3Sj8_vaOOKk"
-          },
-          {
-            title: "第2問-3 伝票会計",
-            practiceUrl: "https://minaasa373-wq.github.io/dx-bookkeeping/dai11kai_jisshu.html",
-            videoUrl: "https://youtu.be/VLVLMlqPano?si=wNMSp3Sj8_vaOOKk"
-          }
-        ]
-      },
-      { num: 2, label: "早めに終わった人は、答え合わせを行う",
-        body: "解説動画を観て答え合わせをしてみましょう。"
-      },
-      { num: 3, label: "復習",
-        body: "まだ知識が不安な人は、過去の実習を復習しよう。"
-      }
-    ]
+    body:"一日分の売上の仕訳を行う。集計結果は次の売上集計表のとおりであった。合計額のうち￥10,600は現金決済、残額はクレジットカード決済であった。なお、クレジットカード決済額の3％を売上時に手数料として計上し、クレジットカード会社に対する債権から控除する。",
+    choices:["ア．受取手数料","イ．売上","ウ．買掛金","エ．クレジット売掛金","オ．支払手数料","カ．現金"],
+    salesTable:true,
+    debitRows:3, creditRows:1,
+    answer:{
+      debit:[["カ","10,600"],["エ","19,400"],["オ","600"]],
+      credit:[["イ","30,600"]]
+    }
   }
-
-
 ];
 
-// 互換性の高いコピー処理
-const CURRICULUM = [
-  { round: 1, theme: "簿記の基本概念" },
-  { round: 2, theme: "仕訳の基礎と勘定科目の理解" },
-  { round: 3, theme: "複式簿記と帳簿の種類" },
-  { round: 4, theme: "現金・預金の管理と処理" },
-  { round: 5, theme: "商品売買と売掛金・買掛金の処理" },
-  { round: 6, theme: "固定資産と減価償却の基礎" },
-  { round: 7, theme: "試算表の作成と活用" },
-  { round: 8, theme: "決算整理仕訳と財務諸表の作成" },
-  { round: 9, theme: "税金の基礎と消費税の処理" },
-  { round: 10, theme: "帳簿の締め切りと財務分析" },
-  { round: 11, theme: "過去問題演習と解説" },
-  { round: 12, theme: "AIを活用した学習の最終チェック" },
-  { round: 13, theme: "簿記3級オンラインテスト" }
-];
+// ========== 問題エリア生成 ==========
+function renderQuestions(){
+  const wrap = document.getElementById("questions");
+  questions.forEach((q,i)=>{
+    const num = i+1;
+    const choicesHTML = q.choices.map(c=>`<span>${c}</span>`).join("");
 
-const FINAL_TEST_DATE = "2026/5/28";
+    const salesTableHTML = q.salesTable ? `
+      <div class="sales-table">
+        <table>
+          <caption>売上集計表（XX年X月X日）</caption>
+          <thead><tr><th>品名</th><th>数量</th><th>単価</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td>商品X</td><td>54個</td><td>¥300</td><td>¥16,200</td></tr>
+            <tr><td>商品Y</td><td>72個</td><td>¥200</td><td>¥14,400</td></tr>
+            <tr><td colspan="3"><strong>合計</strong></td><td><strong>¥30,600</strong></td></tr>
+          </tbody>
+        </table>
+      </div>` : "";
 
-function toDate(s) {
-  const [y, m, d] = s.split("/").map(Number);
-  return new Date(y, m - 1, d);
-}
+    const debitRowsHTML = buildEntryRows(q.debitRows, `q${num}-d`);
+    const creditRowsHTML = buildEntryRows(q.creditRows, `q${num}-c`);
 
-function todayDate() {
-  const t = new Date();
-  return new Date(t.getFullYear(), t.getMonth(), t.getDate());
-}
-
-function updateCountdown() {
-  const today = todayDate();
-  const final = toDate(FINAL_TEST_DATE);
-  const diff = Math.round((final - today) / (1000 * 60 * 60 * 24));
-  const el = document.getElementById("countdown");
-  if (!el) return;
-  if (diff > 0) {
-    el.textContent = `あと${diff}日`;
-    el.classList.remove("done");
-  } else if (diff === 0) {
-    el.textContent = "本日";
-    el.classList.remove("done");
-  } else {
-    el.textContent = "終了";
-    el.classList.add("done");
-  }
-}
-
-function getRoundStatus(round) {
-  // lessons配列から該当回の日付を取得し、現在日と比較
-  const today = todayDate();
-  const items = lessons.filter(l => {
-    const m = l.label.match(/第(\d+)回/);
-    return m && parseInt(m[1]) === round;
-  });
-  if (items.length === 0) return "future";
-  const dates = items.map(l => toDate(l.date));
-  const maxDate = new Date(Math.max(...dates));
-  const minDate = new Date(Math.min(...dates));
-  if (maxDate < today) return "done";
-  if (minDate <= today && today <= maxDate) return "today";
-  // どれかが今日と一致する場合も today
-  if (dates.some(d => d.getTime() === today.getTime())) return "today";
-  return "future";
-}
-
-function renderCurriculum() {
-  const tbody = document.getElementById("curriculumBody");
-  if (!tbody) return;
-  tbody.innerHTML = CURRICULUM.map(item => {
-    const status = getRoundStatus(item.round);
-    const mark = status === "done" ? '<span class="legend-mark done">✓</span>'
-               : status === "today" ? '<span class="legend-mark today">●</span>'
-               : '<span class="legend-mark future">○</span>';
-    return `<tr class="${status}"><td class="status-cell">${mark}</td><td class="num">第${item.round}回</td><td>${item.theme}</td></tr>`;
-  }).join("");
-}
-
-function openModal() {
-  renderCurriculum();
-  document.getElementById("modalOverlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  document.getElementById("modalOverlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-function closeModalOutside(e) {
-  if (e.target === document.getElementById("modalOverlay")) closeModal();
-}
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeModal();
-});
-
-function copyText(text) {
-  return new Promise((resolve, reject) => {
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(resolve).catch(() => fallback());
-    } else {
-      fallback();
-    }
-    function fallback() {
-      try {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.position = "fixed";
-        ta.style.left = "-9999px";
-        ta.style.top = "0";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        const ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-        ok ? resolve() : reject();
-      } catch (e) { reject(e); }
-    }
-  });
-}
-
-function flashCopied(btn, originalText) {
-  copyText(btn.dataset.copyText).then(() => {
-    btn.textContent = "コピー済み";
-    btn.classList.add("copied");
-    setTimeout(() => {
-      btn.textContent = originalText;
-      btn.classList.remove("copied");
-    }, 1800);
-  }).catch(() => {
-    btn.textContent = "失敗";
-    setTimeout(() => { btn.textContent = originalText; }, 1800);
-  });
-}
-
-function escapeHTML(s) {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-function renderStepBody(step) {
-  let html = `<div class="step-body">${step.body}</div>`;
-
-  if (step.note) {
-    html += `<div class="step-note">※ ${step.note}</div>`;
-  }
-
-  if (step.linkUrls) {
-    html += `<div class="link-url-list">`;
-    step.linkUrls.forEach(item => {
-      html += `<div class="link-url-row"><span class="link-url-num">${item.label}</span><a class="link-url-a" href="${item.url}" target="_blank" rel="noopener">${item.url}</a></div>`;
-    });
-    html += `</div>`;
-  }
-
-  if (step.toolLinks) {
-    html += `<div class="tool-links">`;
-    step.toolLinks.forEach(t => {
-      html += `<a class="tool-link" href="${t.url}" target="_blank" rel="noopener">${t.name} →</a>`;
-    });
-    html += `</div>`;
-  }
-
-  if (step.urls) {
-    html += `<div class="url-block">`;
-    step.urls.forEach(u => {
-      html += `
-        <div class="url-row">
-          <span class="url-text">${u}</span>
-          <button class="copy-btn" data-copy-text="${escapeHTML(u)}" data-original="コピー">コピー</button>
-        </div>`;
-    });
-    html += `</div>`;
-  }
-
-  if (step.prompt) {
-    html += `
-      <div class="prompt-wrap">
-        <div class="prompt-block">
-          <div class="prompt-block-text">${step.prompt}</div>
+    wrap.insertAdjacentHTML("beforeend", `
+      <div class="question">
+        <div class="q-header">
+          <div class="q-num">${num}</div>
+          <div class="q-title">問${num}</div>
         </div>
-        <button class="prompt-copy-btn" data-copy-text="${escapeHTML(step.prompt)}" data-original="コピー">コピー</button>
-      </div>`;
-  }
+        <div class="q-body">${q.body}</div>
+        ${salesTableHTML}
+        <div class="choices">${choicesHTML}</div>
+        <div class="answer-box">
+          <div class="answer-box-title">▼ 答案欄</div>
+          <div class="entry-grid">
+            <div class="entry-side">
+              <div class="entry-side-header">借　方</div>
+              ${debitRowsHTML}
+            </div>
+            <div class="entry-side">
+              <div class="entry-side-header">貸　方</div>
+              ${creditRowsHTML}
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+}
 
-  if (step.hints) {
-    html += `<div class="hint-label">追加指示の例：</div><ul class="hint-list">`;
-    step.hints.forEach(h => {
-      html += `
-        <li class="hint-row">
-          <span class="hint-text">「${h}」</span>
-          <button class="copy-btn" data-copy-text="${escapeHTML(h)}" data-original="コピー">コピー</button>
-        </li>`;
-    });
-    html += `</ul>`;
+function buildEntryRows(count, prefix){
+  let html = "";
+  for(let i=0;i<count;i++){
+    html += `
+      <div class="entry-row">
+        <select name="${prefix}-code-${i}">
+          <option value=""></option>
+          <option>ア</option>
+          <option>イ</option>
+          <option>ウ</option>
+          <option>エ</option>
+          <option>オ</option>
+          <option>カ</option>
+        </select>
+        <input type="text" inputmode="numeric" name="${prefix}-amt-${i}" placeholder="金額">
+      </div>
+    `;
   }
-
-  if (step.driveLink) {
-    html += `<div class="practice-card-links" style="margin:10px 0 4px;">
-      <a class="practice-link practice-link-sub" href="${step.driveLink.url}" target="_blank" rel="noopener">📂 ${step.driveLink.label}</a>
-    </div>`;
-  }
-
-  if (step.practiceSections) {
-    html += `<div class="practice-list">`;
-    step.practiceSections.forEach(p => {
-      html += `<div class="practice-card">
-        <div class="practice-card-title">${p.title}</div>
-        <div class="practice-card-links">`;
-      if (p.practiceUrl) {
-        html += `<a class="practice-link practice-link-main" href="${p.practiceUrl}" target="_blank" rel="noopener">📝 練習問題を解く →</a>`;
-      }
-      if (p.videoUrl) {
-        html += `<a class="practice-link practice-link-video" href="${p.videoUrl}" target="_blank" rel="noopener">▶ 解説動画</a>`;
-      }
-      html += `</div></div>`;
-    });
-    html += `</div>`;
-  }
-
-  if (step.videoUrl) {
-    html += `<div class="practice-card-links" style="margin-top:8px;">
-      <a class="practice-link practice-link-video" href="${step.videoUrl}" target="_blank" rel="noopener">▶ 解説動画を見る</a>
-    </div>`;
-  }
-
   return html;
 }
 
-function renderAll() {
-  const tabsEl = document.getElementById("tabs");
-  const panelsEl = document.getElementById("panels");
-
-  lessons.forEach((lesson, i) => {
-    const isActive = i === lessons.length - 1;
-
-    const btn = document.createElement("button");
-    btn.className = "tab-btn" + (isActive ? " active" : "");
-    const [row1, row2] = lesson.label.split(/(?=前半|後半)/);
-    btn.innerHTML = `<span class="tab-row1">${row1}</span><span class="tab-row2">${row2 || ''}</span>`;
-    btn.dataset.index = i;
-    btn.onclick = () => switchTab(i);
-    tabsEl.appendChild(btn);
-
-    const stepsHTML = lesson.steps.map(step => `
-      <div class="step">
-        <div class="step-header">
-          <div class="step-num">${step.num}</div>
-          <div class="step-label">${step.label}</div>
-        </div>
-        ${renderStepBody(step)}
-      </div>`).join("");
-
-    const purposeHTML = lesson.purpose.map(p => `<li>${p}</li>`).join("");
-
-    let prepHTML = "";
-    if (lesson.prep) {
-      prepHTML = `<div class="section-title">🧰 事前準備</div><div class="prep-list">`;
-      lesson.prep.forEach(p => {
-        prepHTML += `<div class="prep-item"><div class="prep-check">✅</div><div class="prep-body"><div class="prep-label">${p.label}</div>`;
-        if (p.body) prepHTML += `<div class="prep-text">${p.body}</div>`;
-        if (p.url) prepHTML += `<div class="url-block"><div class="url-row"><span class="url-text">${p.url}</span><button class="copy-btn" data-copy-text="${p.url}" data-original="コピー">コピー</button></div></div>`;
-        if (p.linkUrl) prepHTML += `<div class="prep-link-wrap"><a class="prep-link" href="${p.linkUrl}" target="_blank" rel="noopener">🎥 ${p.linkUrl} →</a></div>`;
-        prepHTML += `</div></div>`;
-      });
-      prepHTML += `</div>`;
+// ========== 解答エリア生成 ==========
+function renderAnswers(){
+  const wrap = document.getElementById("answer-list");
+  questions.forEach((q,i)=>{
+    const num = i+1;
+    const maxRows = Math.max(q.answer.debit.length, q.answer.credit.length);
+    let rows = "";
+    for(let r=0;r<maxRows;r++){
+      const d = q.answer.debit[r] || ["",""];
+      const c = q.answer.credit[r] || ["",""];
+      rows += `<tr>
+        <td class="code">${d[0]}</td><td class="amount">${d[1]}</td>
+        <td class="code">${c[0]}</td><td class="amount">${c[1]}</td>
+      </tr>`;
     }
-
-    const flowLabel = lesson.sectionLabel || "実習の流れ";
-    const themeHTML = lesson.theme ? `<div class="theme-badge">研修内容：${lesson.theme}</div>` : "";
-
-    const panel = document.createElement("div");
-    panel.className = "panel" + (isActive ? " active" : "");
-    panel.dataset.index = i;
-    panel.innerHTML = `
-      <div class="lesson-meta">
-        ${themeHTML}
-        <div class="date-badge">${lesson.date}</div>
+    wrap.insertAdjacentHTML("beforeend", `
+      <div class="ans-item">
+        <span class="ans-num">問${num}</span>
+        <table class="ans-table">
+          <thead>
+            <tr><th colspan="2">借方</th><th colspan="2">貸方</th></tr>
+            <tr><th>記号</th><th>金額</th><th>記号</th><th>金額</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
       </div>
-      <div class="lesson-title">${lesson.title}</div>
-      <div class="section-title">🎯 実習の目的</div>
-      <ul class="purpose-list">${purposeHTML}</ul>
-      ${prepHTML}
-      <div class="section-title">💡 ${flowLabel}</div>
-      <div class="steps">${stepsHTML}</div>
-    `;
-    panelsEl.appendChild(panel);
-  });
-
-  // コピーボタンのイベント委譲
-  panelsEl.addEventListener("click", e => {
-    const btn = e.target.closest(".copy-btn, .prompt-copy-btn");
-    if (!btn) return;
-    flashCopied(btn, btn.dataset.original);
+    `);
   });
 }
 
-function switchTab(index) {
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-  document.querySelector(`.tab-btn[data-index="${index}"]`).classList.add("active");
-  document.querySelector(`.panel[data-index="${index}"]`).classList.add("active");
+// ========== 解答トグル ==========
+function toggleAnswers(tabId){
+  const area = document.getElementById("answer-area-"+tabId);
+  const btn = document.getElementById(tabId === "q1" ? "revealBtn" : "revealBtn-"+tabId);
+  if(area.classList.contains("visible")){
+    area.classList.remove("visible");
+    area.style.display = "none";
+    btn.textContent = "解答を表示する";
+    btn.classList.remove("shown");
+  } else {
+    area.style.display = "block";
+    requestAnimationFrame(()=>area.classList.add("visible"));
+    btn.textContent = "解答を隠す";
+    btn.classList.add("shown");
+    area.scrollIntoView({behavior:"smooth",block:"start"});
+  }
 }
 
-renderAll();
-updateCountdown();
+// ========== タブ切り替え ==========
+document.querySelectorAll(".tab-nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const target = btn.dataset.tab;
+    document.querySelectorAll(".tab-nav-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".tab-section").forEach(s=>s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-"+target).classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+// ========== 商品有高帳ヘッダー共通 ==========
+function ledgerHeader(){
+  return `
+    <thead>
+      <tr>
+        <th rowspan="2" class="date-col">X8年</th>
+        <th rowspan="2" class="summary-col">摘要</th>
+        <th colspan="3">受入</th>
+        <th colspan="3">払出</th>
+        <th colspan="3">残高</th>
+      </tr>
+      <tr>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+      </tr>
+    </thead>`;
+}
+
+function ledgerInputRow(date, summary, presetCols={}){
+  // presetCols: { idx: value } — そのセルは preset 表示
+  let cells = "";
+  for(let i=0;i<9;i++){
+    if(presetCols[i] !== undefined){
+      cells += `<td class="preset">${presetCols[i]}</td>`;
+    } else {
+      cells += `<td><input type="text" inputmode="numeric"></td>`;
+    }
+  }
+  return `<tr>
+    <td class="date-col">${date}</td>
+    <td class="summary-col">${summary}</td>
+    ${cells}
+  </tr>`;
+}
+
+// 第2問-1 (1) 商品A 先入先出法 入力欄テーブル
+function renderLedgerFifoQ1(){
+  const tbl = document.getElementById("ledger-q1-fifo");
+  tbl.innerHTML = ledgerHeader() + `<tbody>
+    ${ledgerInputRow("8/1","前月繰越",{0:"20",1:"2,000",2:"40,000",6:"20",7:"2,000",8:"40,000"})}
+    ${ledgerInputRow("8/5","仕入")}
+    ${ledgerInputRow("8/6","仕入返品")}
+    ${ledgerInputRow("8/10","売上")}
+    ${ledgerInputRow("8/31","次月繰越")}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">合計</td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td colspan="3"></td>
+    </tr>
+    ${ledgerInputRow("9/1","前月繰越")}
+  </tfoot>`;
+}
+
+// 第2問-1 (2) α商品 移動平均法 入力欄テーブル
+function renderLedgerMavgQ2(){
+  const tbl = document.getElementById("ledger-q2-mavg");
+  tbl.innerHTML = ledgerHeader() + `<tbody>
+    ${ledgerInputRow("11/1","前月繰越",{0:"200",1:"466",2:"93,200",6:"200",7:"466",8:"93,200"})}
+    ${ledgerInputRow("11/5","仕入")}
+    ${ledgerInputRow("11/10","売上")}
+    ${ledgerInputRow("11/18","仕入")}
+    ${ledgerInputRow("11/25","売上")}
+    ${ledgerInputRow("11/30","次月繰越")}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">合計</td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td><input type="text" inputmode="numeric"></td><td>－</td><td><input type="text" inputmode="numeric"></td>
+      <td colspan="3"></td>
+    </tr>
+    ${ledgerInputRow("12/1","前月繰越")}
+  </tfoot>`;
+}
+
+// ========== 第2問-1 解答エリア生成 ==========
+function renderAnsLedger(rows, totals){
+  let body = rows.map(r=>{
+    const cells = r.cells.map(c=>`<td>${c}</td>`).join("");
+    return `<tr><td class="date-col">${r.date}</td><td class="summary-col">${r.summary}</td>${cells}</tr>`;
+  }).join("");
+  const tfoot = totals ? `<tfoot><tr><td colspan="2">合計</td>${totals.map(c=>`<td>${c}</td>`).join("")}</tr></tfoot>` : "";
+  return `<div class="ans-ledger-wrap"><table class="ans-ledger">
+    <thead>
+      <tr>
+        <th rowspan="2" class="date-col">X8年</th>
+        <th rowspan="2" class="summary-col">摘要</th>
+        <th colspan="3">受入</th>
+        <th colspan="3">払出</th>
+        <th colspan="3">残高</th>
+      </tr>
+      <tr>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+        <th>数量</th><th>単価</th><th>金額</th>
+      </tr>
+    </thead>
+    <tbody>${body}</tbody>
+    ${tfoot}
+  </table></div>`;
+}
+
+function renderAnswersQ2_1(){
+  const wrap = document.getElementById("answer-list-q2-1");
+
+  // 問題(1) 先入先出法
+  const fifoRows = [
+    {date:"8/1", summary:"前月繰越", cells:["20","2,000","40,000","","","","20","2,000","40,000"]},
+    {date:"8/5", summary:"仕入", cells:["40","2,150","86,000","","","","20<br>40","2,000<br>2,150","40,000<br>86,000"]},
+    {date:"8/6", summary:"仕入返品", cells:["△10","2,150","△21,500","","","","20<br>30","2,000<br>2,150","40,000<br>64,500"]},
+    {date:"8/10", summary:"売上", cells:["","","","20<br>20","2,000<br>2,150","40,000<br>43,000","10","2,150","21,500"]},
+    {date:"8/31", summary:"次月繰越", cells:["","","","10","2,150","21,500","","",""]}
+  ];
+  const fifoTotal = ["50","－","104,500","50","－","104,500","","",""];
+  const fifoCarry = [
+    {date:"9/1", summary:"前月繰越", cells:["10","2,150","21,500","","","","10","2,150","21,500"]}
+  ];
+
+  // 問題(2) 移動平均法
+  const mavgRows = [
+    {date:"11/1", summary:"前月繰越", cells:["200","466","93,200","","","","200","466","93,200"]},
+    {date:"11/5", summary:"仕入", cells:["150","480","72,000","","","","350","472","165,200"]},
+    {date:"11/10", summary:"売上", cells:["","","","200","472","94,400","150","472","70,800"]},
+    {date:"11/18", summary:"仕入", cells:["180","483","86,940","","","","330","478","157,740"]},
+    {date:"11/25", summary:"売上", cells:["","","","110","478","52,580","220","478","105,160"]},
+    {date:"11/30", summary:"次月繰越", cells:["","","","220","478","105,160","","",""]}
+  ];
+  const mavgTotal = ["530","－","252,140","530","－","252,140","","",""];
+  const mavgCarry = [
+    {date:"12/1", summary:"前月繰越", cells:["220","478","105,160","","","","220","478","105,160"]}
+  ];
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 問1</span>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:6px;">商品A（先入先出法）</div>
+      ${renderAnsLedger(fifoRows, fifoTotal)}
+      ${renderAnsLedger(fifoCarry, null)}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 問2</span>
+      <div class="ans-totals">
+        <div>移動平均法を採用していた場合の8月の商品Aの次月繰越高：<span class="val">20,900円</span></div>
+        <div style="font-size:0.75rem;color:var(--text-sub);font-weight:400;margin-top:4px;">※(40,000+64,500)÷50=2,090円　×　10個＝20,900円</div>
+      </div>
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(2)</span>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:6px;">α商品（移動平均法）</div>
+      ${renderAnsLedger(mavgRows, mavgTotal)}
+      ${renderAnsLedger(mavgCarry, null)}
+      <div class="ans-totals">
+        <div>X8年11月中のα商品の売上高：<span class="val">202,600円</span></div>
+        <div style="font-size:0.72rem;color:var(--text-sub);font-weight:400;margin-top:2px;">※130,000+72,600=202,600</div>
+        <div style="margin-top:6px;">X8年11月中のα商品の売上総利益：<span class="val">55,620円</span></div>
+        <div style="font-size:0.72rem;color:var(--text-sub);font-weight:400;margin-top:2px;">※売上高202,600円－売上原価146,980円=55,620円</div>
+      </div>
+    </div>
+  `;
+}
+
+// ========== T字勘定 共通 ==========
+// row: { date, desc, amt } - 各値が文字列ならpreset、"_INPUT_"なら金額入力、"_SEL1_"なら勘定科目1(問21)、"_SEL2_"なら勘定科目2(問22)プルダウン
+const CHOICES_Q21 = ["ア","イ","ウ","エ","オ","カ","キ","ク"];
+const CHOICES_Q22 = ["ア","イ","ウ","エ","オ","カ","キ","ク"];
+
+function tRowCell(value, type){
+  // type: "date" | "desc" | "amt"
+  if(value === "_INPUT_"){
+    return `<input class="t-amt" type="text" inputmode="numeric" placeholder="">`;
+  }
+  if(value === "_SEL1_" || value === "_SEL2_"){
+    const opts = ["",...CHOICES_Q21].map(c=>`<option>${c}</option>`).join("");
+    return `<select class="t-desc">${opts}</select>`;
+  }
+  if(type === "amt"){
+    return `<div class="t-amt preset">${value}</div>`;
+  }
+  if(type === "desc"){
+    return `<div class="t-desc preset">${value}</div>`;
+  }
+  return `<div class="t-date">${value}</div>`;
+}
+
+function renderTAccount(title, leftRows, rightRows){
+  function buildRows(rows){
+    return rows.map(r=>{
+      if(r.total){
+        return `<div class="t-row t-total">
+          <div class="t-date"></div>
+          <div class="t-desc" style="text-align:center;justify-content:center;">${r.label||""}</div>
+          ${tRowCell(r.amt,"amt")}
+        </div>`;
+      }
+      return `<div class="t-row">
+        ${tRowCell(r.date,"date")}
+        ${tRowCell(r.desc,"desc")}
+        ${tRowCell(r.amt,"amt")}
+      </div>`;
+    }).join("");
+  }
+  return `<div class="t-account">
+    <div class="t-account-title">${title}</div>
+    <div class="t-account-sides">
+      <div class="t-side">
+        <div class="t-side-header">借　方</div>
+        ${buildRows(leftRows)}
+      </div>
+      <div class="t-side">
+        <div class="t-side-header">貸　方</div>
+        ${buildRows(rightRows)}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ========== 問題(1) ==========
+function renderQ22_1(){
+  // 買掛金 (総勘定元帳)
+  document.getElementById("t-q21-kaikake").innerHTML = renderTAccount(
+    "買 掛 金",
+    [
+      {date:"8/7", desc:"仕入", amt:"_INPUT_"},
+      {date:"8/23", desc:"_SEL1_", amt:"350,000"},
+      {date:"8/25", desc:"_SEL1_", amt:"_INPUT_"},
+      {date:"8/27", desc:"普通預金", amt:"_INPUT_"},
+      {date:"8/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"8/1", desc:"前月繰越", amt:"_INPUT_"},
+      {date:"8/6", desc:"_SEL1_", amt:"542,000"},
+      {date:"8/12", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 甲商店
+  document.getElementById("t-q21-koushouten").innerHTML = renderTAccount(
+    "甲 商 店",
+    [
+      {date:"8/23", desc:"当座預金支払", amt:"_INPUT_"},
+      {date:"8/25", desc:"電子記録債務へ振替", amt:"160,000"},
+      {date:"8/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"650,000"}
+    ],
+    [
+      {date:"8/1", desc:"_SEL1_", amt:"265,000"},
+      {date:"8/12", desc:"仕入れ", amt:"385,000"},
+      {total:true, amt:"650,000"}
+    ]
+  );
+
+  // 乙商店
+  document.getElementById("t-q21-otsushouten").innerHTML = renderTAccount(
+    "乙 商 店",
+    [
+      {date:"8/7", desc:"返品", amt:"_INPUT_"},
+      {date:"8/27", desc:"普通預金支払", amt:"250,000"},
+      {date:"8/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"8/1", desc:"_SEL1_", amt:"320,000"},
+      {date:"8/6", desc:"仕入れ", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+}
+
+// ========== 問題(2) ==========
+function renderQ22_2(){
+  // 売上
+  document.getElementById("t-q22-uriage").innerHTML = renderTAccount(
+    "売　上",
+    [
+      {date:"6/30", desc:"売掛金", amt:"150,000"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"6/25", desc:"売掛金", amt:"2,250,000"},
+      {date:"10/20", desc:"普通預金", amt:"_INPUT_"},
+      {date:"1/25", desc:"現金", amt:"250,000"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 仕入
+  document.getElementById("t-q22-shiire").innerHTML = renderTAccount(
+    "仕　入",
+    [
+      {date:"4/20", desc:"買掛金", amt:"800,000"},
+      {date:"5/30", desc:"普通預金", amt:"1,350,000"},
+      {date:"8/15", desc:"支払手形", amt:"550,000"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"4/25", desc:"買掛金", amt:"135,000"},
+      {date:"3/31", desc:"繰越商品", amt:"_INPUT_"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 繰越商品
+  document.getElementById("t-q22-kurikoshi").innerHTML = renderTAccount(
+    "繰 越 商 品",
+    [
+      {date:"4/1", desc:"_SEL1_", amt:"280,000"},
+      {date:"3/31", desc:"_SEL1_", amt:"350,000"},
+      {total:true, amt:"_INPUT_"}
+    ],
+    [
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"},
+      {total:true, amt:"_INPUT_"}
+    ]
+  );
+
+  // 損益
+  document.getElementById("t-q22-soneki").innerHTML = renderTAccount(
+    "損　益",
+    [
+      {date:"3/31", desc:"_SEL1_", amt:"_INPUT_"}
+    ],
+    [
+      {date:"3/31", desc:"_SEL1_", amt:"5,850,000"}
+    ]
+  );
+}
+
+// ========== 第2問-2 解答 ==========
+function ansTAccount(title, leftRows, rightRows){
+  function buildRows(rows){
+    return rows.map(r=>{
+      if(r.total){
+        return `<tr class="ans-total"><td></td><td style="text-align:center;">${r.label||""}</td><td>${r.amt}</td></tr>`;
+      }
+      return `<tr><td class="ans-date">${r.date}</td><td>${r.desc}</td><td class="ans-amt">${r.amt}</td></tr>`;
+    }).join("");
+  }
+  return `<div class="ans-taccount">
+    <div class="ans-taccount-title">${title}</div>
+    <table class="ans-taccount-table">
+      <thead><tr><th colspan="3">借方</th><th colspan="3">貸方</th></tr></thead>
+      <tbody>${buildAnsTBody(leftRows, rightRows)}</tbody>
+    </table>
+  </div>`;
+}
+
+function buildAnsTBody(left, right){
+  const max = Math.max(left.length, right.length);
+  let out = "";
+  for(let i=0;i<max;i++){
+    const l = left[i] || {empty:true};
+    const r = right[i] || {empty:true};
+    const lCells = l.empty ? `<td></td><td></td><td></td>` :
+      (l.total ? `<td></td><td style="text-align:center;font-weight:600;">${l.label||""}</td><td class="ans-amt total">${l.amt}</td>` :
+        `<td class="ans-date">${l.date}</td><td><span class="ans-code">${l.code||""}</span>${l.desc}</td><td class="ans-amt">${l.amt}</td>`);
+    const rCells = r.empty ? `<td></td><td></td><td></td>` :
+      (r.total ? `<td></td><td style="text-align:center;font-weight:600;">${r.label||""}</td><td class="ans-amt total">${r.amt}</td>` :
+        `<td class="ans-date">${r.date}</td><td><span class="ans-code">${r.code||""}</span>${r.desc}</td><td class="ans-amt">${r.amt}</td>`);
+    out += `<tr class="${l.total||r.total?"ans-total-row":""}">${lCells}${rCells}</tr>`;
+  }
+  return out;
+}
+
+function renderAnswersQ2_2(){
+  const wrap = document.getElementById("answer-list-q2-2");
+
+  // (1) 買掛金
+  const kakeKaikake = {
+    left:[
+      {date:"8/7", desc:"仕入", amt:"100,000"},
+      {date:"8/23", desc:"当座預金", code:"キ", amt:"350,000"},
+      {date:"8/25", desc:"電子記録債務", code:"オ", amt:"160,000"},
+      {date:"8/27", desc:"普通預金", amt:"250,000"},
+      {date:"8/31", desc:"次月繰越", code:"エ", amt:"652,000"},
+      {total:true, amt:"1,512,000"}
+    ],
+    right:[
+      {date:"8/1", desc:"前月繰越", amt:"585,000"},
+      {date:"8/6", desc:"仕入", code:"ク", amt:"542,000"},
+      {date:"8/12", desc:"仕入", code:"ク", amt:"385,000"},
+      {total:true, amt:"1,512,000"}
+    ]
+  };
+
+  // 甲商店
+  const koushouten = {
+    left:[
+      {date:"8/23", desc:"当座預金支払", amt:"350,000"},
+      {date:"8/25", desc:"電子記録債務へ振替", amt:"160,000"},
+      {date:"8/31", desc:"次月繰越", code:"エ", amt:"140,000"},
+      {total:true, amt:"650,000"}
+    ],
+    right:[
+      {date:"8/1", desc:"前月繰越", code:"ウ", amt:"265,000"},
+      {date:"8/12", desc:"仕入れ", amt:"385,000"},
+      {total:true, amt:"650,000"}
+    ]
+  };
+
+  // 乙商店
+  const otsushouten = {
+    left:[
+      {date:"8/7", desc:"返品", amt:"100,000"},
+      {date:"8/27", desc:"普通預金支払", amt:"250,000"},
+      {date:"8/31", desc:"次月繰越", code:"エ", amt:"512,000"},
+      {total:true, amt:"862,000"}
+    ],
+    right:[
+      {date:"8/1", desc:"前月繰越", code:"ウ", amt:"320,000"},
+      {date:"8/6", desc:"仕入れ", amt:"542,000"},
+      {total:true, amt:"862,000"}
+    ]
+  };
+
+  // (2)
+  const uriage = {
+    left:[
+      {date:"6/30", desc:"売掛金", amt:"150,000"},
+      {date:"3/31", desc:"損益", code:"キ", amt:"5,850,000"},
+      {total:true, amt:"6,000,000"}
+    ],
+    right:[
+      {date:"6/25", desc:"売掛金", amt:"2,250,000"},
+      {date:"10/20", desc:"普通預金", amt:"3,500,000"},
+      {date:"1/25", desc:"現金", amt:"250,000"},
+      {total:true, amt:"6,000,000"}
+    ]
+  };
+
+  const shiire = {
+    left:[
+      {date:"4/20", desc:"買掛金", amt:"800,000"},
+      {date:"5/30", desc:"普通預金", amt:"1,350,000"},
+      {date:"8/15", desc:"支払手形", amt:"550,000"},
+      {date:"3/31", desc:"繰越商品", code:"オ", amt:"280,000"},
+      {total:true, amt:"2,980,000"}
+    ],
+    right:[
+      {date:"4/25", desc:"買掛金", amt:"135,000"},
+      {date:"3/31", desc:"繰越商品", amt:"350,000"},
+      {date:"3/31", desc:"損益", code:"キ", amt:"2,495,000"},
+      {total:true, amt:"2,980,000"}
+    ]
+  };
+
+  const kurikoshi = {
+    left:[
+      {date:"4/1", desc:"前期繰越", code:"ウ", amt:"280,000"},
+      {date:"3/31", desc:"仕入", code:"イ", amt:"350,000"},
+      {total:true, amt:"630,000"}
+    ],
+    right:[
+      {date:"3/31", desc:"仕入", code:"イ", amt:"280,000"},
+      {date:"3/31", desc:"次期繰越", code:"ア", amt:"350,000"},
+      {total:true, amt:"630,000"}
+    ]
+  };
+
+  const soneki = {
+    left:[
+      {date:"3/31", desc:"仕入", code:"イ", amt:"2,495,000"}
+    ],
+    right:[
+      {date:"3/31", desc:"売上", code:"エ", amt:"5,850,000"}
+    ]
+  };
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 総勘定元帳</span>
+      ${ansTAccount("買 掛 金", kakeKaikake.left, kakeKaikake.right)}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 買掛金元帳</span>
+      ${ansTAccount("甲 商 店", koushouten.left, koushouten.right)}
+      ${ansTAccount("乙 商 店", otsushouten.left, otsushouten.right)}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(2)</span>
+      ${ansTAccount("売　上", uriage.left, uriage.right)}
+      ${ansTAccount("仕　入", shiire.left, shiire.right)}
+      ${ansTAccount("繰 越 商 品", kurikoshi.left, kurikoshi.right)}
+      ${ansTAccount("損　益", soneki.left, soneki.right)}
+      <div class="ans-totals" style="margin-top:14px;">
+        <div style="font-size:0.8rem;font-weight:600;color:var(--green-dark);margin-bottom:4px;">📌 決算整理仕訳（参考）</div>
+        <div style="font-weight:400;color:var(--text);font-size:0.82rem;">仕入 280,000 ／ 繰越商品 280,000</div>
+        <div style="font-weight:400;color:var(--text);font-size:0.82rem;">繰越商品 350,000 ／ 仕入 350,000</div>
+      </div>
+    </div>
+  `;
+}
+
+// ========== 第2問-3 ==========
+function renderQ23_nikkei(){
+  const accounts = ["現　金","当座預金","売　掛　金","支払手形","買　掛　金","売　　上","仕　　入"];
+  const body = document.getElementById("nikkei-body");
+  body.innerHTML = accounts.map(a=>`
+    <tr>
+      <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+      <td class="acct">${a}</td>
+      <td style="text-align:right;"><input type="text" inputmode="numeric"></td>
+    </tr>
+  `).join("");
+}
+
+function renderAnswersQ2_3(){
+  const wrap = document.getElementById("answer-list-q2-3");
+
+  const nikkeiRows = [
+    {acct:"現　金", debit:"540,000", credit:"269,000"},
+    {acct:"当座預金", debit:"0", credit:"230,000"},
+    {acct:"売　掛　金", debit:"145,000", credit:"130,000"},
+    {acct:"支払手形", debit:"26,000", credit:"35,000"},
+    {acct:"買　掛　金", debit:"188,000", credit:"95,000"},
+    {acct:"売　　上", debit:"0", credit:"325,000"},
+    {acct:"仕　　入", debit:"185,000", credit:"0"}
+  ];
+
+  const nikkeiHTML = `
+    <div class="nikkei-wrap" style="margin-top:10px;">
+      <div class="nikkei-title">仕 訳 日 計 表</div>
+      <div class="nikkei-date">X9年12月1日</div>
+      <table class="nikkei-table">
+        <thead><tr><th>借　方</th><th>勘定科目</th><th>貸　方</th></tr></thead>
+        <tbody>
+          ${nikkeiRows.map(r=>`
+            <tr>
+              <td style="text-align:right;font-variant-numeric:tabular-nums;">${r.debit}</td>
+              <td class="acct">${r.acct}</td>
+              <td style="text-align:right;font-variant-numeric:tabular-nums;">${r.credit}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td style="text-align:right;font-variant-numeric:tabular-nums;">1,084,000</td>
+            <td></td>
+            <td style="text-align:right;font-variant-numeric:tabular-nums;">1,084,000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>`;
+
+  const aiueo = [
+    {label:"ア", val:"40,000"},
+    {label:"イ", val:"65,000"},
+    {label:"ウ", val:"163,000"},
+    {label:"エ", val:"12,000"}
+  ];
+
+  const aiueoHTML = `
+    <div class="aiueo-grid" style="margin-top:10px;">
+      ${aiueo.map(a=>`
+        <div class="aiueo-cell">
+          <div class="aiueo-label">${a.label}</div>
+          <div style="padding:10px 12px;text-align:right;font-size:0.95rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;">${a.val}</div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="ans-totals" style="margin-top:12px;font-size:0.78rem;font-weight:400;color:var(--text);line-height:1.8;">
+      <div style="font-weight:600;color:var(--green-dark);margin-bottom:6px;font-size:0.85rem;">💡 解法のポイント</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">ア（40,000）</strong>：入金伝票No.103の売上額。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">現金勘定の借方変動から逆算：8/1の仕訳日計表転記額（？）＝出金伝票の合計13,000+33,000+26,000=72,000。<br>入金伝票合計＝45,000+30,000+ア＝115,000（現金借方の最初の転記） → ア＝40,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">イ（65,000）</strong>：振替伝票No.301の仕入額。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">仕入勘定の借方仕訳日計表＝124,000。出金No.202(33,000)+出金No.203(26,000)+振替No.301(イ)=124,000 → イ＝65,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">ウ（163,000）</strong>：仕訳日計表の売上貸方（最初の転記額）。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);margin-bottom:8px;padding-left:12px;">入金伝票売上合計（45,000+ア=85,000）+振替伝票No.302売上(78,000)=163,000</div>
+      <div style="margin-bottom:4px;"><strong style="color:var(--accent);">エ（12,000）</strong>：仕訳日計表の売上借方（売上戻り）。</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);padding-left:12px;">振替伝票No.303：(売上) 12,000／(売掛金) 12,000 → 売上の借方に12,000</div>
+    </div>`;
+
+  wrap.innerHTML = `
+    <div class="ans-item">
+      <span class="ans-num">問題(1) 仕訳日計表</span>
+      ${nikkeiHTML}
+    </div>
+    <div class="ans-item">
+      <span class="ans-num">問題(2) ア〜エ</span>
+      ${aiueoHTML}
+    </div>
+  `;
+}
+
+// ========== 初期化 ==========
+renderQuestions();
+renderAnswers();
+renderLedgerFifoQ1();
+renderLedgerMavgQ2();
+renderAnswersQ2_1();
+renderQ22_1();
+renderQ22_2();
+renderAnswersQ2_2();
+renderQ23_nikkei();
+renderAnswersQ2_3();
 </script>
 </body>
 </html>
